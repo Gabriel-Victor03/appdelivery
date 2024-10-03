@@ -29,17 +29,15 @@ class _MeuAppState extends State<MeuApp> {
           backgroundColor: Color.fromARGB(255, 255, 229, 184),
           appBar: AppBar(
             backgroundColor: Color.fromARGB(255, 130, 30, 60),
+            foregroundColor: Colors.white,
           ),
           endDrawer: Drawer(
             backgroundColor: Color.fromARGB(
                 255, 255, 229, 184), //Podemos mudar a cor de fundo
-            child: DrawerHeader(
-                decoration: FlutterLogoDecoration(textColor: Colors.white),
-                //podemos adicionar o cabeçalho como um 'filho' do Drawer
-                child: Icon(
-                  Icons.favorite,
-                  size: 48,
-                )),
+            // child: DrawerHeader(
+            //     // decoration: FlutterLogoDecoration(textColor: Colors.white)
+            //     //podemos adicionar o cabeçalho como um 'filho' do Drawer
+            //     ),
           ),
           bottomNavigationBar: BottomNavigationBar(
               backgroundColor: Color.fromRGBO(
