@@ -1,5 +1,5 @@
-import 'package:appdelivery/components/my_appbar.dart';
-import 'package:appdelivery/components/my_drawer.dart';
+import 'package:appdelivery/view/components/my_appbar.dart';
+import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart' as cs;
 
@@ -31,9 +31,9 @@ class _MeuAppState extends State<MeuApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 229, 184),
         drawer: MyDrawer(),
-        
+        appBar: MyAppBar(),
+        backgroundColor: Color.fromARGB(255, 255, 229, 184),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Color.fromRGBO(255, 245, 248, 1),
           items: [
