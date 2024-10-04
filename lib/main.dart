@@ -78,18 +78,12 @@ class _MeuAppState extends State<MeuApp> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor:
-              Color.fromRGBO(255, 245, 248, 1), //Podemos mudar a cor de fundo
+          backgroundColor: Color.fromRGBO(255, 245, 248, 1),
           items: [
-            //Utilizamos a estrutura items: [] para adiconar os itens
-            //Home
             BottomNavigationBarItem(
-              //Cada item é adicionado com essa tag
               icon: Icon(Icons.restaurant_outlined, color: Colors.black),
-              //podemos trocar os icones
-              label: 'Cardapio', //e a label
+              label: 'Cardapio',
             ),
-            //Configurações
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag),
               label: 'Sacola',
@@ -98,26 +92,36 @@ class _MeuAppState extends State<MeuApp> {
         ),
         body: Column(
           children: [
-            // Adicionando o CarouselSlider ao body
-            cs.CarouselSlider(
-              options: cs.CarouselOptions(height: 400.0),
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.amber, //Podemos mudar a cor de fundo
-                      ),
-                      child: Text(
-                        'text $i',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
+            Expanded(
+              child: cs.CarouselSlider(
+                options: cs.CarouselOptions(
+                  height: 400.0,
+                  viewportFraction:
+                      1.0, // viewportFraction=1.0 para ocupar toda a tela
+                ),
+                items: [
+                  'assets/images/slider1.png',
+                  'assets/images/slider2.png',
+                ].map((imagePath) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context)
+                            .size
+                            .width, // Ocupa toda a largura
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                        ),
+                        child: Image.asset(
+                          imagePath, // Usa o caminho da imagem
+                          fit: BoxFit.cover, // Preenche todo o espaço
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
