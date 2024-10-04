@@ -46,7 +46,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         left: 15,
                         top: 15,
                         child: Container(
-                          child: Icon(
+                          child: const Icon(
                             Icons.content_paste_search_sharp,
                             size: 80,
                           ),
@@ -55,7 +55,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       left: 23,
                       top: 100,
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           "Pedidos",
                           style: TextStyle(fontSize: 18),
                         ),
@@ -76,7 +76,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         left: 15,
                         top: 15,
                         child: Container(
-                          child: Icon(
+                          child: const Icon(
                             Icons.content_paste_search_sharp,
                             size: 80,
                           ),
@@ -85,7 +85,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       left: 23,
                       top: 100,
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           "Pedidos",
                           style: TextStyle(fontSize: 18),
                         ),
