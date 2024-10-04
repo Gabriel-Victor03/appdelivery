@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
+
+final cs.CarouselSliderController _controller = cs.CarouselSliderController();
 
 void main() {
   runApp(const MyApp());
@@ -24,39 +27,66 @@ class _MeuAppState extends State<MeuApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          backgroundColor: Color.fromARGB(255, 255, 229, 184),
-          appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 130, 30, 60),
-            foregroundColor: Colors.white,
-          ),
-          endDrawer: Drawer(
-            backgroundColor: Color.fromARGB(
-                255, 255, 229, 184), //Podemos mudar a cor de fundo
-            // child: DrawerHeader(
-            //     // decoration: FlutterLogoDecoration(textColor: Colors.white)
-            //     //podemos adicionar o cabeçalho como um 'filho' do Drawer
-            //     ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: Color.fromRGBO(
-                  255, 245, 248, 1), //Podemos mudar a cor de fundo
-              items: [
-                //Utilizamos a estrutura items: [] para adiconar os itens
-                //Home
-                BottomNavigationBarItem(
-                  //Cada item é adicionado com essa tag
-                  icon: Icon(Icons.restaurant_outlined, color: Colors.black),
-                  //podemos trocar os icones
-                  label: 'Cardapio', //e a label
-                ),
-                //Configurações
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_bag),
-                  label: 'Sacola',
-                ),
-              ]),
-        ));
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 229, 184),
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 130, 30, 60),
+          foregroundColor: Colors.white,
+        ),
+        endDrawer: Drawer(
+          backgroundColor:
+              Color.fromARGB(255, 255, 229, 184), //Podemos mudar a cor de fundo
+          // child: DrawerHeader(
+          //     // decoration: FlutterLogoDecoration(textColor: Colors.white)
+          //     //podemos adicionar o cabeçalho como um 'filho' do Drawer
+          //     ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor:
+              Color.fromRGBO(255, 245, 248, 1), //Podemos mudar a cor de fundo
+          items: [
+            //Utilizamos a estrutura items: [] para adiconar os itens
+            //Home
+            BottomNavigationBarItem(
+              //Cada item é adicionado com essa tag
+              icon: Icon(Icons.restaurant_outlined, color: Colors.black),
+              //podemos trocar os icones
+              label: 'Cardapio', //e a label
+            ),
+            //Configurações
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag),
+              label: 'Sacola',
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            // Adicionando o CarouselSlider ao body
+            cs.CarouselSlider(
+              options: cs.CarouselOptions(height: 400.0),
+              items: [1, 2, 3, 4, 5].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.amber, //Podemos mudar a cor de fundo
+                      ),
+                      child: Text(
+                        'text $i',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
