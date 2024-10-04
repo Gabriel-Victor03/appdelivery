@@ -93,13 +93,16 @@ class _MeuAppState extends State<MeuApp> {
         body: Column(
           children: [
             Expanded(
-              // Adiciona espaço flexível
               child: cs.CarouselSlider(
                 options: cs.CarouselOptions(
-                    height: 400.0,
-                    viewportFraction:
-                        1.0), // viewportFraction=1.0 para ocupar toda a tela
-                items: [1, 2, 3, 4, 5].map((i) {
+                  height: 400.0,
+                  viewportFraction:
+                      1.0, // viewportFraction=1.0 para ocupar toda a tela
+                ),
+                items: [
+                  'assets/images/slider1.png',
+                  'assets/images/slider2.png',
+                ].map((imagePath) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
@@ -111,7 +114,7 @@ class _MeuAppState extends State<MeuApp> {
                           color: Colors.amber,
                         ),
                         child: Image.asset(
-                          'assets/images/hamburguer.jpg', // Substitua pelo caminho da sua imagem
+                          imagePath, // Usa o caminho da imagem
                           fit: BoxFit.cover, // Preenche todo o espaço
                         ),
                       );
