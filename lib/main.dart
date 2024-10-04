@@ -98,6 +98,10 @@ class _MeuAppState extends State<MeuApp> {
             options: cs.CarouselOptions(
               height: 250.0, // Altura ajustada do carrossel
               viewportFraction: 0.9, // Exibe um pouco do próximo slide
+              autoPlay: true, // Ativa a troca automática de slides
+              autoPlayInterval: Duration(seconds: 4), // Troca a cada 4 segundos
+              autoPlayCurve:
+                  Curves.easeInOut, // Adiciona uma animação suave na transição
             ),
             items: [
               'assets/images/slider1.png',
@@ -113,7 +117,7 @@ class _MeuAppState extends State<MeuApp> {
                       color: Colors.amber,
                       borderRadius:
                           BorderRadius.circular(20.0), // Bordas arredondadas
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           blurRadius: 5.0,
