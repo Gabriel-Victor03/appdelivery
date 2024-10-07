@@ -1,7 +1,7 @@
-import 'package:appdelivery/view/components/my_appbar.dart';
-import 'package:appdelivery/view/components/my_bottombar.dart';
-import 'package:appdelivery/view/components/my_drawer.dart';
-import 'package:appdelivery/view/components/my_slider.dart';
+import 'package:appdelivery/view/pages/home/home_page.dart';
+import 'package:appdelivery/view/pages/init_page.dart';
+import 'package:appdelivery/view/theme/dark_mode.dart';
+import 'package:appdelivery/view/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart' as cs;
 
@@ -17,14 +17,15 @@ class MeuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        drawer: MyDrawer(),
-        bottomNavigationBar: MyBottomNavigationBar(),
-        body: MyCarouselSlider()
-        
-      ),
+      home: const InitPage(),
+      theme: lighMode,
+      darkTheme: darkMode,
+      routes: const {
+        '/login': (context) => LoginPage(),
+        '/homePage': (context) => const HomePage(),
+      },
     );
   }
 }
