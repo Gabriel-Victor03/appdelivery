@@ -1,4 +1,4 @@
-import 'package:appdelivery/view/pages/home/home_page.dart'; // Importe a HomePage
+import 'package:appdelivery/view/pages/home_page.dart'; // Importe a HomePage
 import 'package:flutter/material.dart';
 
 class InitPage extends StatelessWidget {

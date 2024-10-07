@@ -12,12 +12,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? userName = 'asdasda';
-  int _selectedIndex = 0; // Declare a variável _selectedIndex
+// Declare a variável _selectedIndex
 
   // Função para mudar o índice quando uma aba é clicada
   void _onTabChange(int index) {
     setState(() {
-      _selectedIndex = index; // Atualiza o índice da aba selecionada
+// Atualiza o índice da aba selecionada
     });
   }
 
