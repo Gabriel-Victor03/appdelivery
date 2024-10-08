@@ -1,6 +1,7 @@
 import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
+import 'package:appdelivery/view/components/my_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? userName = 'asdasda';
+  
 // Declare a variável _selectedIndex
 
   // Função para mudar o índice quando uma aba é clicada
@@ -27,7 +28,13 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: MyAppBar(), 
       drawer: MyDrawer(),
-      body: Center(child: Text(userName.toString())),
+      body: const Center(
+        child: Column(
+          children: [
+            MyCarouselSlider(),
+          ],
+        )
+      ),
       bottomNavigationBar: MyBottomNavigationBar(
         onTabChange: _onTabChange, // Passa a função para mudar a aba
       ),
