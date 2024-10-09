@@ -1,5 +1,5 @@
-import 'dart:ffi';
-
+import 'package:appdelivery/view/components/my_appbar.dart';
+import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,11 +19,8 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 130, 30, 60),
-            foregroundColor: Colors.white,
-          ),
-          endDrawer: Drawer(),
+          appBar: MyAppBar(),
+          endDrawer: MyDrawer(),
           body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -77,7 +74,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         top: 15,
                         child: Container(
                           child: Icon(
-                            Icons.content_paste_search_sharp,
+                            Icons.inventory_2_outlined,
                             size: 80,
                           ),
                         )),
@@ -86,7 +83,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       top: 100,
                       child: Container(
                         child: Text(
-                          "Pedidos",
+                          "Produtos",
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -107,7 +104,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         top: 15,
                         child: Container(
                           child: Icon(
-                            Icons.content_paste_search_sharp,
+                            Icons.person_outline,
                             size: 80,
                           ),
                         )),
@@ -116,7 +113,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       top: 100,
                       child: Container(
                         child: Text(
-                          "Pedidos",
+                          "Usuarios",
                           style: TextStyle(fontSize: 18),
                         ),
                       ),

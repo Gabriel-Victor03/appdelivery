@@ -29,16 +29,16 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            title: Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-                fontFamily: 'Arial',
-              ),
-            ),
-          ),
+          // ListTile(
+          //   title: Text(
+          //     'Login',
+          //     style: TextStyle(
+          //       fontSize: 15,
+          //       color: Colors.black,
+          //       fontFamily: 'Arial',
+          //     ),
+          //   ),
+          // ),
           ListTile(
             title: Text(
               'Endereço',
