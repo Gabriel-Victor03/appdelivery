@@ -9,21 +9,19 @@ final cs.CarouselSliderController _controller = cs.CarouselSliderController();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MeuApp());
+  runApp(MeuApp());
 }
 
 class MeuApp extends StatelessWidget {
-  const MeuApp({super.key});
+  MeuApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: InitPage(),
-      theme: lighMode,
-      darkTheme: darkMode,
-      routes:{
-        '/homePage': (context) => const HomePage(),
+      routes: {
+        '/homePage': (context) => HomePage(),
       },
     );
   }
