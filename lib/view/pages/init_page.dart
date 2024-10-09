@@ -2,7 +2,7 @@ import 'package:appdelivery/view/pages/home_page.dart'; // Importe a HomePage
 import 'package:flutter/material.dart';
 
 class InitPage extends StatelessWidget {
-  const InitPage({super.key});
+  InitPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +10,14 @@ class InitPage extends StatelessWidget {
     Future.microtask(() {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     });
 
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Carregando...'), // Uma mensagem opcional, pode ser removida
+        child:
+            Text('Carregando...'), // Uma mensagem opcional, pode ser removida
       ),
     );
   }
