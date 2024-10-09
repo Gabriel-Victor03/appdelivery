@@ -7,7 +7,7 @@ void main() {
 }
 
 class Paineladministrativo extends StatefulWidget {
-  const Paineladministrativo({super.key});
+  Paineladministrativo({super.key});
 
   @override
   State<Paineladministrativo> createState() => _PaineladministrativoState();
@@ -46,7 +46,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         left: 15,
                         top: 15,
                         child: Container(
-                          child: const Icon(
+                          child: Icon(
                             Icons.content_paste_search_sharp,
                             size: 80,
                           ),
@@ -55,7 +55,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       left: 23,
                       top: 100,
                       child: Container(
-                        child: const Text(
+                        child: Text(
                           "Pedidos",
                           style: TextStyle(fontSize: 18),
                         ),
@@ -76,7 +76,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         left: 15,
                         top: 15,
                         child: Container(
-                          child: const Icon(
+                          child: Icon(
                             Icons.content_paste_search_sharp,
                             size: 80,
                           ),
@@ -85,7 +85,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                       left: 23,
                       top: 100,
                       child: Container(
-                        child: const Text(
+                        child: Text(
                           "Pedidos",
                           style: TextStyle(fontSize: 18),
                         ),

@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
 // Declare a variável _selectedIndex
 
   // Função para mudar o índice quando uma aba é clicada
@@ -26,15 +25,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: MyAppBar(), 
+      appBar: MyAppBar(),
       drawer: MyDrawer(),
-      body: const Center(
-        child: Column(
-          children: [
-            MyCarouselSlider(),
-          ],
-        )
-      ),
+      body: Center(
+          child: Column(
+        children: [
+          MyCarouselSlider(),
+        ],
+      )),
       bottomNavigationBar: MyBottomNavigationBar(
         onTabChange: _onTabChange, // Passa a função para mudar a aba
       ),
