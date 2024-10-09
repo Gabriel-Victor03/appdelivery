@@ -8,8 +8,8 @@ class MyBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      backgroundColor: const Color.fromRGBO(255, 245, 248, 1),
-      items: const [
+      backgroundColor: Color.fromRGBO(255, 245, 248, 1),
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant_outlined, color: Colors.black),
           label: 'Cardápio',

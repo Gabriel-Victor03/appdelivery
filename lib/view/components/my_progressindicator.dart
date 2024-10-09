@@ -13,9 +13,10 @@ class MyProgressIndicator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.all(60.0),
+          padding: EdgeInsets.all(60.0),
           child: Stack(
-            alignment: Alignment.center, // Centraliza a imagem sobre o indicador
+            alignment:
+                Alignment.center, // Centraliza a imagem sobre o indicador
             children: [
               CircularProgressIndicator(), // Indicador de progresso
               ClipRRect(
@@ -27,12 +28,12 @@ class MyProgressIndicator extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(
+        SizedBox(
           height: 20,
         ),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
           ),
         ),
