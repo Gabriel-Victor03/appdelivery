@@ -5,7 +5,7 @@ import 'package:appdelivery/view/components/my_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,7 +24,10 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: [
-            MyCarouselSlider(), // Carrossel exibido
+            Expanded(
+              child: MyCarouselSlider(),
+            )
+             // Carrossel exibido
           ],
         ),
       ),
