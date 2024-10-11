@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: MyAppBar(),
       drawer: MyDrawer(),
+      backgroundColor: const Color.fromARGB(255, 255, 229, 184),
       body: Center(
         child: Column(
           children: [

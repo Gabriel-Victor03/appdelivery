@@ -47,6 +47,7 @@ class MyCards extends StatelessWidget {
               itemBuilder: (context, index) {
                 final product = products[index];
                 return Card(
+                  color: const Color.fromARGB(255, 255, 248, 235),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
