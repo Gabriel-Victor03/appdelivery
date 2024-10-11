@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_cards.dart';
 import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
@@ -13,8 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Função para executar ações quando uma aba for clicada
-  void _onTabChange(int index) {
-  }
+  void _onTabChange(int index) {}
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,11 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: MyCarouselSlider(),
+            ),
+            Expanded(
+              child: MyCards(),
             )
-             // Carrossel exibido
+            // Carrossel exibido
           ],
         ),
       ),
