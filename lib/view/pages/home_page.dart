@@ -3,6 +3,7 @@ import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
 import 'package:appdelivery/view/components/my_slider.dart';
+import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      drawer: MyDrawer(),
+      endDrawer: MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 229, 184),
       body: Center(
         child: Column(
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      // body: Paineladministrativo(),
       bottomNavigationBar: MyBottomNavigationBar(
         onTabChange: _onTabChange, // Chama a função ao mudar de aba
       ),

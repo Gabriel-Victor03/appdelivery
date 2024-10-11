@@ -1,5 +1,5 @@
 import 'package:appdelivery/view/components/my_appbar.dart';
-import 'package:appdelivery/view/components/my_drawer.dart';
+// import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: MyAppBar(),
-          endDrawer: MyDrawer(),
+          // endDrawer: MyDrawer(),
           body: IntrinsicHeight(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
