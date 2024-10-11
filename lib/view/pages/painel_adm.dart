@@ -21,106 +21,214 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
         home: Scaffold(
           appBar: MyAppBar(),
           endDrawer: MyDrawer(),
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Center(
-                  child: Text(
-                    "Painel Administrativo",
-                    style: TextStyle(fontSize: 30),
+          body: IntrinsicHeight(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    height: 50,
                   ),
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                          borderRadius: BorderRadius.circular(10)),
-                      width: 350,
-                      height: 150,
+                  Center(
+                    child: Text(
+                      "Painel Administrativo",
+                      style:
+                          TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
                     ),
-                    Positioned(
-                        left: 15,
-                        top: 15,
+                  ),
+                  //---------------------------------------------------------------------------------------------------------------------------------
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Stack(
+                    // container de pedidos
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 229, 184),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: 400,
+                        height: 150,
+                      ),
+                      Positioned(
+                          left: 29,
+                          top: 23,
+                          child: Container(
+                            child: Icon(
+                              Icons.content_paste_search_sharp,
+                              size: 65,
+                            ),
+                          )),
+                      Positioned(
+                        left: 23,
+                        top: 90,
                         child: Container(
-                          child: Icon(
-                            Icons.content_paste_search_sharp,
-                            size: 80,
+                          child: Text(
+                            "Pedidos",
+                            style: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w600),
                           ),
-                        )),
-                    Positioned(
-                      left: 23,
-                      top: 100,
-                      child: Container(
-                        child: Text(
-                          "Pedidos",
-                          style: TextStyle(fontSize: 18),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                          borderRadius: BorderRadius.circular(10)),
-                      width: 350,
-                      height: 150,
-                    ),
-                    Positioned(
-                        left: 15,
-                        top: 15,
-                        child: Container(
-                          child: Icon(
-                            Icons.inventory_2_outlined,
-                            size: 80,
+                      Positioned(
+                        left: 130,
+                        child: SizedBox(
+                          height: 150,
+                          child: VerticalDivider(
+                            color: const Color.fromARGB(48, 0, 0, 0),
+                            indent: 10,
+                            endIndent: 10,
                           ),
-                        )),
-                    Positioned(
-                      left: 23,
-                      top: 100,
-                      child: Container(
-                        child: Text(
-                          "Produtos",
-                          style: TextStyle(fontSize: 18),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                          borderRadius: BorderRadius.circular(10)),
-                      width: 350,
-                      height: 150,
-                    ),
-                    Positioned(
-                        left: 15,
-                        top: 15,
+                      Positioned(
+                        left: 170,
+                        top: 23,
                         child: Container(
-                          child: Icon(
-                            Icons.person_outline,
-                            size: 80,
+                          child: Text(
+                            "Acompanhamento dos" + "\npedidos realizados",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
                           ),
-                        )),
-                    Positioned(
-                      left: 23,
-                      top: 100,
-                      child: Container(
-                        child: Text(
-                          "Usuarios",
-                          style: TextStyle(fontSize: 18),
                         ),
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //---------------------------------------------------------------------------------------------------------------------------------
+                  Stack(
+                    //container que apresenta as informações de produtos
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 229, 184),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: 400,
+                        height: 150,
+                      ),
+                      Positioned(
+                          left: 29,
+                          top: 23,
+                          child: Container(
+                            child: Icon(
+                              Icons.inventory_2_outlined,
+                              size: 65,
+                            ),
+                          )),
+                      Positioned(
+                        left: 130,
+                        child: SizedBox(
+                          height: 150,
+                          child: VerticalDivider(
+                            color: const Color.fromARGB(48, 0, 0, 0),
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 23,
+                        top: 90,
+                        child: Container(
+                          child: Text(
+                            "Produtos",
+                            style: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 170,
+                        top: 23,
+                        child: Container(
+                          child: Text(
+                            "Adicione, altere e remova" +
+                                "\nprodutos do cardápio ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //---------------------------------------------------------------------------------------------------------------------------------
+                  Stack(
+                    // container de usuarios
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 229, 184),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: 400,
+                        height: 150,
+                      ),
+                      Positioned(
+                          left: 29,
+                          top: 23,
+                          child: Container(
+                            child: Icon(
+                              Icons.person_outline,
+                              size: 70,
+                            ),
+                          )),
+                      Positioned(
+                        left: 23,
+                        top: 90,
+                        child: Container(
+                          child: Text(
+                            "Usuarios",
+                            style: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 130,
+                        child: SizedBox(
+                          height: 150,
+                          child: VerticalDivider(
+                            color: const Color.fromARGB(48, 0, 0, 0),
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 170,
+                        top: 23,
+                        child: Container(
+                          child: Text(
+                            "Adicione, altere e remova" + "\nusuarios",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0.0,
+                        backgroundColor: Colors.white.withOpacity(0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        side: BorderSide(color: Colors.black)),
+                    onPressed: () {},
+                    child: const Text(
+                      'Sair',
+                      style: TextStyle(color: Colors.black),
                     ),
-                  ],
-                ),
-              ]),
+                  ),
+                ]),
+          ),
         ));
   }
 }
