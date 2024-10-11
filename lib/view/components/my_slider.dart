@@ -40,7 +40,7 @@ class MyCarouselSlider extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.amber,
                     borderRadius:
-                        BorderRadius.circular(15.0), // Bordas arredondadas
+                        BorderRadius.circular(30.0), // Bordas arredondadas
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
@@ -53,7 +53,7 @@ class MyCarouselSlider extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(
-                        15.0), // Aplica o arredondamento nas imagens
+                        30.0), // Aplica o arredondamento nas imagens
                     child: Image.asset(
                       imagePath,
                       fit: BoxFit.cover,

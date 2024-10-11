@@ -5,22 +5,22 @@ class MyCards extends StatelessWidget {
     {
       'title': 'Hambúrguer Clássico',
       'description': 'Carne 180g, queijo, alface e tomate',
-      'image': 'assets/images/slider1.png',
+      'image': 'assets/images/burguer1.jpg',
     },
     {
       'title': 'Cheeseburger',
-      'description': 'Carne 180g, queijo cheddar, cebola caramelizada',
-      'image': 'assets/images/slider2.png',
+      'description': 'Carne 180g, queijo cheddar, cebola.',
+      'image': 'assets/images/burguer2.jpg',
     },
     {
       'title': 'Hambúrguer Vegano',
       'description': 'Hambúrguer de grão de bico, alface e tomate',
-      'image': 'assets/images/slider2.png',
+      'image': 'assets/images/burguer3.jpg',
     },
     {
       'title': 'Double Bacon',
       'description': 'Dois hambúrgueres, bacon crocante e cheddar',
-      'image': 'assets/images/slider1.png',
+      'image': 'assets/images/burguer4.jpg',
     },
     // Adicione mais produtos conforme necessário
   ];
