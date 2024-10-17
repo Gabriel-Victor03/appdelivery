@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:appdelivery/view/components/my_appbar.dart';
 // import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +48,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 229, 184),
                             borderRadius: BorderRadius.circular(10)),
-                        width: 400,
+                        width: 350,
                         height: 150,
                       ),
                       Positioned(
@@ -81,13 +83,30 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         ),
                       ),
                       Positioned(
-                        left: 170,
+                        left: 150,
                         top: 23,
                         child: Container(
                           child: Text(
                             "Acompanhamento dos" + "\npedidos realizados",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 260,
+                        top: 90,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                            shape: CircleBorder(),
+                            //padding: EdgeInsets.all(15)
+                          ),
+                          onPressed: () {},
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 40,
                           ),
                         ),
                       ),
@@ -104,7 +123,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 229, 184),
                             borderRadius: BorderRadius.circular(10)),
-                        width: 400,
+                        width: 350,
                         height: 150,
                       ),
                       Positioned(
@@ -139,7 +158,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         ),
                       ),
                       Positioned(
-                        left: 170,
+                        left: 150,
                         top: 23,
                         child: Container(
                           child: Text(
@@ -147,6 +166,23 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                                 "\nprodutos do cardápio ",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 260,
+                        top: 90,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                            shape: CircleBorder(),
+                            //padding: EdgeInsets.all(15)
+                          ),
+                          onPressed: () {},
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 40,
                           ),
                         ),
                       ),
@@ -163,7 +199,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 255, 229, 184),
                             borderRadius: BorderRadius.circular(10)),
-                        width: 400,
+                        width: 350,
                         height: 150,
                       ),
                       Positioned(
@@ -198,7 +234,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                         ),
                       ),
                       Positioned(
-                        left: 170,
+                        left: 150,
                         top: 23,
                         child: Container(
                           child: Text(
@@ -208,23 +244,42 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: 260,
+                        top: 90,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                            shape: CircleBorder(),
+                            //padding: EdgeInsets.all(15)
+                          ),
+                          onPressed: () {},
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-
+                  SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         elevation: 0.0,
-                        backgroundColor: Colors.white.withOpacity(0),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
-                        side: BorderSide(color: Colors.black)),
+                        side: BorderSide(color: Color.fromARGB(50, 0, 0, 0))),
                     onPressed: () {},
                     child: const Text(
                       'Sair',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ),
                 ]),
