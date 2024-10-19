@@ -1,46 +1,24 @@
+import 'package:appdelivery/view/components/my_appbar.dart';
+import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return MeuApp();
-  }
-}
+    debugShowCheckedModeBanner: false;
+    return Scaffold(
+      appBar: MyAppBar(),
+      drawer: MyDrawer(),
 
-class MeuApp extends StatefulWidget {
-  MeuApp({super.key});
-
-  @override
-  State<MeuApp> createState() => _MeuAppState();
-}
-
-class _MeuAppState extends State<MeuApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 130, 30, 60),
-            foregroundColor: Colors.white,
-          ),
-          endDrawer: Drawer(
-            backgroundColor: Color.fromARGB(
-                255, 255, 229, 184), //Podemos mudar a cor de fundo
-            // child: DrawerHeader(
-            //     // decoration: FlutterLogoDecoration(textColor: Colors.white)
-            //     //podemos adicionar o cabeçalho como um 'filho' do Drawer
-            //     ),
-          ),
-          body: Center(
-            child: Container(
+      body: Center(
+        child: Container(
               height: 350,
               width: 400,
               decoration: BoxDecoration(
@@ -83,8 +61,8 @@ class _MeuAppState extends State<MeuApp> {
                   ElevatedButton(onPressed: () {}, child: Text("Pressione")),
                 ]),
               ),
-            ),
-          )),
+      ),
+      ),
     );
   }
 }

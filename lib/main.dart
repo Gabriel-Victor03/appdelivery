@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
 
@@ -13,7 +14,7 @@ class MeuApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
