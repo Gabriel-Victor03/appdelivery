@@ -8,19 +8,15 @@ void main() async {
   const keyClientKey = 'x2iLiWANqMLd1MRnotpzyyxLoJEJrTuVd2HkS3K1';
   const keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  await Parse().initialize(
-    keyApplicationId, 
-    keyParseServerUrl,
-    clientKey: keyClientKey, 
-    debug: true
-  );
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, debug: true);
 
-   var firstObject = ParseObject('FirstClass')
+  var firstObject = ParseObject('FirstClass')
     ..set('message', 'Hey, Parse is now connected!🙂');
   await firstObject.save();
 
   print("done");
-  
+
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MeuApp());
 }
@@ -32,7 +28,7 @@ class MeuApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
