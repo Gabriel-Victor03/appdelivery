@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
+// Widget da Bottom Navigation Bar personalizado
 class MyBottomNavigationBar extends StatelessWidget {
   final void Function(int)? onTabChange; // Função para mudança de abas
   const MyBottomNavigationBar({super.key, required this.onTabChange});

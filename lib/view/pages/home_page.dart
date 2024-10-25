@@ -14,8 +14,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
   // Função para executar ações quando uma aba for clicada
-  void _onTabChange(int index) {}
+  void _onTabChange(int index) {
+    setState(() {
+      _currentIndex = index; // Atualiza o índice da aba selecionada
+    });
+
+    // Verifica qual aba foi clicada e navega para a rota correspondente
+    if (index == 0) {
+      Navigator.pushNamed(context, '/homepage'); // Página de Cardápio
+    } else if (index == 1) {
+      Navigator.pushNamed(context, '/login'); // Página de Sacola
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

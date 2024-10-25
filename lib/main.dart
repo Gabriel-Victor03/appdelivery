@@ -1,4 +1,5 @@
 import 'package:appdelivery/view/pages/login_page.dart';
+import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
 // import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -17,13 +18,12 @@ void main() async {
     debug: true
   );*/
 
-   // var firstObject = ParseObject('FirstClass')
+  // var firstObject = ParseObject('FirstClass')
   //  ..set('message', 'Hey, Parse is now connected!🙂');
   // await firstObject.save();
 
   print("done");
-  
-  
+
   runApp(MeuApp());
 }
 
@@ -35,6 +35,12 @@ class MeuApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      routes: {
+        '/homepage': (context) => const HomePage(),
+        '/login': (context) => const LoginPage(),
+        '/painel_adm': (context) => Paineladministrativo(),
+        // '/sacola': (context) =>  (),
+      },
     );
   }
 }
