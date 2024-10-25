@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -8,8 +6,6 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // Drawer: Drawer(
-      // backgroundColor: Color.fromARGB(255, 255, 255, 255),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -27,7 +23,8 @@ class MyDrawer extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: TextButton(
               onPressed: () {
-                // Ação do botão de Login
+                Navigator.pushNamed(context,
+                    '/login'); // Ação de navegação para o painel de administração
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
