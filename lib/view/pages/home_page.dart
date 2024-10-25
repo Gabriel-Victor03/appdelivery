@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     if (index == 0) {
       Navigator.pushNamed(context, '/homepage'); // Página de Cardápio
     } else if (index == 1) {
-      Navigator.pushNamed(context, '/login'); // Página de Sacola
+      Navigator.pushNamed(context, '/sacola'); // Página de Sacola
     }
   }
 

@@ -56,7 +56,11 @@ class _LoginPageState extends State<LoginPage> {
                     fillColor: Colors.white),
               ),
               SizedBox(height: 40), // Espaçamento entre o texto e o TextField
-              ElevatedButton(onPressed: () {}, child: Text("Pressione")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/painel_adm');
+                  },
+                  child: Text("Pressione")),
             ]),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
+import 'package:appdelivery/view/pages/sacola_page.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
 // import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -39,7 +40,7 @@ class MeuApp extends StatelessWidget {
         '/homepage': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/painel_adm': (context) => Paineladministrativo(),
-        // '/sacola': (context) =>  (),
+        '/sacola': (context) => SacolaPage(),
       },
     );
   }
