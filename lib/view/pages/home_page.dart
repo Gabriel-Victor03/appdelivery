@@ -4,6 +4,7 @@ import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
 import 'package:appdelivery/view/components/my_slider.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
+import 'package:appdelivery/view/pages/product_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,20 +36,21 @@ class _HomePageState extends State<HomePage> {
       appBar: MyAppBar(),
       endDrawer: MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 229, 184),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: MyCarouselSlider(),
-            ),
-            Expanded(
-              child: MyCards(),
-            )
-            // Carrossel exibido
-          ],
-        ),
-      ),
+      // body: Center(
+      //   child: Column(
+      //     children: [
+      //       Expanded(
+      //         child: MyCarouselSlider(),
+      //       ),
+      //       Expanded(
+      //         child: MyCards(),
+      //       )
+      //       // Carrossel exibido
+      //     ],
+      //   ),
+      // ),
       //body: Paineladministrativo(),
+      body: ProductPage(),
       bottomNavigationBar: MyBottomNavigationBar(
         onTabChange: _onTabChange, // Chama a função ao mudar de aba
       ),
