@@ -1,4 +1,7 @@
+import 'dart:js_interop';
+
 import 'package:appdelivery/view/components/my_table.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +18,7 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Center(
             child: Text(
@@ -49,23 +49,7 @@ class _ProductPageState extends State<ProductPage> {
                             side:
                                 BorderSide(color: Color.fromARGB(50, 0, 0, 0))),
                         onPressed: () {
-                          GestureDetector(
-                            onTap: () => CupertinoAlertDialog(
-                              actions: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 255, 0, 0)
-                                            ),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: 'Enter a search term',
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          );
+                          openDialog();
                         },
                         child: Row(
                           children: [
@@ -88,7 +72,43 @@ class _ProductPageState extends State<ProductPage> {
                         )))),
           ],
         ),
-      ),
-    );
-  }
+      );
+  Future openDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Center(
+              child: Text(
+                "Editar Categorias",
+                style: TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+            content: TextField(
+              autofocus: true,
+              decoration: InputDecoration(
+                icon: Icon(Icons.import_contacts),
+              ),
+            ),
+            actions: [
+              SizedBox(
+                width: 50,
+                height: 40,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 19, 126, 19),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(13.0),
+                      // Bordas arredondadas
+                    ),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.check,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ));
 }
