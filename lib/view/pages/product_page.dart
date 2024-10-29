@@ -4,6 +4,7 @@ import 'package:appdelivery/view/components/my_table.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(ProductPage());
@@ -75,74 +76,68 @@ class _ProductPageState extends State<ProductPage> {
           ),
         ),
       );
-  Future openDialog() => showDialog(
+  Future openDialog() => showAdaptiveDialog(
       context: context,
-      builder: (context) => AlertDialog(
-            title: Stack(
-              children: [
-                for (var i = 0; i < 5; i++)
-                  SizedBox(
-                    height: 200,
-                    child: Divider(
-                      color: Colors.black,
-                    ),
-                  ),
-                Positioned(
-                  child: Container(
-                    child: Center(
+      builder: (context) => Dialog(
+            child: Container(
+              width: 400,
+              height: 300,
+              child: Stack(
+                children: [
+                  Positioned(
+                      left: 125,
+                      top: 10,
                       child: Text(
-                        "Editar Categorias",
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                    top: 10,
-                    child: Container(
-                        child: Divider(
-                      color: Colors.black,
-                      indent: 10,
-                      endIndent: 10,
-                    ))),
-                Positioned(
-                    top: 60,
-                    child: Container(
-                      child: Text(
-                        "Categorias",
+                        'Editar Categoria',
                         style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      )),
+                  Positioned(
+                      //top: 5,
+                      left: 25,
+                      top: 40,
+                      width: 350,
+                      child: Divider(
+                        color: Colors.black,
+                        indent: 1,
+                      )),
+                  Positioned(
+                      left: 45,
+                      top: 180,
+                      child: Text(
+                        "Categoria",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )),
+                  Positioned(
+                    left: 45,
+                    top: 200,
+                    width: 150,
+                    child: TextField(
+                      cursorColor: const Color.fromARGB(255, 0, 0, 0),
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        fillColor: Color.fromARGB(255, 0, 150, 255),
+                        // icon: Icon(Icons.import_contacts),
                       ),
-                    ))
-              ],
-            ),
-            content: TextField(
-              autofocus: true,
-              decoration: InputDecoration(
-                icon: Icon(Icons.import_contacts),
-              ),
-            ),
-            actions: [
-              SizedBox(
-                width: 50,
-                height: 40,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 19, 126, 19),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13.0),
-                      // Bordas arredondadas
                     ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.check,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  onPressed: () {},
-                ),
+                  Positioned(
+                      left: 220,
+                      top: 220,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            //shape: Border(bottom: 10, top: 10, left: 20, right: 20)
+                          ),
+                          onPressed: () {},
+                          child: Icon(
+                            Icons.check,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          )))
+                ],
               ),
-            ],
+            ),
+            //Positioned()
           ));
 }
