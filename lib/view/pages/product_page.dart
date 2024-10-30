@@ -105,10 +105,33 @@ class _ProductPageState extends State<ProductPage> {
                       left: 45,
                       top: 180,
                       child: Text(
-                        "Categoria",
+                        "Nova Categoria",
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       )),
+                  Wrap(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Positioned(
+                        top: 80,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Hambúrguer",
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 80,
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Hambúrguer",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Positioned(
                     left: 45,
                     top: 200,
