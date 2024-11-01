@@ -77,7 +77,7 @@ class _ProductPageState extends State<ProductPage> {
       context: context,
       builder: (context) => Dialog(
             child: Container(
-                width: 400,
+                width: 450,
                 height: 400,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -99,7 +99,7 @@ class _ProductPageState extends State<ProductPage> {
                       color: Colors.black,
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 250, 20),
+                      padding: EdgeInsets.fromLTRB(0, 20, 165, 0),
                       child: Text(
                         "Categorias",
                         style: TextStyle(
@@ -107,7 +107,7 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 150,
+                      height: 100,
                       child: SingleChildScrollView(
                         child: Wrap(
                           //scrollDirection: Axis.vertical,
@@ -116,6 +116,7 @@ class _ProductPageState extends State<ProductPage> {
                             Row(children: [
                               Container(
                                 padding: EdgeInsets.only(left: 30),
+                                //width: ,
                                 child: Text(
                                   "Hambúrguer",
                                   style: TextStyle(
@@ -123,192 +124,28 @@ class _ProductPageState extends State<ProductPage> {
                                       fontWeight: FontWeight.normal),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 190),
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                      weight: 4,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child: Divider(
-                                indent: 1.0,
-                                endIndent: 1.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                "Bebidas",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 190),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor: Colors.red,
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  weight: 4,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child: Divider(
-                                indent: 1.0,
-                                endIndent: 1.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                "Sobremessas",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 190),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor: Colors.red,
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  weight: 4,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child: Divider(
-                                indent: 1.0,
-                                endIndent: 1.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                "Combos",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 190),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor: Colors.red,
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  weight: 4,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child: Divider(
-                                indent: 1.0,
-                                endIndent: 1.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 30),
-                              child: Text(
-                                "Jatinhas",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 190),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor: Colors.red,
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  weight: 4,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                              child: Divider(
-                                indent: 1.0,
-                                endIndent: 1.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Row(children: [
                               Container(
-                                padding: EdgeInsets.only(left: 30),
-                                child: Text(
-                                  "sucos",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 190),
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                      weight: 4,
-                                    ),
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
                                   ),
                                 ),
                               ),
                             ]),
                             Container(
-                              padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
                               child: Divider(
                                 indent: 1.0,
                                 endIndent: 1.0,
