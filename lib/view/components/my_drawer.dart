@@ -19,17 +19,19 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
+          /*Padding(
             padding: EdgeInsets.all(16.0),
             child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context,
-                    '/login'); // Ação de navegação para o painel de administração
-              },
+              onTap: () => Navigator.pushNamed(context,
+                    '/login'),// Ação de navegação para o painel de administração
+              
               style: TextButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 backgroundColor: Colors.transparent, // Remove o fundo
               ),
+
+
+              
               child: Row(
                 mainAxisAlignment:
                     MainAxisAlignment.start, // Alinha o conteúdo à esquerda
@@ -47,6 +49,15 @@ class MyDrawer extends StatelessWidget {
                 ],
               ),
             ),
+          ),*/
+
+          ListTile(
+            leading: Icon(
+              Icons.login,
+              color: Colors.black,
+            ),
+            title: Text("Login", style: TextStyle(color: Colors.black)),
+            onTap: () => Navigator.pushNamed(context, '/login'),
           ),
           ListTile(
             title: Text(
@@ -60,7 +71,7 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.only(left: 16.0),
             child: Text(
               'GO-154, km 218 - Zona Rural, Ceres - GO, 76300-000',
               style: TextStyle(

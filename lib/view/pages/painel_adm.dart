@@ -9,7 +9,7 @@ void main() {
 }
 
 class Paineladministrativo extends StatefulWidget {
-  Paineladministrativo({super.key});
+  const Paineladministrativo({super.key});
 
   @override
   State<Paineladministrativo> createState() => _PaineladministrativoState();
