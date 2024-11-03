@@ -19,32 +19,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  final List _pages = [
-    //homepage
-    const HomePage(),
-
-    //Profile
-    const LoginPage(),
-
-    const Paineladministrativo(),
-
+  final List<Widget> _pages = [
+    Column(
+      children: [
+        Expanded(
+          child: MyCarouselSlider(),
+        ),
+        Expanded(
+          child: MyCards(),
+        ),
+      ],
+    ),
     const SacolaPage(),
-
-    const ProductPage()
+    const LoginPage(),
+    const Paineladministrativo(),
+    const ProductPage(),
   ];
-  // Função para executar ações quando uma aba for clicada
-  // void _onTabChange(int index) {
-  //   setState(() {
-  //     _currentIndex = index; // Atualiza o índice da aba selecionada
-  //   });
-
-  //   // Verifica qual aba foi clicada e navega para a rota correspondente
-  //   if (index == 0) {
-  //     Navigator.pushNamed(context, '/homepage'); // Página de Cardápio
-  //   } else if (index == 1) {
-  //     Navigator.pushNamed(context, '/sacola'); // Página de Sacola
-  //   }
-  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -56,25 +46,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      endDrawer: MyDrawer(),
+      endDrawer: const MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 229, 184),
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: MyCarouselSlider(),
-            ),
-            Expanded(
-              child: MyCards(),
-            )
-            // Carrossel exibido
-          ],
-        ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: MyBottomNavigationBar(
+        _selectedIndex,
+        _selectPage,
       ),
-      // bottomNavigationBar: MyBottomNavigationBar(
-      //   onTabChange: _onTabChange, // Chama a função ao mudar de aba
-      // ),
-      bottomNavigationBar: MyBottomNavigationBar(_selectedIndex, _selectPage),
     );
   }
 }

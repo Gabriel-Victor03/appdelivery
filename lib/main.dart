@@ -22,17 +22,17 @@ void main() async {
 
   print("done");
 
-  runApp(MeuApp());
+  runApp(const MyApp());
 }
 
-class MeuApp extends StatelessWidget {
-  MeuApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
       routes: {
         '/homepage': (context) => HomePage(),
         '/login': (context) => LoginPage(),

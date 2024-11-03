@@ -1,6 +1,6 @@
 // import 'dart:ffi';
 
-import 'package:appdelivery/view/components/my_appbar.dart';
+// import 'package:appdelivery/view/components/my_appbar.dart';
 // import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: MyAppBar(),
+          // appBar: MyAppBar(),
           // endDrawer: MyDrawer(),
           body: IntrinsicHeight(
             child: Column(
