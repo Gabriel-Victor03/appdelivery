@@ -57,7 +57,9 @@ class MyDrawer extends StatelessWidget {
               color: Colors.black,
             ),
             title: Text("Login", style: TextStyle(color: Colors.black)),
-            onTap: () => Navigator.pushNamed(context, '/login'),
+            onTap: () {
+              Navigator.pushNamed(context, '/login');
+            },
           ),
           ListTile(
             title: Text(

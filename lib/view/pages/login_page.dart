@@ -1,5 +1,8 @@
+import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:flutter/material.dart';
+import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
+
 // import 'package:appdelivery/view/components/my_drawer.dart';
 // import 'package:appdelivery/view/components/my_bottombar.dart';
 
@@ -16,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     debugShowCheckedModeBanner:
     false;
     return Scaffold(
-      // appBar: const MyAppBar(),
+      appBar: const MyAppBar(),
       // endDrawer: MyDrawer(),
       body: Center(
         child: Container(

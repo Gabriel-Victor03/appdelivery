@@ -8,9 +8,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 130, 30, 60),
       foregroundColor: Colors.white,
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image.asset('assets/images/logo.png'),
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/homepage'); // Navega para a HomePage
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset('assets/images/logo.png'),
+        ),
       ),
     );
   }

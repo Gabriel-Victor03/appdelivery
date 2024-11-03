@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      // home: const HomePage(),
+      initialRoute: '/homepage',
       routes: {
         '/homepage': (context) => HomePage(),
         '/login': (context) => LoginPage(),
@@ -40,6 +41,10 @@ class MyApp extends StatelessWidget {
         '/sacola': (context) => SacolaPage(),
         '/produtos': (context) => ProductPage(),
       },
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        builder: (context) =>
+            HomePage(), // Define uma rota padrão, se necessário
+      ),
     );
   }
 }

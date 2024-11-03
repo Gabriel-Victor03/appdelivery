@@ -1,7 +1,7 @@
 // import 'dart:ffi';
 
-// import 'package:appdelivery/view/components/my_appbar.dart';
-// import 'package:appdelivery/view/components/my_drawer.dart';
+import 'package:appdelivery/view/components/my_appbar.dart';
+import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          // appBar: MyAppBar(),
+          appBar: MyAppBar(),
           // endDrawer: MyDrawer(),
           body: IntrinsicHeight(
             child: Column(
@@ -176,9 +176,11 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 130, 30, 60),
                             shape: CircleBorder(),
-                            //padding: EdgeInsets.all(15)
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            // Navega para a rota '/produtos'
+                            Navigator.pushNamed(context, '/produtos');
+                          },
                           child: Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
