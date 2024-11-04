@@ -66,61 +66,226 @@ class _ProductPageState extends State<ProductPage> {
         builder: (context) => Dialog(
           child: Container(
             width: 450,
-            height: 400,
+            height: 300,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
                   child: Center(
                     child: Text(
                       "Editar Categoria",
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 Divider(indent: 10.0, endIndent: 10.0, color: Colors.black),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 165, 0),
+                  padding: EdgeInsets.fromLTRB(0, 10, 165, 0),
                   child: Text(
                     "Categorias",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 80,
                   child: SingleChildScrollView(
-                    child: Wrap(
+                    child: Column(
                       children: [
-                        Row(children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 30),
-                            child: Text(
-                              "Hambúrguer",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.delete,
-                                color: Colors.white, size: 15),
-                            color: Colors.red,
-                            padding: EdgeInsets.zero,
-                          ),
-                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 8),
+                                width: 180,
+                                child: Text(
+                                  "Hambúrguer",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ]),
                         Divider(
-                            indent: 1.0, endIndent: 1.0, color: Colors.black),
+                          indent: 10.0,
+                          endIndent: 10.0,
+                          color: Colors.black,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 8),
+                                width: 180,
+                                child: Text(
+                                  "Bebidas",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Divider(
+                          indent: 10.0,
+                          endIndent: 10.0,
+                          color: Colors.black,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 8),
+                                width: 180,
+                                child: Text(
+                                  "Sobremessas",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Divider(
+                          indent: 10.0,
+                          endIndent: 10.0,
+                          color: Colors.black,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 8),
+                                width: 180,
+                                child: Text(
+                                  "Combos",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Divider(
+                          indent: 10.0,
+                          endIndent: 10.0,
+                          color: Colors.black,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 8),
+                                width: 180,
+                                child: Text(
+                                  "Jantinhas",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Container(
+                                //  padding: EdgeInsets.only(left: 190),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.red,
+                                    padding: EdgeInsets.all(
+                                        2), // Espaçamento interno
+                                    maximumSize: Size(20, 20),
+                                    minimumSize: Size(5, 5),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        Divider(
+                          indent: 10.0,
+                          endIndent: 10.0,
+                          color: Colors.black,
+                        ),
                       ],
                     ),
                   ),
                 ),
-                Text("Nova Categoria"),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 20, 153, 0),
+                  child: Text("Nova Categoria"),
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      width: 200,
+                      margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      width: 120,
                       height: 30,
                       child: TextField(
                         cursorWidth: 1,
@@ -136,7 +301,11 @@ class _ProductPageState extends State<ProductPage> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
-                          iconColor: Colors.white),
+                          padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          maximumSize: Size(50, 30),
+                          minimumSize: Size(20, 5)),
                       onPressed: () {},
                       child: Icon(Icons.check, color: Colors.white, size: 20),
                     ),
