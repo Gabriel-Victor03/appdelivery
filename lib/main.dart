@@ -1,7 +1,7 @@
 import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:appdelivery/view/pages/product_page.dart';
-import 'package:appdelivery/view/pages/sacola_page.dart';
+import 'package:appdelivery/view/pages/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
 //import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/painel_adm': (context) => const Paineladministrativo(),
-        '/sacola': (context) => const SacolaPage(),
+        '/cart': (context) => const CartPage(),
         '/produtos': (context) => const ProductPage(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(

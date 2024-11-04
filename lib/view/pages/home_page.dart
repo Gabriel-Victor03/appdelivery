@@ -6,7 +6,7 @@ import 'package:appdelivery/view/components/my_slider.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:appdelivery/view/pages/product_page.dart';
-import 'package:appdelivery/view/pages/sacola_page.dart';
+import 'package:appdelivery/view/pages/cart_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
     ),
-    const SacolaPage(),
+    const CartPage(),
     const LoginPage(),
     const Paineladministrativo(),
     const ProductPage(),
