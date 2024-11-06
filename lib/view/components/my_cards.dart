@@ -117,7 +117,8 @@ class MyCards extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
