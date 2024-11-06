@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_popup_Product.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [Table].
@@ -12,71 +13,89 @@ class MyTable extends StatefulWidget {
 }
 
 class _MyTableState extends State<MyTable> {
-  TableRow _tableRow = TableRow(children: <Widget>[
-    Padding(
-      padding: EdgeInsets.all(5.0),
-      child: Checkbox(
-        tristate: true,
-        value: isChecked,
-        onChanged: (bool? value) {},
-      ),
-    ),
-    Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Text("Categoria"),
-    ),
-    Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Text("Nome"),
-    ),
-    Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Text("Ações"),
-    )
-  ]);
-
-  static get isChecked => null;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: Center(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Table(
-            border: TableBorder.all(borderRadius: BorderRadius.circular(8)),
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: [
-              const TableRow(children: [
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("text1"),
+              border: TableBorder.all(), // Adiciona borda em torno da tabela
+              columnWidths: {
+                0: FlexColumnWidth(0.5), // Define a largura da primeira coluna
+                1: FlexColumnWidth(0.8), // Define a largura da segunda coluna
+                2: FlexColumnWidth(1), // Define a largura da terceira coluna
+                3: FlexColumnWidth(0.8),
+              },
+              children: [
+                TableRow(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(
+                        255, 255, 229, 184), // Cor de fundo para o cabeçalho
                   ),
+                  children: [
+                    TableCell(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.check_box)),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'CATEGORIA',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'NOME',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'AÇÕES',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("text2  "),
-                  ),
-                ),
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("text3"),
-                  ),
-                ),
+                // Linhas de dados
+                TableRow(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 229, 184),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('TESTE'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('TESTE'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('TESTE'),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('TESTE'),
+                      )
+                    ]),
               ]),
-              
-            ],
-          ),
-          
         ),
-       
-        
-        ));
+      ])),
+    );
   }
 }
-//https://www.youtube.com/watch?v=xjPHI4kBcwQ

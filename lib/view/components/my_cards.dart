@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MyCards extends StatelessWidget {
   final List<Map<String, String>> products = [
@@ -9,33 +8,38 @@ class MyCards extends StatelessWidget {
       'image': 'assets/images/burguer1.jpg',
       'preco': 'R\$20,00',
     },
-    // {
-    //   'title': 'Cheeseburger',
-    //   'description': 'Carne 180g, queijo cheddar, cebola.',
-    //   'image': 'assets/images/burguer2.jpg',
-    // },
-    // {
-    //   'title': 'Hambúrguer Vegano',
-    //   'description': 'Hambúrguer de grão de bico, alface e tomate',
-    //   'image': 'assets/images/burguer3.jpg',
-    // },
-    // {
-    //   'title': 'Double Bacon',
-    //   'description': 'Dois hambúrgueres, bacon crocante e cheddar',
-    //   'image': 'assets/images/burguer4.jpg',
-    // },
-    // Adicione mais produtos conforme necessário
+    {
+      'title': 'Cheeseburger',
+      'description': 'Carne 180g, queijo cheddar, cebola.',
+      'image': 'assets/images/burguer2.jpg',
+      'preco': 'R\$22,00',
+    },
+    {
+      'title': 'Cheeseburger',
+      'description': 'Carne 180g, queijo cheddar, cebola.',
+      'image': 'assets/images/burguer2.jpg',
+      'preco': 'R\$22,00',
+    },
+    {
+      'title': 'Cheeseburger',
+      'description': 'Carne 180g, queijo cheddar, cebola.',
+      'image': 'assets/images/burguer1.jpg',
+      'preco': 'R\$22,00',
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: products.map((product) {
-        return Expanded(
-          child: Container(
-            width: 200,
-            margin: const EdgeInsets.symmetric(
-                vertical: 10), // Margem entre os cards
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Wrap(
+        spacing: 10,
+        runSpacing: 10,
+        children: products.map((product) {
+          return Container(
+            width:
+                MediaQuery.of(context).size.width * 0.45, // Largura responsiva
+            margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 255, 248, 235),
               borderRadius: BorderRadius.circular(15),
@@ -49,7 +53,7 @@ class MyCards extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,12 +64,12 @@ class MyCards extends StatelessWidget {
                   ),
                   Text(
                     product['title']!,
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4),
                   Text(
                     product['description']!,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 12),
                   ),
                   SizedBox(height: 6),
                   Row(
@@ -74,32 +78,41 @@ class MyCards extends StatelessWidget {
                       Text(
                         product['preco']!,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Color.fromARGB(255, 130, 30, 60),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          // Ação do botão 2
-                        },
-                        child: Text(
-                          'Comprar',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 130, 30, 60),
-                            fontWeight: FontWeight.bold,
+                      Container(
+                        width: 30, // Ajusta a largura do botão
+                        height: 30, // Ajusta a altura do botão
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 130, 30, 60),
+                          shape: BoxShape.circle,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            // Ação do botão
+                            print("Carrinho pressionado");
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.shopping_cart,
+                              size: 18,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 }

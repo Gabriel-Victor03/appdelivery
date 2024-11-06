@@ -3,6 +3,10 @@ import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
 import 'package:appdelivery/view/components/my_slider.dart';
+import 'package:appdelivery/view/pages/painel_adm.dart';
+import 'package:appdelivery/view/pages/login_page.dart';
+import 'package:appdelivery/view/pages/product_page.dart';
+import 'package:appdelivery/view/pages/cart_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,42 +17,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  int _selectedIndex = 0;
 
-  // Função para executar ações quando uma aba for clicada
-  void _onTabChange(int index) {
+  final List<Widget> _pages = [
+    SingleChildScrollView(
+      child: Column(
+        children: [
+          MyCarouselSlider(),
+          SizedBox(height: 10), // Espaço entre o slider e os cards
+          MyCards(),
+        ],
+      ),
+    ),
+    const CartPage(),
+    const LoginPage(),
+    const Paineladministrativo(),
+    const ProductPage(),
+  ];
+
+  void _selectPage(int index) {
     setState(() {
-      _currentIndex = index; // Atualiza o índice da aba selecionada
+      _selectedIndex = index;
     });
-
-    // Verifica qual aba foi clicada e navega para a rota correspondente
-    if (index == 0) {
-      Navigator.pushNamed(context, '/homepage'); // Página de Cardápio
-    } else if (index == 1) {
-      Navigator.pushNamed(context, '/login'); // Página de Sacola
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      endDrawer: MyDrawer(),
+      endDrawer: const MyDrawer(),
       backgroundColor: const Color.fromARGB(255, 255, 229, 184),
-      body: Column(
-        children: [
-          MyCarouselSlider(),
-          SizedBox(height: 20),
-          Container(
-            height: 300,
-            child: MyCards(),
-          ),
-        ],
-      ),
-      // body: Paineladministrativo(),
-      // body: ProductPage(),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: MyBottomNavigationBar(
-        onTabChange: _onTabChange, // Chama a função ao mudar de aba
+        _selectedIndex,
+        _selectPage,
       ),
     );
   }

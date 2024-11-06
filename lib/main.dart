@@ -1,46 +1,50 @@
 import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
+import 'package:appdelivery/view/pages/product_page.dart';
+import 'package:appdelivery/view/pages/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
-// import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+//import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
-  const keyApplicationId = 'XWN5AL2fKOQXxKnSnAdeLGHvx68NakUwPMhHTk1B';
-  const keyClientKey = 'x2iLiWANqMLd1MRnotpzyyxLoJEJrTuVd2HkS3K1';
-  const keyParseServerUrl = 'https://parseapi.back4app.com';
+  // const keyApplicationId = 'XWN5AL2fKOQXxKnSnAdeLGHvx68NakUwPMhHTk1B';
+  // const keyClientKey = 'x2iLiWANqMLd1MRnotpzyyxLoJEJrTuVd2HkS3K1';
+  // const keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  /*await Parse().initialize(
-    keyApplicationId, 
-    keyParseServerUrl,
-    clientKey: keyClientKey, 
-    debug: true
-  );*/
+  // await Parse().initialize(keyApplicationId, keyParseServerUrl,
+  //     clientKey: keyClientKey, debug: true);
 
   // var firstObject = ParseObject('FirstClass')
-  //  ..set('message', 'Hey, Parse is now connected!🙂');
+  //   ..set('message', 'Hey, Parse is now connected!🙂');
   // await firstObject.save();
 
-  print("done");
+  // print("done");
 
-  runApp(MeuApp());
+  runApp(const MyApp());
 }
 
-class MeuApp extends StatelessWidget {
-  MeuApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
+      // initialRoute: '/homepage',
       routes: {
         '/homepage': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
-        '/painel_adm': (context) => Paineladministrativo(),
-        // '/sacola': (context) =>  (),
+        '/painel_adm': (context) => const Paineladministrativo(),
+        '/cart': (context) => const CartPage(),
+        '/produtos': (context) => const ProductPage(),
       },
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        builder: (context) =>
+            const HomePage(), // Define uma rota padrão, se necessário
+      ),
     );
   }
 }
