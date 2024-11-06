@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyPopupProduct extends StatefulWidget {
   const MyPopupProduct({super.key});
@@ -8,7 +9,10 @@ class MyPopupProduct extends StatefulWidget {
 }
 
 class _MyPopupProductState extends State<MyPopupProduct> {
-  @override
+  List<ParseObject> tasks = [];
+  TextEditingController taskController = TextEditingController();
+
+  @override 
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -276,6 +280,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   padding: EdgeInsets.fromLTRB(0, 20, 153, 0),
                   child: Text("Nova Categoria"),
                 ),
+                // Aqui começa adicionar a categoria
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -284,6 +289,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                       width: 120,
                       height: 30,
                       child: TextField(
+                        controller: taskController,
                         cursorWidth: 1,
                         cursorHeight: 20,
                         textAlign: TextAlign.center,
@@ -302,7 +308,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               borderRadius: BorderRadius.circular(10)),
                           maximumSize: Size(50, 30),
                           minimumSize: Size(20, 5)),
-                      onPressed: () {},
+                      onPressed: addCategoria,
                       child: Icon(Icons.check, color: Colors.white, size: 20),
                     ),
                   ],
@@ -312,4 +318,23 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ),
         ),
       );
+      Future<void> addCategoria() async {
+        String task = taskController.text.trim();
+        if (task.isNotEmpty) {
+          var categoria = ParseObject('Categoria')
+            ..set('nome', task);
+
+          var response = await categoria.save();
+
+          if (response.success) {
+            setState(() {
+              tasks.add(categoria);
+              print("Enviou");
+            });
+            taskController.clear();
+          } else {
+            print("Erro");
+          }
+        }
+      }
 }

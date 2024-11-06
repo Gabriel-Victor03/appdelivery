@@ -17,7 +17,7 @@ void main() async {
     clientKey: keyClientKey, debug: true);
 
   var firstObject = ParseObject('FirstClass')
-     ..set('message', 'Hey, Parse is now connected!🙂');
+     ..set('message', 'teste');
   await firstObject.save();
 
   print("done");
