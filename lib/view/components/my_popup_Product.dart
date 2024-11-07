@@ -15,13 +15,16 @@ class _MyPopupProductState extends State<MyPopupProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // alignment: AlignmentDirectional(10, 10),
+        // alignment: AlignmentDirectional(10, 10),
+        child: Align(
+      alignment: Alignment.topLeft,
       child: IntrinsicHeight(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(height: 10),
             Container(
+              margin: EdgeInsets.only(left: 15),
               child: SizedBox(
                 width: 200,
                 child: ElevatedButton(
@@ -57,7 +60,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   Future openDialog() => showDialog(
@@ -65,7 +68,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
         builder: (context) => Dialog(
           child: Container(
             width: 450,
-            height: 300,
+            height: 350,
             child: Column(
               children: [
                 Container(
@@ -87,7 +90,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   ),
                 ),
                 SizedBox(
-                  height: 80,
+                  height: 130,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [

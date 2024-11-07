@@ -14,10 +14,9 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: MyAppBar(),
-        // endDrawer: MyDrawer(),
-        body:
-             MyTable()
-            //MyPopupProduct(),
-      );
+      appBar: MyAppBar(),
+      // endDrawer: MyDrawer(),
+      body: MyTable());
+
+  //MyPopupProduct(),
 }
