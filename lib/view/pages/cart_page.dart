@@ -7,12 +7,14 @@ class CartPage extends StatefulWidget {
   State<CartPage> createState() => _CartPageState();
 }
 
+// exemplo dado pelo Chat de como criar essas classes
 class _CartPageState extends State<CartPage> {
   final List<Map<String, dynamic>> products = [
     {'name': 'X-Salada', 'price': 19.0, 'quantity': 2},
     {'name': 'X-Ratão', 'price': 23.0, 'quantity': 1},
   ];
 
+// Exemplo dado pelo Chat de como criar os controllers
   String? deliveryType = 'entrega';
   String? paymentMethod = 'cartao';
   final TextEditingController nameController = TextEditingController();
@@ -25,7 +27,7 @@ class _CartPageState extends State<CartPage> {
         0, (sum, item) => sum + (item['price'] * item['quantity']));
 
     return Scaffold(
-      // appBar: const MyAppBar(),
+      backgroundColor: const Color.fromARGB(255, 255, 229, 184),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -35,13 +37,16 @@ class _CartPageState extends State<CartPage> {
               Center(
                 child: Text(
                   'SACOLA',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 130, 30, 60)),
                 ),
               ),
-              const Text(
-                'Produtos Selecionados',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              // const Text(
+              //   'Produtos Selecionados',
+              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -59,16 +64,15 @@ class _CartPageState extends State<CartPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Dados do Cliente',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                'Dados',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(labelText: 'Nome'),
-              ),
-              TextField(
-                controller: addressController,
-                decoration: const InputDecoration(labelText: 'Endereço'),
               ),
               TextField(
                 controller: phoneController,
@@ -76,16 +80,19 @@ class _CartPageState extends State<CartPage> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Tipo de Entrega',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                'Entrega',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               Row(
                 children: [
                   Expanded(
                     child: ListTile(
-                      title: const Text('Entrega'),
+                      title: const Text('Retirada no balcão'),
                       leading: Radio<String>(
-                        value: 'entrega',
+                        value: 'Retirada no balcão',
                         groupValue: deliveryType,
                         onChanged: (value) {
                           setState(() {
@@ -97,9 +104,9 @@ class _CartPageState extends State<CartPage> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('Retirada'),
+                      title: const Text('Delivery'),
                       leading: Radio<String>(
-                        value: 'retirada',
+                        value: 'Delivery',
                         groupValue: deliveryType,
                         onChanged: (value) {
                           setState(() {
@@ -114,12 +121,15 @@ class _CartPageState extends State<CartPage> {
               const SizedBox(height: 20),
               const Text(
                 'Forma de Pagamento',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               DropdownButtonFormField<String>(
                 value: paymentMethod,
-                decoration:
-                    const InputDecoration(labelText: 'Forma de Pagamento'),
+                // decoration:
+                //     const InputDecoration(labelText: 'Forma de Pagamento'),
                 items: const [
                   DropdownMenuItem(value: 'cartao', child: Text('Cartão')),
                   DropdownMenuItem(value: 'dinheiro', child: Text('Dinheiro')),
@@ -130,25 +140,89 @@ class _CartPageState extends State<CartPage> {
                   });
                 },
               ),
-              const SizedBox(height: 20),
-              Text('Total: R\$$total',
+              const SizedBox(height: 15),
+
+              Divider(
+                color: Colors.black,
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'Pedido:',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    'R\$$total',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 8),
+
+              Row(
+                children: [
+                  const Text(
+                    'Frete:',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    'R\$$total',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+
+              // const SizedBox(height: 20),
+
+              Divider(
+                color: Colors.black,
+              ),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Total: R\$$total',
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Lógica para finalizar a compra
-                  final customerInfo = {
-                    'name': nameController.text,
-                    'address': addressController.text,
-                    'phone': phoneController.text,
-                    'deliveryType': deliveryType,
-                    'paymentMethod': paymentMethod,
-                    'total': total,
-                  };
-                  print('Pedido finalizado: $customerInfo');
-                },
-                child: const Text('Finalizar Compra'),
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+              Center(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Lógica para finalizar a compra
+                    final customerInfo = {
+                      'name': nameController.text,
+                      'phone': phoneController.text,
+                      'deliveryType': deliveryType,
+                      'paymentMethod': paymentMethod,
+                      'total': total,
+                    };
+                    // print('Pedido finalizado: $customerInfo');
+                  },
+                  icon: Icon(Icons.check,
+                      color: Colors.white), // Ícone de visto branco
+                  label: Text(
+                    'Finalizar Compra',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color.fromARGB(255, 53, 155, 56), // Fundo verde
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 20.0), // Aumenta o tamanho do botão
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(8.0), // Bordas arredondadas
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
