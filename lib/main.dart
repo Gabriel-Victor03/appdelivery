@@ -14,10 +14,9 @@ void main() async {
   const keyParseServerUrl = 'https://parseapi.back4app.com';
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
-    clientKey: keyClientKey, debug: true);
+      clientKey: keyClientKey, debug: true);
 
-  var firstObject = ParseObject('FirstClass')
-     ..set('message', 'teste');
+  var firstObject = ParseObject('FirstClass')..set('message', 'teste');
   await firstObject.save();
 
   print("done");

@@ -17,7 +17,7 @@ class _ProductPageState extends State<ProductPage> {
         appBar: MyAppBar(),
         // endDrawer: MyDrawer(),
         body:
-            // MyTable()
-            MyPopupProduct(),
+             MyTable()
+            //MyPopupProduct(),
       );
 }

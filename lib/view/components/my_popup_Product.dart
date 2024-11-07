@@ -12,53 +12,52 @@ class _MyPopupProductState extends State<MyPopupProduct> {
   List<ParseObject> tasks = [];
   TextEditingController taskController = TextEditingController();
 
-  @override 
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: IntrinsicHeight(
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 2.0,
-                          backgroundColor:
-                              const Color.fromARGB(255, 0, 26, 255),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          side: BorderSide(color: Color.fromARGB(50, 0, 0, 0))),
-                      onPressed: () {
-                        openDialog();
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            "Editar Categorias",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
+    return Container(
+      // alignment: AlignmentDirectional(10, 10),
+      child: IntrinsicHeight(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(height: 10),
+            Container(
+              child: SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      elevation: 2.0,
+                      backgroundColor: const Color.fromARGB(255, 0, 26, 255),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                       ),
-                    ),
+                      side: BorderSide(color: Color.fromARGB(50, 0, 0, 0))),
+                  onPressed: () {
+                    openDialog();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        "Editar Categorias",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Future openDialog() => showDialog(
@@ -318,23 +317,22 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ),
         ),
       );
-      Future<void> addCategoria() async {
-        String task = taskController.text.trim();
-        if (task.isNotEmpty) {
-          var categoria = ParseObject('Categoria')
-            ..set('nome', task);
+  Future<void> addCategoria() async {
+    String task = taskController.text.trim();
+    if (task.isNotEmpty) {
+      var categoria = ParseObject('Categoria')..set('nome', task);
 
-          var response = await categoria.save();
+      var response = await categoria.save();
 
-          if (response.success) {
-            setState(() {
-              tasks.add(categoria);
-              print("Enviou");
-            });
-            taskController.clear();
-          } else {
-            print("Erro");
-          }
-        }
+      if (response.success) {
+        setState(() {
+          tasks.add(categoria);
+          print("Enviou");
+        });
+        taskController.clear();
+      } else {
+        print("Erro");
       }
+    }
+  }
 }
