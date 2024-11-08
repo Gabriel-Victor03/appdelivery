@@ -1,37 +1,47 @@
 import 'package:flutter/material.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
-  int _selectedIndex = 0;
-  ValueChanged<int> _selectPage;
-  MyBottomNavigationBar(this._selectedIndex, this._selectPage, {super.key});
-  // final int currentIndex;
-  // final ValueChanged<int> onTap;
+  final int selectedIndex;
+  final ValueChanged<int> onItemTapped;
 
-  // Construtor com parâmetros nomeados
-  // const MyBottomNavigationBar({
-  //   Key? key,
-  //   required this.currentIndex,
-  //   required this.onTap,
-  // }) : super(key: key);
+  const MyBottomNavigationBar(this.selectedIndex, this.onItemTapped,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      backgroundColor: const Color.fromRGBO(255, 245, 248, 1),
-      unselectedItemColor: Colors.grey,
+      type: BottomNavigationBarType
+          .shifting, // Habilita o efeito de ícone aumentado
+      currentIndex: selectedIndex,
+      unselectedItemColor: const Color.fromARGB(
+          255, 85, 83, 83), // Cor dos ícones não selecionados
       selectedItemColor: Colors.black,
+
+      // Cor do ícone selecionado
+      unselectedLabelStyle: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+          fontWeight: FontWeight.bold // Cor do label não selecionado
+          ),
+      selectedLabelStyle: const TextStyle(
+        color: Colors.black, // Cor do label selecionado
+      ),
+      onTap: onItemTapped, // Função para alterar a página ao clicar
+
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant_outlined),
           label: 'Cardápio',
+
+          backgroundColor:
+              Color.fromARGB(255, 255, 255, 255), // Cor de fundo da aba 1
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_bag),
           label: 'Sacola',
+          backgroundColor:
+              Color.fromARGB(255, 255, 255, 255), // Cor de fundo da aba 2
         ),
       ],
-      onTap: _selectPage, // Chama a função para alterar a página
     );
   }
 }
