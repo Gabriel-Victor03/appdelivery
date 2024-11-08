@@ -17,6 +17,57 @@ class MyCards extends StatelessWidget {
     // Adicione mais produtos conforme necessário
   ];
 
+  // Função para abrir o diálogo com mais informações do produto
+  Future<void> openDialog(BuildContext context, Map<String, String> product) =>
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title: Text(
+              product['title']!,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 130, 30, 60),
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(product['image']!, height: 150),
+                SizedBox(height: 10),
+                Text(
+                  product['description']!,
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Preço: ${product['preco']}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 130, 30, 60),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Fechar',
+                  style: TextStyle(color: Color.fromARGB(255, 130, 30, 60)),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -104,8 +155,7 @@ class MyCards extends StatelessWidget {
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                // Ação do botão
-                                print("Carrinho pressionado");
+                                openDialog(context, product);
                               },
                               child: Center(
                                 child: Icon(
