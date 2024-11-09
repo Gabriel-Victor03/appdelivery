@@ -54,11 +54,72 @@ class _CartPageState extends State<CartPage> {
                 itemBuilder: (context, index) {
                   final product = products[index];
                   return ListTile(
-                    title: Text(product['name']),
-                    subtitle: Text(
-                        'Preço: R\$${product['price']} x ${product['quantity']}'),
-                    trailing: Text(
-                        'Total: R\$${product['price'] * product['quantity']}'),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${product['quantity']}x',
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                                fontFamily: 'Arial',
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            SizedBox(width: 20), // Espaço entre os textos
+                            Text(
+                              '${product['name']}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 19,
+                                fontFamily: 'Arial',
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Total: R\$${product['price'] * product['quantity']}', // Multiplica o campo adicionais
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            fontFamily: 'Arial',
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                      ],
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(left: 38.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Preço Unitário: R\$${product['price']}'),
+                          Text(
+                              'Adicionais: 2x Bacon'), // Lista a quantidade de adicional e quais
+                          Text(
+                              'Observações: '), // Campo para listar observações
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              icon: Icon(Icons.delete),
+                              color:
+                                  Colors.black, // Define o ícone como vermelho
+                              onPressed: () {
+                                // Função para remover o item do carrinho
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    subtitleTextStyle: TextStyle(
+                      fontFamily: 'Arial',
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 68, 66, 66),
+                    ),
                   );
                 },
               ),
