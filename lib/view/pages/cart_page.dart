@@ -29,7 +29,7 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 229, 184),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,34 +43,48 @@ class _CartPageState extends State<CartPage> {
                       color: Color.fromARGB(255, 130, 30, 60)),
                 ),
               ),
-              // const Text(
-              //   'Produtos Selecionados',
-              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              // ),
+              Divider(
+                indent: 10.0,
+                endIndent: 10.0,
+                color: Colors.black,
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   final product = products[index];
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                  return Column(
+                    children: [
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${product['quantity']}x',
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18,
-                                fontFamily: 'Arial',
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${product['quantity']}x',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18,
+                                    fontFamily: 'Arial',
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                                SizedBox(width: 20), // Espaço entre os textos
+                                Text(
+                                  '${product['name']}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 19,
+                                    fontFamily: 'Arial',
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 20), // Espaço entre os textos
                             Text(
-                              '${product['name']}',
+                              'Total: R\$${product['price'] * product['quantity']}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 19,
@@ -80,162 +94,310 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ],
                         ),
-                        Text(
-                          'Total: R\$${product['price'] * product['quantity']}', // Multiplica o campo adicionais
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 19,
-                            fontFamily: 'Arial',
-                            color: Color.fromARGB(255, 0, 0, 0),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(left: 38.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Preço Unitário: R\$${product['price']}'),
+                              Text(
+                                  'Adicionais: 2x Bacon'), // Lista a quantidade de adicional e quais
+                              Text(
+                                  'Observações: '), // Campo para listar observações
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  icon: Icon(Icons.delete),
+                                  color:
+                                      Colors.black, // Define o ícone como preto
+                                  onPressed: () {
+                                    // Função para remover o item do carrinho
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(left: 38.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Preço Unitário: R\$${product['price']}'),
-                          Text(
-                              'Adicionais: 2x Bacon'), // Lista a quantidade de adicional e quais
-                          Text(
-                              'Observações: '), // Campo para listar observações
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: Icon(Icons.delete),
-                              color:
-                                  Colors.black, // Define o ícone como vermelho
-                              onPressed: () {
-                                // Função para remover o item do carrinho
-                              },
-                            ),
-                          ),
-                        ],
+                        subtitleTextStyle: TextStyle(
+                          fontFamily: 'Arial',
+                          fontWeight: FontWeight.normal,
+                          color: Color.fromARGB(255, 68, 66, 66),
+                        ),
                       ),
-                    ),
-                    subtitleTextStyle: TextStyle(
-                      fontFamily: 'Arial',
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromARGB(255, 68, 66, 66),
-                    ),
+                      Divider(
+                        color: Colors.black,
+                      ), // Divider após cada ListTile
+                    ],
                   );
                 },
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Dados',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: 'Nome'),
-              ),
-              TextField(
-                controller: phoneController,
-                decoration: const InputDecoration(labelText: 'Telefone'),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Entrega',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
+
+              // Função para calcular e exibir o subtotal da sacola
+
+              const SizedBox(height: 28),
               Row(
                 children: [
                   Expanded(
-                    child: ListTile(
-                      title: const Text('Retirada no balcão'),
-                      leading: Radio<String>(
-                        value: 'Retirada no balcão',
-                        groupValue: deliveryType,
-                        onChanged: (value) {
-                          setState(() {
-                            deliveryType = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: const Text('Delivery'),
-                      leading: Radio<String>(
-                        value: 'Delivery',
-                        groupValue: deliveryType,
-                        onChanged: (value) {
-                          setState(() {
-                            deliveryType = value;
-                          });
-                        },
+                    child: Container(
+                      color: const Color.fromARGB(
+                          255, 130, 30, 60), // Cor de fundo
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0), // Espaçamento vertical
+                      child: Center(
+                        child: Text(
+                          'Dados',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
+              ),
+
+              // ,
+
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: 'Nome'),
+                    ),
+                    TextField(
+                      controller: phoneController,
+                      decoration: const InputDecoration(labelText: 'Telefone'),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Forma de Pagamento',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              DropdownButtonFormField<String>(
-                value: paymentMethod,
-                // decoration:
-                //     const InputDecoration(labelText: 'Forma de Pagamento'),
-                items: const [
-                  DropdownMenuItem(value: 'cartao', child: Text('Cartão')),
-                  DropdownMenuItem(value: 'dinheiro', child: Text('Dinheiro')),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: const Color.fromARGB(
+                          255, 130, 30, 60), // Cor de fundo
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0), // Espaçamento vertical
+                      child: Center(
+                        child: Text(
+                          'Forma de Entrega',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    paymentMethod = value;
-                  });
-                },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
+              Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Centraliza o Row no eixo horizontal
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Centraliza os elementos dentro da coluna
+                        children: [
+                          Radio<String>(
+                            value: 'Retirada no balcão',
+                            groupValue: deliveryType,
+                            onChanged: (value) {
+                              setState(() {
+                                deliveryType = value;
+                              });
+                            },
+                          ),
+                          const Text('Retirada no balcão',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Arial')),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Centraliza os elementos dentro da coluna
+                        children: [
+                          Radio<String>(
+                            value: 'Delivery',
+                            groupValue: deliveryType,
+                            onChanged: (value) {
+                              setState(() {
+                                deliveryType = value;
+                              });
+                            },
+                          ),
+                          const Text('Delivery',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Arial')),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: const Color.fromARGB(
+                          255, 130, 30, 60), // Cor de fundo
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0), // Espaçamento vertical
+                      child: Center(
+                        child: Text(
+                          'Forma de Pagamento',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceAround, // Distribui as opções de forma uniforme
+                  children: [
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'cartao',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Cartão',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'dinheiro',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Dinheiro',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'pix',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Pix',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
 
               Divider(
                 color: Colors.black,
               ),
-              Row(
-                children: [
-                  const Text(
-                    'Pedido:',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  Text(
-                    'R\$$total',
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 8),
-
-              Row(
-                children: [
-                  const Text(
-                    'Frete:',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  Text(
-                    'R\$$total',
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(right: 18.0, left: 18.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Pedido:',
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial'),
+                        ),
+                        Spacer(),
+                        Text(
+                          'R\$$total',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Text(
+                          'Frete:',
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial'),
+                        ),
+                        Spacer(),
+                        Text(
+                          'R\$$total',
+                          style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
 
               // const SizedBox(height: 20),
@@ -244,12 +406,17 @@ class _CartPageState extends State<CartPage> {
                 color: Colors.black,
               ),
 
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'Total: R\$$total',
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Total: R\$$total',
+                    style: const TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Arial'),
+                  ),
                 ),
               ),
 
