@@ -160,21 +160,73 @@ class _CartPageState extends State<CartPage> {
 
               // ,
 
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(labelText: 'Nome'),
-                    ),
-                    TextField(
-                      controller: phoneController,
-                      decoration: const InputDecoration(labelText: 'Telefone'),
-                    ),
-                  ],
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // Alinha os textos à esquerda
+                    children: [
+                      Text(
+                        'Nome',
+                        style: TextStyle(
+                          fontFamily: 'arial',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      // Ajuste de tamanho para o TextField (largura e altura)
+                      Container(
+                        width: MediaQuery.of(context).size.width /
+                            2, // Ajusta a largura do TextField para ocupar toda a largura disponível
+                        child: TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Nome e sobrenome",
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          style: TextStyle(
+                              fontSize:
+                                  16), // Ajusta o tamanho do texto dentro do campo
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      Text(
+                        'Telefone',
+                        style: TextStyle(
+                          fontFamily: 'arial',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      // Ajuste de tamanho para o TextField (largura e altura)
+                      Container(
+                        width: MediaQuery.of(context).size.width /
+                            2, // Ajusta a largura do TextField para ocupar toda a largura disponível
+                        child: TextField(
+                          controller: phoneController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "(xx) xxxxx-xxxx",
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          style: TextStyle(
+                              fontSize:
+                                  16), // Ajusta o tamanho do texto dentro do campo
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
               const SizedBox(height: 20),
 
               Row(
