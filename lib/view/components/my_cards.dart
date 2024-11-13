@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class MyCards extends StatelessWidget {
   final List<Map<String, String>> products = [
     {
-      'title': 'Hambúrguer',
-      'description': 'Carne 180g, queijo, alface e tomate',
+      'title': 'Duplo Burguer',
+      'description': 'Carne 180g, queijo, alface e tomate.',
       'image': 'assets/images/burguer1.jpg',
       'preco': 'R\$20,00',
     },
@@ -14,7 +14,6 @@ class MyCards extends StatelessWidget {
       'image': 'assets/images/burguer2.jpg',
       'preco': 'R\$22,00',
     },
-    // Adicione mais produtos conforme necessário
   ];
 
   // Função para abrir o diálogo com mais informações do produto
@@ -23,26 +22,60 @@ class MyCards extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            title: Text(
-              product['title']!,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 130, 30, 60),
-              ),
+            shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(20), // Bordas com 20px de raio
             ),
+            backgroundColor: Color.fromARGB(255, 255, 229, 184), // Cor de fundo
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(product['image']!, height: 150),
+                // Título do produto
+                Text(
+                  product['title']!,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+
+                Divider(
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 7),
+
+                // Imagem do produto
+                Image.asset(product['image']!, height: 170),
                 SizedBox(height: 10),
+
+                // Descrição do produto
                 Text(
                   product['description']!,
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10),
+
+                Divider(
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
+                ),
+                SizedBox(height: 7),
+
+                Text(
+                  "ADICIONAIS",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+
+                // Preço do produto
                 Text(
                   'Preço: ${product['preco']}',
                   style: TextStyle(
@@ -79,7 +112,7 @@ class MyCards extends StatelessWidget {
           Text(
             'Hambúrguer',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 130, 30, 60),
             ),
@@ -89,7 +122,7 @@ class MyCards extends StatelessWidget {
           // Linha vertical
           Container(
             width: double.infinity,
-            height: 4,
+            height: 3,
             color: Color.fromARGB(255, 130, 30, 60),
             margin: EdgeInsets.only(left: 4, bottom: 10),
           ),
@@ -159,7 +192,7 @@ class MyCards extends StatelessWidget {
                               },
                               child: Center(
                                 child: Icon(
-                                  Icons.shopping_cart,
+                                  Icons.shopping_bag,
                                   size: 18,
                                   color: Colors.white,
                                 ),

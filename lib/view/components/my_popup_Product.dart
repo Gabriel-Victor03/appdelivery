@@ -68,7 +68,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
         builder: (context) => Dialog(
           child: Container(
             width: 450,
-            height: 350,
+            height: 400,
             child: Column(
               children: [
                 Container(
