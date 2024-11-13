@@ -363,7 +363,7 @@ class _CartPageState extends State<CartPage> {
 
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 18.0, bottom: 18.0, left: 27.0, right: 102.0),
+                    top: 18.0, bottom: 18.0, left: 27.0, right: 90.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment
                       .spaceBetween, // Distribui as opções de forma uniforme
