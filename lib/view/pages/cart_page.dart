@@ -71,7 +71,7 @@ class _CartPageState extends State<CartPage> {
                                     color: Color.fromARGB(255, 0, 0, 0),
                                   ),
                                 ),
-                                SizedBox(width: 20), // Espaço entre os textos
+                                SizedBox(width: 20.0), // Espaço entre os textos
                                 Text(
                                   '${product['name']}',
                                   style: TextStyle(
@@ -95,7 +95,7 @@ class _CartPageState extends State<CartPage> {
                           ],
                         ),
                         subtitle: Padding(
-                          padding: const EdgeInsets.only(left: 38.0),
+                          padding: const EdgeInsets.only(left: 30.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -106,6 +106,7 @@ class _CartPageState extends State<CartPage> {
                                   'Observações: '), // Campo para listar observações
                               Align(
                                 alignment: Alignment.centerRight,
+                                heightFactor: 0.5,
                                 child: IconButton(
                                   icon: Icon(Icons.delete),
                                   color:
@@ -125,6 +126,8 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       Divider(
+                        indent: 10.0,
+                        endIndent: 10.0,
                         color: Colors.black,
                       ), // Divider após cada ListTile
                     ],
@@ -142,12 +145,12 @@ class _CartPageState extends State<CartPage> {
                       color: const Color.fromARGB(
                           255, 130, 30, 60), // Cor de fundo
                       padding: const EdgeInsets.symmetric(
-                          vertical: 5.0), // Espaçamento vertical
+                          vertical: 3.0), // Espaçamento vertical
                       child: Center(
                         child: Text(
                           'Dados',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -167,59 +170,74 @@ class _CartPageState extends State<CartPage> {
                     crossAxisAlignment:
                         CrossAxisAlignment.start, // Alinha os textos à esquerda
                     children: [
-                      Text(
-                        'Nome',
-                        style: TextStyle(
-                          fontFamily: 'arial',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 18,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o texto
+                        child: Text(
+                          'Nome',
+                          style: TextStyle(
+                            fontFamily: 'arial',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       SizedBox(height: 8),
-                      // Ajuste de tamanho para o TextField (largura e altura)
-                      Container(
-                        width: MediaQuery.of(context).size.width /
-                            2, // Ajusta a largura do TextField para ocupar toda a largura disponível
-                        child: TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Nome e sobrenome",
-                            filled: true,
-                            fillColor: Colors.white,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o TextField
+                        child: Container(
+                          width: MediaQuery.of(context).size.width /
+                              2, // Ajusta a largura do TextField
+                          height: 40.0,
+                          child: TextField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Nome e sobrenome",
+                              filled: true,
+                              fillColor: Colors.white,
+                              // contentPadding: EdgeInsets.symmetric(
+                              //     vertical: 9.0, horizontal: 10.0)
+                            ),
+                            style: TextStyle(fontSize: 15),
                           ),
-                          style: TextStyle(
-                              fontSize:
-                                  16), // Ajusta o tamanho do texto dentro do campo
                         ),
                       ),
-                      SizedBox(height: 25),
-                      Text(
-                        'Telefone',
-                        style: TextStyle(
-                          fontFamily: 'arial',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 18,
+                      SizedBox(height: 17),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o texto
+                        child: Text(
+                          'Telefone',
+                          style: TextStyle(
+                            fontFamily: 'arial',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       SizedBox(height: 8),
-                      // Ajuste de tamanho para o TextField (largura e altura)
-                      Container(
-                        width: MediaQuery.of(context).size.width /
-                            2, // Ajusta a largura do TextField para ocupar toda a largura disponível
-                        child: TextField(
-                          controller: phoneController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "(xx) xxxxx-xxxx",
-                            filled: true,
-                            fillColor: Colors.white,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o TextField
+                        child: Container(
+                          height: 40.0,
+
+                          width: MediaQuery.of(context).size.width /
+                              2, // Ajusta a largura do TextField
+                          child: TextField(
+                            controller: phoneController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "(xx) xxxxx-xxxx",
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            style: TextStyle(fontSize: 15),
                           ),
-                          style: TextStyle(
-                              fontSize:
-                                  16), // Ajusta o tamanho do texto dentro do campo
                         ),
                       ),
                     ],
@@ -227,7 +245,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 17),
 
               Row(
                 children: [
@@ -236,12 +254,12 @@ class _CartPageState extends State<CartPage> {
                       color: const Color.fromARGB(
                           255, 130, 30, 60), // Cor de fundo
                       padding: const EdgeInsets.symmetric(
-                          vertical: 5.0), // Espaçamento vertical
+                          vertical: 3.0), // Espaçamento vertical
                       child: Center(
                         child: Text(
                           'Forma de Entrega',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -256,7 +274,7 @@ class _CartPageState extends State<CartPage> {
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment
-                      .center, // Centraliza o Row no eixo horizontal
+                      .spaceBetween, // Centraliza o Row no eixo horizontal
                   children: [
                     Expanded(
                       child: Row(
@@ -275,16 +293,17 @@ class _CartPageState extends State<CartPage> {
                           const Text('Retirada no balcão',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
                                   fontFamily: 'Arial')),
                         ],
                       ),
                     ),
-                    Expanded(
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 48.0, right: 10.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, // Centraliza os elementos dentro da coluna
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Radio<String>(
                             value: 'Delivery',
@@ -298,9 +317,18 @@ class _CartPageState extends State<CartPage> {
                           const Text('Delivery',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
                                   fontFamily: 'Arial')),
+                          const Text(
+                            '(R\$5,00)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontStyle: FontStyle.italic,
+                                fontFamily: 'Arial',
+                                color: Color.fromARGB(150, 50, 50, 50)),
+                          )
                         ],
                       ),
                     ),
@@ -317,12 +345,12 @@ class _CartPageState extends State<CartPage> {
                       color: const Color.fromARGB(
                           255, 130, 30, 60), // Cor de fundo
                       padding: const EdgeInsets.symmetric(
-                          vertical: 5.0), // Espaçamento vertical
+                          vertical: 3.0), // Espaçamento vertical
                       child: Center(
                         child: Text(
                           'Forma de Pagamento',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -334,10 +362,11 @@ class _CartPageState extends State<CartPage> {
               ),
 
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.only(
+                    top: 18.0, bottom: 18.0, left: 27.0, right: 102.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment
-                      .spaceAround, // Distribui as opções de forma uniforme
+                      .spaceBetween, // Distribui as opções de forma uniforme
                   children: [
                     Row(
                       children: [
@@ -353,8 +382,8 @@ class _CartPageState extends State<CartPage> {
                         const Text('Cartão',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
                                 fontFamily: 'Arial')),
                       ],
                     ),
@@ -372,8 +401,8 @@ class _CartPageState extends State<CartPage> {
                         const Text('Dinheiro',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
                                 fontFamily: 'Arial')),
                       ],
                     ),
@@ -391,8 +420,8 @@ class _CartPageState extends State<CartPage> {
                         const Text('Pix',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
                                 fontFamily: 'Arial')),
                       ],
                     ),
