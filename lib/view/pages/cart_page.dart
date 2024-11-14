@@ -91,7 +91,7 @@ class _CartPageState extends State<CartPage> {
                               'Total: $productTotal',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                                fontSize: 19,
                                 fontFamily: 'Arial',
                                 color: Color.fromARGB(255, 0, 0, 0),
                               ),
@@ -136,6 +136,9 @@ class _CartPageState extends State<CartPage> {
                   );
                 },
               ),
+
+              // Função para calcular e exibir o subtotal da sacola
+
               const SizedBox(height: 28),
               Row(
                 children: [
@@ -159,10 +162,300 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
+
+              // ,
+
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start, // Alinha os textos à esquerda
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o texto
+                        child: Text(
+                          'Nome',
+                          style: TextStyle(
+                            fontFamily: 'arial',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o TextField
+                        child: Container(
+                          width: MediaQuery.of(context).size.width /
+                              2, // Ajusta a largura do TextField
+                          height: 40.0,
+                          child: TextField(
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Nome e sobrenome",
+                              filled: true,
+                              fillColor: Colors.white,
+                              // contentPadding: EdgeInsets.symmetric(
+                              //     vertical: 9.0, horizontal: 10.0)
+                            ),
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 17),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o texto
+                        child: Text(
+                          'Telefone',
+                          style: TextStyle(
+                            fontFamily: 'arial',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 14.0), // Padding na esquerda para o TextField
+                        child: Container(
+                          height: 40.0,
+
+                          width: MediaQuery.of(context).size.width /
+                              2, // Ajusta a largura do TextField
+                          child: TextField(
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: phoneController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "(xx) xxxxx-xxxx",
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 17),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: const Color.fromARGB(
+                          255, 130, 30, 60), // Cor de fundo
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 3.0), // Espaçamento vertical
+                      child: Center(
+                        child: Text(
+                          'Forma de Entrega',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Centraliza o Row no eixo horizontal
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Centraliza os elementos dentro da coluna
+                        children: [
+                          Radio<String>(
+                            value: 'Retirada no balcão',
+                            groupValue: deliveryType,
+                            onChanged: (value) {
+                              setState(() {
+                                deliveryType = value;
+                              });
+                            },
+                          ),
+                          const Text('Retirada no balcão',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Arial')),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Radio<String>(
+                            value: 'Delivery',
+                            groupValue: deliveryType,
+                            onChanged: (value) {
+                              setState(() {
+                                deliveryType = value;
+                              });
+                            },
+                          ),
+                          const Text('Delivery',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Arial')),
+                          const Text(
+                            '(R\$5,00)',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontStyle: FontStyle.italic,
+                                fontFamily: 'Arial',
+                                color: Color.fromARGB(150, 50, 50, 50)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: const Color.fromARGB(
+                          255, 130, 30, 60), // Cor de fundo
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 3.0), // Espaçamento vertical
+                      child: Center(
+                        child: Text(
+                          'Forma de Pagamento',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(right: 30.0, left: 30, top: 9),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // Distribui as opções de forma uniforme
+                  children: [
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'cartao',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Cartão',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'dinheiro',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Dinheiro',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: 'pix',
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value;
+                            });
+                          },
+                        ),
+                        const Text('Pix',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Arial')),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 25),
+
+              //
+              //
+              //
+              //
+
+              // Center(
+              //   child: ElevatedButton.icon(onPressed: onPressed  (){
+
+              //   }
+              //   child: child),
+              // ),
+
               Divider(
                 color: Colors.black,
+                indent: 10.0,
+                endIndent: 10.0,
               ),
+
+              //
+              //
+              //
+              //
+
               Padding(
                 padding: const EdgeInsets.only(right: 18.0, left: 18.0),
                 child: Column(
@@ -209,11 +502,19 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
+              //
+              //
+              //
+              //
+
               Divider(
                 color: Colors.black,
+                indent: 10.0,
+                endIndent: 10.0,
               ),
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding:
+                    const EdgeInsets.only(bottom: 18.0, left: 18, right: 18),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -225,6 +526,12 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               ),
+
+              //
+              //
+              //
+              //
+
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {
