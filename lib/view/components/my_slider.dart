@@ -9,23 +9,21 @@ class MyCarouselSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start, // Mantém o conteúdo no topo
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
-          height: 10, // Espaço pequeno para aproximar do AppBar
+          height: 10,
         ),
         cs.CarouselSlider(
           options: cs.CarouselOptions(
-            height: 250.0, // Altura ajustada do carrossel
-            viewportFraction: 1.0, // Exibe um pouco do próximo slide
-            autoPlay: true, // Ativa a troca automática de slides
-            autoPlayInterval: Duration(seconds: 4), // Troca a cada 4 segundos
-            autoPlayCurve: Curves.easeInOut, // Animação suave na transição
-            enlargeCenterPage: true, // Dá um destaque ao slide central
-            aspectRatio: 16 / 9, // Ajuste para o formato das imagens
-            onPageChanged: (index, reason) {
-              // Atualiza o estado do índice da página aqui, se necessário
-            },
+            height: 200.0,
+            viewportFraction: 1.0,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 4),
+            autoPlayCurve: Curves.easeInOut,
+            enlargeCenterPage: true,
+            aspectRatio: 16 / 9,
+            onPageChanged: (index, reason) {},
           ),
           items: [
             'assets/images/slider1.png',

@@ -19,6 +19,18 @@ class _MyCardsState extends State<MyCards> {
       'image': 'assets/images/burguer2.jpg',
       'preco': 'R\$22,00',
     },
+    {
+      'title': 'Triplo Burguer',
+      'description': 'Carne 180g, queijo, alface e tomate.',
+      'image': 'assets/images/burguer2.jpg',
+      'preco': 'R\$20,00',
+    },
+    {
+      'title': 'Comeu Deitou',
+      'description': 'Carne 180g, queijo cheddar, cebola.',
+      'image': 'assets/images/burguer1.jpg',
+      'preco': 'R\$22,00',
+    },
   ];
 
   // Variáveis para os contadores de adicionais
@@ -46,7 +58,7 @@ class _MyCardsState extends State<MyCards> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(height: 30),
+                        SizedBox(height: 10),
                         Text(
                           product['title']!,
                           style: TextStyle(
@@ -205,7 +217,7 @@ class _MyCardsState extends State<MyCards> {
                     ),
                   ),
                   Positioned(
-                    top: 10,
+                    top: 5,
                     right: 10,
                     child: IconButton(
                       icon: Icon(Icons.close, color: Colors.black),
@@ -226,7 +238,7 @@ class _MyCardsState extends State<MyCards> {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Hambúrguer',
@@ -249,7 +261,7 @@ class _MyCardsState extends State<MyCards> {
             children: products.map((product) {
               return Container(
                 width: MediaQuery.of(context).size.width * 0.45,
-                margin: const EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 248, 235),
                   borderRadius: BorderRadius.circular(15),
