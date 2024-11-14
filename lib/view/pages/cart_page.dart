@@ -230,8 +230,7 @@ class _CartPageState extends State<CartPage> {
                           width: MediaQuery.of(context).size.width /
                               2, // Ajusta a largura do TextField
                           child: TextField(
-                                                        textAlignVertical: TextAlignVertical.center,
-
+                            textAlignVertical: TextAlignVertical.center,
                             controller: phoneController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -277,7 +276,7 @@ class _CartPageState extends State<CartPage> {
                 alignment: Alignment.center,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // Centraliza o Row no eixo horizontal
+                      .center, // Centraliza o Row no eixo horizontal
                   children: [
                     Expanded(
                       child: Row(
@@ -303,8 +302,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10, bottom: 10, left: 48.0, right: 10.0),
+                      padding: const EdgeInsets.only(right: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -365,8 +363,7 @@ class _CartPageState extends State<CartPage> {
               ),
 
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 18.0, bottom: 18.0, left: 27.0, right: 90.0),
+                padding: const EdgeInsets.only(right: 30.0, left: 30, top: 9),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment
                       .spaceBetween, // Distribui as opções de forma uniforme
