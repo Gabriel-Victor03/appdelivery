@@ -192,6 +192,7 @@ class _CartPageState extends State<CartPage> {
                               2, // Ajusta a largura do TextField
                           height: 40.0,
                           child: TextField(
+                            textAlignVertical: TextAlignVertical.center,
                             controller: nameController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -201,7 +202,7 @@ class _CartPageState extends State<CartPage> {
                               // contentPadding: EdgeInsets.symmetric(
                               //     vertical: 9.0, horizontal: 10.0)
                             ),
-                            style: TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ),
                       ),
@@ -229,6 +230,8 @@ class _CartPageState extends State<CartPage> {
                           width: MediaQuery.of(context).size.width /
                               2, // Ajusta a largura do TextField
                           child: TextField(
+                                                        textAlignVertical: TextAlignVertical.center,
+
                             controller: phoneController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -236,7 +239,7 @@ class _CartPageState extends State<CartPage> {
                               filled: true,
                               fillColor: Colors.white,
                             ),
-                            style: TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 13),
                           ),
                         ),
                       ),
