@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyCards extends StatelessWidget {
+class MyCards extends StatefulWidget {
+  @override
+  _MyCardsState createState() => _MyCardsState();
+}
+
+class _MyCardsState extends State<MyCards> {
   final List<Map<String, String>> products = [
     {
       'title': 'Duplo Burguer',
@@ -16,87 +21,202 @@ class MyCards extends StatelessWidget {
     },
   ];
 
-  // Função para abrir o diálogo com mais informações do produto
+  // Variáveis para os contadores de adicionais
+  int _counterHamburguer = 0;
+  int _counterBebidas = 0;
+
   Future<void> openDialog(BuildContext context, Map<String, String> product) =>
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(20), // Bordas com 20px de raio
+              borderRadius: BorderRadius.circular(20),
             ),
-            backgroundColor: Color.fromARGB(255, 255, 229, 184), // Cor de fundo
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Título do produto
-                Text(
-                  product['title']!,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 0, 0),
+            backgroundColor: Color.fromARGB(255, 255, 229, 184),
+            contentPadding: EdgeInsets.zero,
+            content: SizedBox(
+              width: 400,
+              height: 500,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 30),
+                        Text(
+                          product['title']!,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                        Divider(
+                          indent: 0,
+                          endIndent: 0,
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: 7),
+                        Image.asset(product['image']!, height: 170),
+                        SizedBox(height: 10),
+                        Text(
+                          product['description']!,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 10),
+                        Divider(
+                          indent: 0,
+                          endIndent: 0,
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: 7),
+                        Text(
+                          "Adicionais",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 130,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 8),
+                                      width: 180,
+                                      child: Text(
+                                        "Hambúrguer",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 70,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(Icons.remove,
+                                                color: Colors.black),
+                                            onPressed: () {
+                                              if (_counterHamburguer > 0) {
+                                                setState(() {
+                                                  _counterHamburguer--;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                          Text(
+                                            '$_counterHamburguer',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.add,
+                                                color: Colors.black),
+                                            onPressed: () {
+                                              setState(() {
+                                                _counterHamburguer++;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  indent: 10.0,
+                                  endIndent: 10.0,
+                                  color: Colors.black,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(left: 8),
+                                      width: 180,
+                                      child: Text(
+                                        "Bebidas",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 70,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(Icons.remove,
+                                                color: Colors.black),
+                                            onPressed: () {
+                                              if (_counterBebidas > 0) {
+                                                setState(() {
+                                                  _counterBebidas--;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                          Text(
+                                            '$_counterBebidas',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.add,
+                                                color: Colors.black),
+                                            onPressed: () {
+                                              setState(() {
+                                                _counterBebidas++;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  indent: 10.0,
+                                  endIndent: 10.0,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-
-                Divider(
-                  indent: 0,
-                  endIndent: 0,
-                  color: Colors.black,
-                ),
-                SizedBox(height: 7),
-
-                // Imagem do produto
-                Image.asset(product['image']!, height: 170),
-                SizedBox(height: 10),
-
-                // Descrição do produto
-                Text(
-                  product['description']!,
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10),
-
-                Divider(
-                  indent: 0,
-                  endIndent: 0,
-                  color: Colors.black,
-                ),
-                SizedBox(height: 7),
-
-                Text(
-                  "ADICIONAIS",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 0, 0, 0),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: IconButton(
+                      icon: Icon(Icons.close, color: Colors.black),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   ),
-                ),
-
-                // Preço do produto
-                Text(
-                  'Preço: ${product['preco']}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 130, 30, 60),
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Fechar',
-                  style: TextStyle(color: Color.fromARGB(255, 130, 30, 60)),
-                ),
+                ],
               ),
-            ],
+            ),
           );
         },
       );
@@ -108,7 +228,6 @@ class MyCards extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Título da categoria
           Text(
             'Hambúrguer',
             style: TextStyle(
@@ -118,16 +237,12 @@ class MyCards extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-
-          // Linha vertical
           Container(
             width: double.infinity,
             height: 3,
             color: Color.fromARGB(255, 130, 30, 60),
             margin: EdgeInsets.only(left: 4, bottom: 10),
           ),
-
-          // Cards de produtos
           Wrap(
             spacing: 10,
             runSpacing: 10,
