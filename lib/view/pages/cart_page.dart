@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_popup_informaddress.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -338,7 +339,12 @@ class _CartPageState extends State<CartPage> {
                         child: ElevatedButton.icon(
                           onPressed: deliveryType == 'Delivery'
                               ? () {
-                                  // Espaço para ação do botão quando habilitado
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return MyPopupInformAddress();
+                                    },
+                                  );
                                 }
                               : null, // Botão desabilitado
                           icon: Icon(Icons.location_on, color: Colors.black),
