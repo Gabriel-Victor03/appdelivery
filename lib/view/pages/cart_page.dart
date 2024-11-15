@@ -144,10 +144,8 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   Expanded(
                     child: Container(
-                      color: const Color.fromARGB(
-                          255, 130, 30, 60), // Cor de fundo
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 3.0), // Espaçamento vertical
+                      color: const Color.fromARGB(255, 130, 30, 60),
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
                       child: Center(
                         child: Text(
                           'Dados',
@@ -169,12 +167,10 @@ class _CartPageState extends State<CartPage> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start, // Alinha os textos à esquerda
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 14.0), // Padding na esquerda para o texto
+                        padding: EdgeInsets.only(left: 14.0),
                         child: Text(
                           'Nome',
                           style: TextStyle(
@@ -187,11 +183,9 @@ class _CartPageState extends State<CartPage> {
                       ),
                       SizedBox(height: 8),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 14.0), // Padding na esquerda para o TextField
+                        padding: EdgeInsets.only(left: 14.0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width /
-                              2, // Ajusta a largura do TextField
+                          width: MediaQuery.of(context).size.width / 2,
                           height: 40.0,
                           child: TextField(
                             textAlignVertical: TextAlignVertical.center,
@@ -210,8 +204,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                       SizedBox(height: 17),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 14.0), // Padding na esquerda para o texto
+                        padding: EdgeInsets.only(left: 14.0),
                         child: Text(
                           'Telefone',
                           style: TextStyle(
@@ -224,13 +217,10 @@ class _CartPageState extends State<CartPage> {
                       ),
                       SizedBox(height: 8),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 14.0), // Padding na esquerda para o TextField
+                        padding: EdgeInsets.only(left: 14.0),
                         child: Container(
                           height: 40.0,
-
-                          width: MediaQuery.of(context).size.width /
-                              2, // Ajusta a largura do TextField
+                          width: MediaQuery.of(context).size.width / 2,
                           child: TextField(
                             textAlignVertical: TextAlignVertical.center,
                             controller: phoneController,
@@ -255,10 +245,8 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   Expanded(
                     child: Container(
-                      color: const Color.fromARGB(
-                          255, 130, 30, 60), // Cor de fundo
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 3.0), // Espaçamento vertical
+                      color: const Color.fromARGB(255, 130, 30, 60),
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
                       child: Center(
                         child: Text(
                           'Forma de Entrega',
@@ -276,63 +264,101 @@ class _CartPageState extends State<CartPage> {
               const SizedBox(height: 10),
               Container(
                 alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Centraliza o Row no eixo horizontal
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, // Centraliza os elementos dentro da coluna
-                        children: [
-                          Radio<String>(
-                            value: 'Retirada no balcão',
-                            groupValue: deliveryType,
-                            onChanged: (value) {
-                              setState(() {
-                                deliveryType = value;
-                              });
-                            },
-                          ),
-                          const Text('Retirada no balcão',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio<String>(
+                                value: 'Retirada no balcão',
+                                groupValue: deliveryType,
+                                onChanged: (value) {
+                                  setState(() {
+                                    deliveryType = value;
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Retirada no balcão',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: 'Arial')),
-                        ],
-                      ),
+                                  fontFamily: 'Arial',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio<String>(
+                                value: 'Delivery',
+                                groupValue: deliveryType,
+                                onChanged: (value) {
+                                  setState(() {
+                                    deliveryType = value;
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Delivery',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Arial',
+                                ),
+                              ),
+                              const Text(
+                                '(R\$5,00)',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
+                                  fontFamily: 'Arial',
+                                  color: Color.fromARGB(150, 50, 50, 50),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio<String>(
-                            value: 'Delivery',
-                            groupValue: deliveryType,
-                            onChanged: (value) {
-                              setState(() {
-                                deliveryType = value;
-                              });
-                            },
-                          ),
-                          const Text('Delivery',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal,
-                                  fontFamily: 'Arial')),
-                          const Text(
-                            '(R\$5,00)',
-                            textAlign: TextAlign.center,
+                    const SizedBox(height: 10),
+                    Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: ElevatedButton.icon(
+                          onPressed: deliveryType == 'Delivery'
+                              ? () {
+                                  // Espaço para ação do botão quando habilitado
+                                }
+                              : null, // Botão desabilitado
+                          icon: Icon(Icons.location_on, color: Colors.black),
+                          label: Text(
+                            'Informar Endereço',
                             style: TextStyle(
-                                fontSize: 15,
-                                fontStyle: FontStyle.italic,
-                                fontFamily: 'Arial',
-                                color: Color.fromARGB(150, 50, 50, 50)),
-                          )
-                        ],
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.5),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 221, 0),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            disabledBackgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -345,10 +371,8 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   Expanded(
                     child: Container(
-                      color: const Color.fromARGB(
-                          255, 130, 30, 60), // Cor de fundo
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 3.0), // Espaçamento vertical
+                      color: const Color.fromARGB(255, 130, 30, 60),
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
                       child: Center(
                         child: Text(
                           'Forma de Pagamento',
@@ -367,8 +391,7 @@ class _CartPageState extends State<CartPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 30.0, left: 30, top: 9),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // Distribui as opções de forma uniforme
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
@@ -437,13 +460,6 @@ class _CartPageState extends State<CartPage> {
               //
               //
               //
-
-              // Center(
-              //   child: ElevatedButton.icon(onPressed: onPressed  (){
-
-              //   }
-              //   child: child),
-              // ),
 
               Divider(
                 color: Colors.black,
@@ -547,7 +563,10 @@ class _CartPageState extends State<CartPage> {
                   icon: Icon(Icons.check, color: Colors.white),
                   label: Text(
                     'Finalizar Compra',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 53, 155, 56),
