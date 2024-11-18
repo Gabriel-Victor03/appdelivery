@@ -64,6 +64,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
   }
 
   Future removerItem(var teste) => showDialog(
+      // função de remover itens da categoria
       context: context,
       builder: (context) => Dialog(
             shape: RoundedRectangleBorder(
@@ -92,7 +93,6 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   SizedBox(
                     height: 15,
                   ),
-
                   Container(
                     alignment: Alignment.topCenter,
                     width: 270,
@@ -122,17 +122,6 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                       textAlign: TextAlign.center, //
                     ),
                   ),
-
-                  // Container(
-                  //     width: 250,
-
-                  //     child: Text(
-
-                  //       "Tem certeza que deseja remover a categoria '$teste' ?",
-                  //       style: TextStyle(
-                  //           fontSize: 15, fontWeight: FontWeight.bold),
-                  //       textAlign: TextAlign.center,
-                  //     )),
                   SizedBox(
                     height: 30,
                   ),

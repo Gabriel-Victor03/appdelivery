@@ -113,7 +113,7 @@ class _MyTableState extends State<MyTable> {
                           Padding(
                             padding: const EdgeInsets.all(6),
                             child: Container(
-                                child: Center(child: Text('X Burguer'))),
+                                child: Center(child: Text('X Burguer Duplo'))),
                           ),
                           Padding(
                               padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
@@ -144,7 +144,9 @@ class _MyTableState extends State<MyTable> {
                                               padding: EdgeInsets.all(3),
                                               maximumSize: Size(20, 20),
                                               minimumSize: Size(2, 2)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            removerItem("X Burguer Duplo");
+                                          },
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.white,
@@ -172,7 +174,7 @@ class _MyTableState extends State<MyTable> {
                             padding: const EdgeInsets.all(6),
                             child: Container(
                                 child:
-                                    Center(child: Text('Coco-Cola 2 litros'))),
+                                    Center(child: Text('Coca-Cola 2 litros'))),
                           ),
                           Padding(
                               padding: const EdgeInsets.only(top: 0),
@@ -203,7 +205,9 @@ class _MyTableState extends State<MyTable> {
                                               padding: EdgeInsets.all(3),
                                               maximumSize: Size(20, 20),
                                               minimumSize: Size(2, 2)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            removerItem("Coca-Cola 2 litros");
+                                          },
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.white,
@@ -260,7 +264,9 @@ class _MyTableState extends State<MyTable> {
                                               padding: EdgeInsets.all(3),
                                               maximumSize: Size(20, 20),
                                               minimumSize: Size(2, 2)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            removerItem("Fanta Lata");
+                                          },
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.white,
@@ -317,7 +323,9 @@ class _MyTableState extends State<MyTable> {
                                               padding: EdgeInsets.all(3),
                                               maximumSize: Size(20, 20),
                                               minimumSize: Size(2, 2)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            removerItem("Sorvete Napolitano");
+                                          },
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.white,
@@ -377,7 +385,10 @@ class _MyTableState extends State<MyTable> {
                                               padding: EdgeInsets.all(3),
                                               maximumSize: Size(20, 20),
                                               minimumSize: Size(2, 2)),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            removerItem(
+                                                "Prato feito com picanha e salada");
+                                          },
                                           child: Icon(
                                             Icons.delete,
                                             color: Colors.white,
@@ -393,4 +404,119 @@ class _MyTableState extends State<MyTable> {
           MyPopupProduct(),
         ]))));
   }
+
+  Future removerItem(var teste) => showDialog(
+      // função de remover itens do produto
+      context: context,
+      builder: (context) => Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusDirectional.circular(10)),
+            backgroundColor: Colors.white,
+            child: Container(
+              width: 450,
+              height: 230,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Text(
+                      "Remover produto",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    indent: 10.0,
+                    endIndent: 10.0,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 60,
+                    child: SingleChildScrollView(
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                              fontSize: 24,
+                              color:
+                                  Colors.black), // Estilo padrão para o texto
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "Tem certeza que deseja remover o produto ", // O restante do texto
+                              //textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                              ), // Estilo normal
+                            ),
+                            TextSpan(
+                              text: teste, // Texto da variável
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      18), // Estilo para o texto em negrito
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center, //
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(12),
+                                      side: BorderSide(
+                                          color: const Color.fromARGB(
+                                              86, 0, 0, 0)))),
+                              onPressed: () {},
+                              child: Text(
+                                "Cancelar",
+                                style: TextStyle(
+                                    color: const Color.fromARGB(255, 0, 0, 0)),
+                              )),
+                        ),
+                        SizedBox(
+                          width: 100,
+                        ),
+                        Container(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 211, 35, 23),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12))),
+                              onPressed: () {},
+                              child: Center(
+                                child: Text(
+                                  "Sim",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
 }
