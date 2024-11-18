@@ -66,17 +66,121 @@ class _MyPopupProductState extends State<MyPopupProduct> {
   Future removerItem(var teste) => showDialog(
       context: context,
       builder: (context) => Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusDirectional.circular(10)),
+            backgroundColor: Colors.white,
             child: Container(
               width: 450,
-              height: 380,
+              height: 225,
               child: Column(
                 children: [
-                  Text(
-                    "Remover produto",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 20,
                   ),
-                  VerticalDivider(),
-                  Text("Tem certeza que deseja remover o produto $teste ?"),
+                  Container(
+                    child: Text(
+                      "Remover Categoria",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    indent: 10.0,
+                    endIndent: 10.0,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+
+                  Container(
+                    alignment: Alignment.topCenter,
+                    width: 270,
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black), // Estilo padrão para o texto
+                        children: <TextSpan>[
+                          TextSpan(
+                            text:
+                                "Tem certeza que deseja remover a categoria ", // O restante do texto
+                            //textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18,
+                            ), // Estilo normal
+                          ),
+                          TextSpan(
+                            text: teste, // Texto da variável
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18), // Estilo para o texto em negrito
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center, //
+                    ),
+                  ),
+
+                  // Container(
+                  //     width: 250,
+
+                  //     child: Text(
+
+                  //       "Tem certeza que deseja remover a categoria '$teste' ?",
+                  //       style: TextStyle(
+                  //           fontSize: 15, fontWeight: FontWeight.bold),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(12),
+                                      side: BorderSide(
+                                          color: const Color.fromARGB(
+                                              86, 0, 0, 0)))),
+                              onPressed: () {},
+                              child: Text(
+                                "Cancelar",
+                                style: TextStyle(
+                                    color: const Color.fromARGB(255, 0, 0, 0)),
+                              )),
+                        ),
+                        SizedBox(
+                          width: 100,
+                        ),
+                        Container(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 211, 35, 23),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12))),
+                              onPressed: () {},
+                              child: Center(
+                                child: Text(
+                                  "Sim",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -129,7 +233,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               Container(
                                 //  padding: EdgeInsets.only(left: 190),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removerItem("Hambúrguer");
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
                                     backgroundColor: Colors.red,
@@ -203,7 +309,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               Container(
                                 //  padding: EdgeInsets.only(left: 190),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removerItem("Sobremessas");
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
                                     backgroundColor: Colors.red,
@@ -239,7 +347,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               Container(
                                 //  padding: EdgeInsets.only(left: 190),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removerItem("Combos");
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
                                     backgroundColor: Colors.red,
@@ -275,7 +385,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               Container(
                                 //  padding: EdgeInsets.only(left: 190),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removerItem("Jantinhas");
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
                                     backgroundColor: Colors.red,
