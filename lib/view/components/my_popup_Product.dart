@@ -63,12 +63,30 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     ));
   }
 
+  Future removerItem(var teste) => showDialog(
+      context: context,
+      builder: (context) => Dialog(
+            child: Container(
+              width: 450,
+              height: 380,
+              child: Column(
+                children: [
+                  Text(
+                    "Remover produto",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  VerticalDivider(),
+                  Text("Tem certeza que deseja remover o produto $teste ?"),
+                ],
+              ),
+            ),
+          ));
   Future openDialog() => showDialog(
         context: context,
         builder: (context) => Dialog(
           child: Container(
             width: 450,
-            height: 400,
+            height: 405,
             child: Column(
               children: [
                 Container(
@@ -90,7 +108,10 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   ),
                 ),
                 SizedBox(
-                  height: 130,
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 190,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -144,7 +165,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               Container(
                                 //  padding: EdgeInsets.only(left: 190),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removerItem("Bebidas");
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
                                     backgroundColor: Colors.red,
@@ -320,6 +343,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ),
         ),
       );
+
   Future<void> addCategoria() async {
     String task = taskController.text.trim();
     if (task.isNotEmpty) {
