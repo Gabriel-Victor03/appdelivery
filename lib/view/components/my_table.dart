@@ -1,5 +1,6 @@
-import 'package:appdelivery/view/components/my_popup_Product.dart';
+import 'package:appdelivery/view/components/my_popup_product.dart';
 import 'package:appdelivery/view/components/my_popup_newproduct.dart';
+
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [Table].
@@ -129,7 +130,13 @@ class _MyTableState extends State<MyTable> {
                                                 padding: EdgeInsets.all(3),
                                                 maximumSize: Size(28, 28),
                                                 minimumSize: Size(5, 5)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              openDetails(
+                                                  "Hámburguer",
+                                                  "X Burguer Duplo",
+                                                  "Pão, 2 hambúrgueres 180g, bacon, ovo, cheddar",
+                                                  28.90);
+                                            },
                                             child: Transform.rotate(
                                                 angle: 1.64159,
                                                 child: Icon(
@@ -190,7 +197,13 @@ class _MyTableState extends State<MyTable> {
                                                 padding: EdgeInsets.all(3),
                                                 maximumSize: Size(20, 20),
                                                 minimumSize: Size(2, 2)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              openDetails(
+                                                  "Bebidas",
+                                                  "Coca-Cola 2 litros",
+                                                  "Coca-Cola 2 litros",
+                                                  12.00);
+                                            },
                                             child: Transform.rotate(
                                                 angle: 1.64159,
                                                 child: Icon(
@@ -249,7 +262,13 @@ class _MyTableState extends State<MyTable> {
                                                 padding: EdgeInsets.all(3),
                                                 maximumSize: Size(20, 20),
                                                 minimumSize: Size(2, 2)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              openDetails(
+                                                  "Bebidas",
+                                                  "Fanta Lata",
+                                                  "Falta lata  250 ml",
+                                                  5.00);
+                                            },
                                             child: Transform.rotate(
                                                 angle: 1.64159,
                                                 child: Icon(
@@ -308,7 +327,13 @@ class _MyTableState extends State<MyTable> {
                                                 padding: EdgeInsets.all(3),
                                                 maximumSize: Size(20, 20),
                                                 minimumSize: Size(2, 2)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              openDetails(
+                                                  "Sobremessas",
+                                                  "Sorvete Napolitano",
+                                                  "Sorvete napolitano no copo 500 ml",
+                                                  12.00);
+                                            },
                                             child: Transform.rotate(
                                                 angle: 1.64159,
                                                 child: Icon(
@@ -368,7 +393,13 @@ class _MyTableState extends State<MyTable> {
                                                 padding: EdgeInsets.all(3),
                                                 maximumSize: Size(20, 20),
                                                 minimumSize: Size(2, 2)),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              openDetails(
+                                                  "Jantinha",
+                                                  "Prato feito com picanha e salada",
+                                                  "Arroz branco, Feijão tropeiro, mandioca, 100 gramas de picanha e salada de tomate",
+                                                  26.00);
+                                            },
                                             child: Transform.rotate(
                                                 angle: 1.64159,
                                                 child: Icon(
@@ -405,6 +436,183 @@ class _MyTableState extends State<MyTable> {
         ]))));
   }
 
+  Future openDetails(
+          String categoria, String nome, String descricao, double preco) =>
+      showDialog(
+          context: context,
+          builder: (context) => Dialog(
+                  child: Container(
+                width: 480,
+                height: 420,
+                child: ListView(
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          child: Text(
+                            "Detalhes do produto",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Divider(
+                          indent: 8.0,
+                          endIndent: 8.0,
+                          color: Colors.black,
+                        ),
+                        Container(
+                          width: 180,
+                          height: 150,
+                          child: Image.asset("assets/images/burguer1.jpg"),
+                        ),
+                        Divider(
+                          indent: 8.0,
+                          endIndent: 8.0,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 250,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors
+                                            .black), // Estilo padrão para o texto
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "Categoria: ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ), // Estilo normal
+                                      ),
+                                      TextSpan(
+                                        text: categoria, // Texto da variável
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize:
+                                                14), // Estilo para o texto em negrito
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.start, //
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 250,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors
+                                            .black), // Estilo padrão para o texto
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "Nome: ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ), // Estilo normal
+                                      ),
+                                      TextSpan(
+                                        text: nome, // Texto da variável
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize:
+                                                14), // Estilo para o texto em negrito
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.start, //
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 275,
+                                padding: EdgeInsets.only(left: 12),
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors
+                                            .black), // Estilo padrão para o texto
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "Descrição: ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ), // Estilo normal
+                                      ),
+                                      TextSpan(
+                                        text: descricao, // Texto da variável
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14),
+                                        // Estilo para o texto em negrito
+                                      ),
+                                    ],
+                                  ),
+                                  textAlign: TextAlign.start,
+                                  //
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: 250,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors
+                                            .black), // Estilo padrão para o texto
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "Preço: ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ), // Estilo normal
+                                      ),
+                                      TextSpan(
+                                        text: "R\$" +
+                                            preco
+                                                .toString(), // Texto da variável
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize:
+                                                14), // Estilo para o texto em negrito
+                                      ),
+                                    ],
+                                  ),
+                                  //
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))
+                      ],
+                    ),
+                  ],
+                ),
+              )));
   Future removerItem(var teste) => showDialog(
       // função de remover itens do produto
       context: context,
@@ -455,7 +663,7 @@ class _MyTableState extends State<MyTable> {
                               ), // Estilo normal
                             ),
                             TextSpan(
-                              text: teste, // Texto da variável
+                              text: teste + "?", // Texto da variável
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize:
