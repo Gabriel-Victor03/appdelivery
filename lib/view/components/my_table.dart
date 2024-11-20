@@ -59,7 +59,7 @@ class _MyTableState extends State<MyTable> {
                         TableCell(
                           child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(Icons.check_box)),
+                              child: Icon(Icons.library_add_check)),
                         ),
                         TableCell(
                           child: Padding(
@@ -109,12 +109,18 @@ class _MyTableState extends State<MyTable> {
                                   value: false, onChanged: (value) => {})),
                           Padding(
                             padding: const EdgeInsets.all(10),
-                            child: Center(child: Text('Hámburguer')),
+                            child: Center(
+                                child: Text(
+                              'Hámburguer',
+                              textAlign: TextAlign.center,
+                            )),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(6),
                             child: Container(
-                                child: Center(child: Text('X Burguer Duplo'))),
+                                child: Center(
+                                    child: Text('X Burguer Duplo',
+                                        textAlign: TextAlign.center))),
                           ),
                           Padding(
                               padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
@@ -180,8 +186,9 @@ class _MyTableState extends State<MyTable> {
                           Padding(
                             padding: const EdgeInsets.all(6),
                             child: Container(
-                                child:
-                                    Center(child: Text('Coca-Cola 2 litros'))),
+                                child: Center(
+                                    child: Text('Coca-Cola 2 litros',
+                                        textAlign: TextAlign.center))),
                           ),
                           Padding(
                               padding: const EdgeInsets.only(top: 0),
@@ -246,7 +253,9 @@ class _MyTableState extends State<MyTable> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(6),
-                            child: Center(child: Text('Fanta Lata')),
+                            child: Center(
+                                child: Text('Fanta Lata',
+                                    textAlign: TextAlign.center)),
                           ),
                           Padding(
                               padding: const EdgeInsets.only(top: 0),
@@ -311,7 +320,9 @@ class _MyTableState extends State<MyTable> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(6),
-                            child: Center(child: Text('Sorvete Napolitano')),
+                            child: Center(
+                                child: Text('Sorvete Napolitano',
+                                    textAlign: TextAlign.center)),
                           ),
                           Padding(
                               padding: const EdgeInsets.only(top: 0),
@@ -376,8 +387,9 @@ class _MyTableState extends State<MyTable> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(6),
-                            child:
-                                Center(child: Text('Prato feito com picanha')),
+                            child: Center(
+                                child: Text('Prato feito com picanha',
+                                    textAlign: TextAlign.center)),
                           ),
                           Padding(
                               padding: const EdgeInsets.only(top: 0),

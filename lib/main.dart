@@ -1,4 +1,5 @@
 import 'package:appdelivery/view/pages/login_page.dart';
+import 'package:appdelivery/view/pages/orders_pages.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:appdelivery/view/pages/product_page.dart';
 import 'package:appdelivery/view/pages/cart_page.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/painel_adm': (context) => const Paineladministrativo(),
         '/cart': (context) => const CartPage(),
         '/produtos': (context) => const ProductPage(),
+        '/pedidos': (context) => const OrdersPages(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) =>

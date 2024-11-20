@@ -96,7 +96,9 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                             shape: CircleBorder(),
                             //padding: EdgeInsets.all(15)
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/pedidos');
+                          },
                           child: Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
