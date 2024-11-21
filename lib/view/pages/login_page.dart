@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: () => doUserLogin(), // Chamando a função de login
+                 onPressed: () {Navigator.pushReplacementNamed(context, '/painel_adm');},//=> doUserLogin(), // Chamando a função de login
                 child: Text('Login'),
               ),
               TextButton(
