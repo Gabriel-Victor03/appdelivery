@@ -2,16 +2,12 @@ import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
-
-// import 'package:appdelivery/view/components/my_drawer.dart';
-// import 'package:appdelivery/view/components/my_bottombar.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
 class _LoginPageState extends State<LoginPage> {
   @override
@@ -20,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
     false;
     return Scaffold(
       appBar: const MyAppBar(),
-      // endDrawer: MyDrawer(),
       body: Center(
         child: Container(
           height: 350,
@@ -33,41 +28,48 @@ class _LoginPageState extends State<LoginPage> {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(children: [
-              Text(
-                'LOGIN', // Texto adicionado no começo
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20), // Espaçamento entre o texto e o TextField
-
-              Text(
-                'Nome:', // Título acima do primeiro TextField
-                style: TextStyle(fontSize: 16),
+              TextField(
+                controller: usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
               ),
               TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "E-mail",
-                    filled: true,
-                    fillColor: Colors.white),
+                controller: passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
-              SizedBox(height: 40), // Espaçamento entre o texto e o TextField
-              TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Senha",
-                    filled: true,
-                    fillColor: Colors.white),
-              ),
-              SizedBox(height: 40), // Espaçamento entre o texto e o TextField
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/painel_adm');
-                  },
-                  child: Text("Pressione")),
+                onPressed: () => login(context),
+                child: Text('Login'),
+              ),
+              TextButton(
+                onPressed: () => continueWithoutLogin(context),
+                child: Text('Continuar sem login'),
+              ),
             ]),
           ),
         ),
       ),
     );
+  }
+}
+
+void login(BuildContext context) async {
+    final response = await ParseUser .login(
+      usernameController.text,
+      passwordController.text,
+    );
+
+    if (response.success) {
+      // Redirecionar para o painel ADM
+      Navigator.pushReplacementNamed(context, '/adminPanel');
+    } else {
+      // Exibir mensagem de erro
+      print(response.error.message);
+    }
+  }
+
+  void continueWithoutLogin(BuildContext context) {
+    // Redirecionar para o painel sem login
+    Navigator.pushReplacementNamed(context, '/home');
   }
 }
