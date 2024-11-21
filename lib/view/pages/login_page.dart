@@ -5,15 +5,17 @@ import 'package:appdelivery/view/components/my_appbar.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  LoginPage({super.key});
+  final TextEditingController controllerUsername = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    debugShowCheckedModeBanner:
-    false;
     return Scaffold(
       appBar: const MyAppBar(),
       body: Center(
@@ -21,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
           height: 350,
           width: 400,
           decoration: BoxDecoration(
-            //Podemos utilizar a tag decoration para mudarmos a aparência do container
             color: Color.fromARGB(255, 255, 229, 184),
             borderRadius: BorderRadius.circular(20),
           ),
@@ -29,16 +30,16 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.all(8.0),
             child: Column(children: [
               TextField(
-                controller: usernameController,
+                controller: widget.controllerUsername, // Acessando o controlador corretamente
                 decoration: InputDecoration(labelText: 'Username'),
               ),
               TextField(
-                controller: passwordController,
+                controller: widget.controllerPassword, // Acessando o controlador corretamente
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: () => login(context),
+                onPressed: () => doUserLogin(), // Chamando a função de login
                 child: Text('Login'),
               ),
               TextButton(
@@ -51,20 +52,22 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
 
-void login(BuildContext context) async {
-    final response = await ParseUser .login(
-      usernameController.text,
-      passwordController.text,
-    );
+  void doUserLogin() async {
+    final username = widget.controllerUsername.text.trim(); // Acessando o controlador corretamente
+    final password = widget.controllerPassword.text.trim(); // Acessando o controlador corretamente
+
+    final user = ParseUser (username, password, null);
+
+    var response = await user.login();
 
     if (response.success) {
       // Redirecionar para o painel ADM
-      Navigator.pushReplacementNamed(context, '/adminPanel');
+      // Navigator.pushReplacementNamed(context, '/painel_adm');
+      print("sucesso");
     } else {
       // Exibir mensagem de erro
-      print(response.error.message);
+      print(response.error?.message ?? 'Erro desconhecido');
     }
   }
 

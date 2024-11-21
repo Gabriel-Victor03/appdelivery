@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       ),
     ),
     const CartPage(),
-    const LoginPage(),
+    LoginPage(),
     const Paineladministrativo(),
     const ProductPage(),
   ];
