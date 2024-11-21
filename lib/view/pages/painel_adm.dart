@@ -9,7 +9,37 @@ class Paineladministrativo extends StatefulWidget {
 }
 
 class _PaineladministrativoState extends State<Paineladministrativo> {
+  bool isLoading = true; // Para controlar o estado de carregamento
+  bool isAuthenticated = false; // Para verificar se o usuário está autenticado
+
   @override
+  void initState() {
+    super.initState();
+    checkAuthentication();
+  }
+
+  void checkAuthentication() async {
+    final user = await ParseUser .currentUser ();
+    setState(() {
+      isAuthenticated = user != null; // Verifica se o usuário está autenticado
+      isLoading = false; // Atualiza o estado de carregamento
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(
+        appBar: const MyAppBar(),
+        body: Center(child: CircularProgressIndicator()), // Indicador de carregamento
+      );
+    }
+
+    if (!isAuthenticated) {
+      // Se o usuário não estiver autenticado, redireciona para a tela de login
+      Future.microtask(() => Navigator.pushReplacementNamed(context, '/login'));
+      return Container(); // Retorna um container vazio enquanto redireciona
+    }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
