@@ -9,6 +9,8 @@ class OrdersPages extends StatefulWidget {
 }
 
 class _OrdersPagesState extends State<OrdersPages> {
+  List<String> produtos = ["xburguer", "coca-cola"];
+
   final List<Map<String, String>> pedidos = [
     {
       "numero": "0001",
@@ -16,6 +18,7 @@ class _OrdersPagesState extends State<OrdersPages> {
       "nome": "Adauto Turíbio",
       "qtd": "2",
       "nome_Produto": "x Burguer",
+      "adicionais": "1x bacon, 2x cheeder",
       "obs": "Sem tomate",
       "tipo_entrega": "Delivery",
       "endereco": "Rua 01, Centro"
@@ -28,16 +31,18 @@ class _OrdersPagesState extends State<OrdersPages> {
           String obs,
           String tipo_entre,
           String endereco)*/
+
     {
       "numero": "0002",
       "hora": "20:15",
       "nome": "Gabriel Vitor",
       "qtd": "2",
-      "nome_Produto": "x Burguer",
+      "nome_Produto": "",
       "obs": "Sem tomate",
       "tipo_entrega": "Delivery",
       "endereco": "Rua 01, Centro"
     },
+
     {
       "numero": "0003",
       "hora": "21:00",
@@ -52,7 +57,7 @@ class _OrdersPagesState extends State<OrdersPages> {
       "numero": "0004",
       "hora": "22:30",
       "nome": "Rafael Feitosa",
-      "qtd": "2",
+      "qtd": "3",
       "nome_Produto": "x Burguer",
       "obs": "Sem tomate",
       "tipo_entrega": "Delivery",
@@ -62,7 +67,7 @@ class _OrdersPagesState extends State<OrdersPages> {
       "numero": "0005",
       "hora": "22:31",
       "nome": "Eric Ferreira",
-      "qtd": "2",
+      "qtd": "1",
       "nome_Produto": "x Burguer",
       "obs": "Sem tomate",
       "tipo_entrega": "Delivery",
@@ -168,14 +173,20 @@ class _OrdersPagesState extends State<OrdersPages> {
                                           minimumSize: Size(5, 5)),
                                       onPressed: () {
                                         openDetails(
-                                            "$pedidos['index']['numero']"!,
-                                            "$pedidos['index']['horario']"!,
-                                            "$pedidos['index']['nome']"!,
-                                            "$pedidos['index']['qtd']"!,
-                                            "$pedidos['index']['nome_produto']"!,
-                                            "$pedidos['index']['obs']"!,
-                                            "$pedidos['index']['tipo_entrega']"!,
-                                            "$pedidos['index']['endereco']"!);
+                                            pedidos[index]['numero'].toString(),
+                                            pedidos[index]["hora"].toString(),
+                                            pedidos[index]['nome'].toString(),
+                                            pedidos[index]['qtd'].toString(),
+                                            pedidos[index]['nome_Produto']
+                                                .toString(),
+                                            pedidos[index]['adicionais']
+                                                .toString()
+                                                .toString(),
+                                            pedidos[index]['obs'].toString(),
+                                            pedidos[index]['tipo_entrega']
+                                                .toString(),
+                                            pedidos[index]['endereco']
+                                                .toString());
                                       },
                                       child: Transform.rotate(
                                         angle: 1.64159,
@@ -210,6 +221,7 @@ class _OrdersPagesState extends State<OrdersPages> {
           String nome,
           String quantidade,
           String nome_Produto,
+          String add,
           String obs,
           String tipo_entre,
           String endereco) =>
@@ -221,7 +233,11 @@ class _OrdersPagesState extends State<OrdersPages> {
                 height: 420,
                 child: ListView(children: [
                   Column(children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
+                      width: 240,
                       child: RichText(
                         text: TextSpan(
                           style: TextStyle(
@@ -233,13 +249,13 @@ class _OrdersPagesState extends State<OrdersPages> {
                               text: "Pedido: ",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 20,
                               ), // Estilo normal
                             ),
                             TextSpan(
                               text: numPed, // Texto da variável
                               style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 14),
+                                  fontWeight: FontWeight.normal, fontSize: 20),
                               // Estilo para o texto em negrito
                             ),
                           ],
@@ -247,6 +263,124 @@ class _OrdersPagesState extends State<OrdersPages> {
                         textAlign: TextAlign.start,
                         //
                       ),
+                    ),
+                    Container(
+                      width: 240,
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                              fontSize: 24,
+                              color:
+                                  Colors.black), // Estilo padrão para o texto
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Horario: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ), // Estilo normal
+                            ),
+                            TextSpan(
+                              text: horario, // Texto da variável
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 20),
+                              // Estilo para o texto em negrito
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.start,
+                        //
+                      ),
+                    ),
+                    Container(
+                      width: 240,
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                              fontSize: 24,
+                              color:
+                                  Colors.black), // Estilo padrão para o texto
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Cliente: ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ), // Estilo normal
+                            ),
+                            TextSpan(
+                              text: nome, // Texto da variável
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 20),
+                              // Estilo para o texto em negrito
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.start,
+                        //
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(
+                      indent: 10,
+                      endIndent: 10,
+                      color: Colors.black,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Container(
+                          child: Text("Qt"),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          child: Text("Produto"),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          child: Text("Add"),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(child: Text("Observações")),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          child: Text(quantidade),
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Container(
+                          child: Text(nome_Produto),
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Container(
+                          child: Text(add),
+                        ),
+                        SizedBox(
+                          width: 25,
+                        ),
+                        Container(
+                          child: Text(obs, textAlign: TextAlign.center),
+                        ),
+                      ],
                     )
                   ]),
                 ]))),
