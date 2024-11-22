@@ -296,6 +296,85 @@ class _PaineladministrativoState extends State<Paineladministrativo> {
                   SizedBox(
                     height: 20,
                   ),
+
+                  /* Stack(
+                    // container de pedidos
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 229, 184),
+                            borderRadius: BorderRadius.circular(10)),
+                        width: 350,
+                        height: 150,
+                      ),
+                      Positioned(
+                          left: 29,
+                          top: 23,
+                          child: Container(
+                            child: Icon(
+                              Icons.content_paste_search_sharp,
+                              size: 65,
+                            ),
+                          )),
+                      Positioned(
+                        left: 23,
+                        top: 90,
+                        child: Container(
+                          child: Text(
+                            "Adicionais",
+                            style: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 130,
+                        child: SizedBox(
+                          height: 150,
+                          child: VerticalDivider(
+                            color: const Color.fromARGB(48, 0, 0, 0),
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 150,
+                        top: 23,
+                        child: Container(
+                          child: Text(
+                            "Adicione, altere e remova" +
+                                "\nadicionais do cardápio ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 260,
+                        top: 90,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                            shape: CircleBorder(),
+                            //padding: EdgeInsets.all(15)
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/adicionais');
+                          },
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),*/
+
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         elevation: 0.0,

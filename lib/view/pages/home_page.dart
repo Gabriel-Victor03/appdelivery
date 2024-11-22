@@ -3,10 +3,12 @@ import 'package:appdelivery/view/components/my_drawer.dart';
 import 'package:appdelivery/view/components/my_bottombar.dart';
 import 'package:appdelivery/view/components/my_appbar.dart';
 import 'package:appdelivery/view/components/my_slider.dart';
+import 'package:appdelivery/view/pages/additional_page.dart';
 import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:appdelivery/view/pages/login_page.dart';
 import 'package:appdelivery/view/pages/product_page.dart';
 import 'package:appdelivery/view/pages/cart_page.dart';
+import 'package:appdelivery/view/pages/additional_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     LoginPage(),
     const Paineladministrativo(),
     const ProductPage(),
+    const AdditionalPage()
   ];
 
   void _selectPage(int index) {
