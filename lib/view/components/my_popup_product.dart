@@ -11,7 +11,11 @@ class MyPopupProduct extends StatefulWidget {
 class _MyPopupProductState extends State<MyPopupProduct> {
   List<ParseObject> tasks = [];
   TextEditingController taskController = TextEditingController();
-
+  @override
+  void initState() {
+    super.initState();
+    fetchCategorias(); // Carrega as categorias ao iniciar o widget
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -207,198 +211,40 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   height: 190,
                   child: SingleChildScrollView(
                     child: Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8),
-                                width: 180,
-                                child: Text(
-                                  "Hambúrguer",
-                                  style: TextStyle(fontSize: 14),
-                                ),
+                      children: tasks.map((task) {
+                        return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 8),
+                            width: 180,
+                            child: Text(
+                              task.get<String>('nome') ?? '',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                removerItem(task.get<String>('nome'));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.all(2),
+                                maximumSize: Size(20, 20),
+                                minimumSize: Size(5, 5),
                               ),
-                              Container(
-                                //  padding: EdgeInsets.only(left: 190),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    removerItem("Hambúrguer");
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.all(
-                                        2), // Espaçamento interno
-                                    maximumSize: Size(20, 20),
-                                    minimumSize: Size(5, 5),
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                                size: 15,
                               ),
-                            ]),
-                        Divider(
-                          indent: 10.0,
-                          endIndent: 10.0,
-                          color: Colors.black,
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8),
-                                width: 180,
-                                child: Text(
-                                  "Bebidas",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                              Container(
-                                //  padding: EdgeInsets.only(left: 190),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    removerItem("Bebidas");
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.all(
-                                        2), // Espaçamento interno
-                                    maximumSize: Size(20, 20),
-                                    minimumSize: Size(5, 5),
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        Divider(
-                          indent: 10.0,
-                          endIndent: 10.0,
-                          color: Colors.black,
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8),
-                                width: 180,
-                                child: Text(
-                                  "Sobremessas",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                              Container(
-                                //  padding: EdgeInsets.only(left: 190),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    removerItem("Sobremessas");
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.all(
-                                        2), // Espaçamento interno
-                                    maximumSize: Size(20, 20),
-                                    minimumSize: Size(5, 5),
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        Divider(
-                          indent: 10.0,
-                          endIndent: 10.0,
-                          color: Colors.black,
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8),
-                                width: 180,
-                                child: Text(
-                                  "Combos",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                              Container(
-                                //  padding: EdgeInsets.only(left: 190),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    removerItem("Combos");
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.all(
-                                        2), // Espaçamento interno
-                                    maximumSize: Size(20, 20),
-                                    minimumSize: Size(5, 5),
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        Divider(
-                          indent: 10.0,
-                          endIndent: 10.0,
-                          color: Colors.black,
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 8),
-                                width: 180,
-                                child: Text(
-                                  "Jantinhas",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                              Container(
-                                //  padding: EdgeInsets.only(left: 190),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    removerItem("Jantinhas");
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.all(
-                                        2), // Espaçamento interno
-                                    maximumSize: Size(20, 20),
-                                    minimumSize: Size(5, 5),
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                    size: 15,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        Divider(
-                          indent: 10.0,
-                          endIndent: 10.0,
-                          color: Colors.black,
-                        ),
-                      ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
                     ),
                   ),
                 ),
@@ -444,7 +290,20 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ),
         ),
       );
+Future<void> fetchCategorias() async {
+  final QueryBuilder<ParseObject> query =
+      QueryBuilder<ParseObject>(ParseObject('Categoria'));
+  
+  var response = await query.query();
 
+  if (response.success && response.results != null) {
+    setState(() {
+      tasks = response.results!.cast<ParseObject>();
+    });
+  } else {
+    print("Erro ao buscar categorias: ${response.error?.message}");
+  }
+}
   Future<void> addCategoria() async {
     String task = taskController.text.trim();
     if (task.isNotEmpty) {
