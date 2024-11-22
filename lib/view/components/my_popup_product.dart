@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -67,122 +68,100 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     ));
   }
 
-  Future<void> removerItemCategoria(String categoriaNome) => showDialog(
-      // função de remover itens da categoria
-      context: context,
-      builder: (context) => Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusDirectional.circular(10)),
-            backgroundColor: Colors.white,
-            child: Container(
-              width: 450,
-              height: 225,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    child: Text(
-                      "Remover Categoria",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    indent: 10.0,
-                    endIndent: 10.0,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    alignment: Alignment.topCenter,
-                    width: 270,
-                    child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.black), // Estilo padrão para o texto
-                        children: <TextSpan>[
-                          TextSpan(
-                            text:
-                                "Tem certeza que deseja remover a categoria ", // O restante do texto
-                            //textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 18,
-                            ), // Estilo normal
-                          ),
-                          TextSpan(
-                            text: categoriaNome, // Texto da variável
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18), // Estilo para o texto em negrito
-                          ),
-                        ],
+  Future<void> removerItemCategoria(String objectId, String categoriaNome) {
+  return showDialog(
+    context: context,
+    builder: (context) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusDirectional.circular(10),
+      ),
+      backgroundColor: Colors.white,
+      child: Container(
+        width: 450,
+        height: 225,
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Text(
+              "Remover Categoria",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            Divider(color: Colors.black, indent: 10.0, endIndent: 10.0),
+            SizedBox(height: 15),
+            Container(
+              alignment: Alignment.topCenter,
+              width: 270,
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "Tem certeza que deseja remover a categoria ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
                       ),
-                      textAlign: TextAlign.center, //
                     ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 15),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(12),
-                                      side: BorderSide(
-                                          color: const Color.fromARGB(
-                                              86, 0, 0, 0)))),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                "Cancelar",
-                                style: TextStyle(
-                                    color: const Color.fromARGB(255, 0, 0, 0)),
-                              )),
-                        ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        Container(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 211, 35, 23),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12))),
-                              onPressed: () {
-                                removerCategoria(categoriaNome);
-                                Navigator.of(context).pop();
-                              },
-                              child: Center(
-                                child: Text(
-                                  "Sim",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                        )
-                      ],
+                    TextSpan(
+                      text: categoriaNome,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                  )
-                ],
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
-          ));
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Color.fromARGB(86, 0, 0, 0)),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Fecha o diálogo
+                  },
+                  child: Text(
+                    "Cancelar",
+                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 211, 35, 23),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    removerCategoria(objectId, categoriaNome); // Chama a função para remover a categoria
+                    Navigator.of(context).pop(); // Fecha o diálogo
+                  },
+                  child: Text(
+                    "Sim",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
   Future openDialog() => showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -232,8 +211,13 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                           Container(
                             child: ElevatedButton(
                               onPressed: () {
+                                String objectId = task.objectId ?? '';
                                 String categoriaNome = task.get<String>('nome') ?? '';
-                                removerItemCategoria(categoriaNome);
+                                if (objectId.isNotEmpty) {
+                                    removerItemCategoria(objectId, categoriaNome);
+                                  } else {
+                                    print('Erro: objectId está vazio');
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
@@ -298,30 +282,17 @@ class _MyPopupProductState extends State<MyPopupProduct> {
         ),
       );
 
-// Função para remover uma categoria do banco de dados
-Future<void> removerCategoria(String categoriaNome) async {
-  // Cria uma consulta para encontrar a categoria
-  final query = QueryBuilder<ParseObject>(ParseObject('Categoria'))
-    ..whereEqualTo('nome', categoriaNome);
+Future<void> removerCategoria(String objectId, String categoriaNome) async {
+  final categoria = ParseObject('Categoria')..objectId = objectId;
 
-  // Executa a consulta
-  final response = await query.query();
+  // Remove a categoria
+  final deleteResponse = await categoria.delete();
 
-  if (response.success && response.results != null && response.results!.isNotEmpty) {
-    // Obtém o primeiro resultado
-    final categoria = response.results!.first;
-
-    // Remove a categoria
-    final deleteResponse = await categoria.delete();
-
-    if (deleteResponse.success) {
-      await fetchCategorias();
-      print('Categoria removida com sucesso: $categoriaNome');
-    } else {
-      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
-    }
+  if (deleteResponse.success) {
+    await fetchCategorias();
+    print('Categoria removida com sucesso: $objectId');
   } else {
-    print('Categoria não encontrada: $categoriaNome');
+    print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
   }
 }
 
@@ -349,6 +320,7 @@ Future<void> fetchCategorias() async {
       if (response.success) {
         setState(() {
           tasks.add(categoria);
+            fetchCategorias();
           print("Enviou");
         });
         taskController.clear();
