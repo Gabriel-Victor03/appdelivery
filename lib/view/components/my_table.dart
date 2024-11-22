@@ -1,5 +1,6 @@
 import 'package:appdelivery/view/components/my_popup_product.dart';
 import 'package:appdelivery/view/components/my_popup_newproduct.dart';
+import 'package:appdelivery/view/pages/product_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -15,385 +16,214 @@ class MyTable extends StatefulWidget {
 }
 
 class _MyTableState extends State<MyTable> {
+  final List<Map<String, String>> produtos = [
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "Jatinha com picanha e salada",
+      "categoria": "Jatinha",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+    {
+      "nome": "X Burguer Duplo",
+      "categoria": "Hámburguer",
+      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
+      "preco": "28,9"
+    },
+
+    // Adicione mais pedidos aqui conforme necessário
+  ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: SingleChildScrollView(
-                child: Column(children: [
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Text(
-              "Produtos",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Padding(
+            Center(
+              child: Text(
+                "Pedidos",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Table(
-                  border:
-                      TableBorder.all(borderRadius: BorderRadius.circular(3)),
-                  // Adiciona borda em torno da tabela
-                  columnWidths: {
-                    0: FlexColumnWidth(
-                        0.3), // Define a largura da primeira coluna
-                    1: FlexColumnWidth(
-                        0.8), // Define a largura da segunda coluna
-                    2: FlexColumnWidth(
-                        0.7), // Define a largura da terceira coluna
-                    3: FlexColumnWidth(0.8),
-                  },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(
+                      color: const Color.fromARGB(
+                          255, 0, 0, 0)), // Borda para o container
+                ),
+                child: Column(
                   children: [
-                    TableRow(
+                    // Cabeçalho
+                    Container(
+                      width: 450,
+                      padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 229, 184),
-                        // Cor de fundo para o cabeçalho
                       ),
-                      children: [
-                        TableCell(
-                          child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(Icons.library_add_check)),
-                        ),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                'CATEGORIA',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                'NOME',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                'AÇÕES',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Linhas de dados
-
-                    TableRow(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Checkbox(
-                                  value: false, onChanged: (value) => {})),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Center(
-                                child: Text(
-                              'Hámburguer',
-                              textAlign: TextAlign.center,
-                            )),
+                          Expanded(child: Icon(Icons.checklist)),
+                          Expanded(
+                              child: Text('CATEGORIA',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold))),
+                          Expanded(
+                              child: Text('NOME',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold))),
+                          Container(
+                            //margin: EdgeInsets.only(right: 30),
+                            child: Expanded(
+                                child: Text('AÇÕES',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Container(
-                                child: Center(
-                                    child: Text('X Burguer Duplo',
-                                        textAlign: TextAlign.center))),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
-                              child: Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Center(
+                        ],
+                      ),
+                    ),
+                    // ListView de produtos
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics:
+                          NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
+                      itemCount: produtos.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 229, 184)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                  child: Checkbox(
+                                      value: false, onChanged: (value) => {})),
+                              Expanded(
+                                  child: Text(produtos[index]["categoria"]!,
+                                      textAlign: TextAlign.center)),
+
+                              Expanded(
+                                  child: Text(produtos[index]["nome"]!,
+                                      textAlign: TextAlign.center)),
+
+                              //VerticalDivider(color: Colors.b,),
+                              Container(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                child: Expanded(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Color.fromARGB(
+                                                          255, 130, 30, 60),
+                                                  padding: EdgeInsets.all(3),
+                                                  maximumSize: Size(25, 25),
+                                                  minimumSize: Size(5, 5)),
+                                              onPressed: () {
+                                                openDetails(
+                                                    produtos[index]['categoria']
+                                                        .toString(),
+                                                    produtos[index]['nome']
+                                                        .toString(),
+                                                    produtos[index]['descricao']
+                                                        .toString(),
+                                                    produtos[index]['preco']
+                                                        .toString());
+                                              },
+                                              child: Transform.rotate(
+                                                  angle: 1.64159,
+                                                  child: Icon(
+                                                    Icons.search,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  )))),
+                                      Container(
+                                        //margin: EdgeInsets.only(right: 1000),
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 130, 30, 60),
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 255, 17, 0),
                                                 padding: EdgeInsets.all(3),
-                                                maximumSize: Size(28, 28),
+                                                maximumSize: Size(25, 25),
                                                 minimumSize: Size(5, 5)),
                                             onPressed: () {
-                                              openDetails(
-                                                  "Hámburguer",
-                                                  "X Burguer Duplo",
-                                                  "Pão, 2 hambúrgueres 180g, bacon, ovo, cheddar",
-                                                  28.90);
+                                              removerItem(
+                                                  produtos[index]['nome']);
                                             },
-                                            child: Transform.rotate(
-                                                angle: 1.64159,
-                                                child: Icon(
-                                                  Icons.search,
-                                                  color: Colors.white,
-                                                  size: 15,
-                                                )))),
-                                    Center(
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red,
-                                              padding: EdgeInsets.all(3),
-                                              maximumSize: Size(20, 20),
-                                              minimumSize: Size(2, 2)),
-                                          onPressed: () {
-                                            removerItem("X Burguer Duplo");
-                                          },
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 15,
-                                          )),
-                                    )
-                                  ],
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                              size: 18,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ))
-                        ]),
-                    TableRow(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                        ),
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Checkbox(
-                                  value: false, onChanged: (value) => {})),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
-                            child: Center(child: Text('Bebidas')),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Container(
-                                child: Center(
-                                    child: Text('Coca-Cola 2 litros',
-                                        textAlign: TextAlign.center))),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                        child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 130, 30, 60),
-                                                padding: EdgeInsets.all(3),
-                                                maximumSize: Size(20, 20),
-                                                minimumSize: Size(2, 2)),
-                                            onPressed: () {
-                                              openDetails(
-                                                  "Bebidas",
-                                                  "Coca-Cola 2 litros",
-                                                  "Coca-Cola 2 litros",
-                                                  12.00);
-                                            },
-                                            child: Transform.rotate(
-                                                angle: 1.64159,
-                                                child: Icon(
-                                                  Icons.search,
-                                                  color: Colors.white,
-                                                  size: 15,
-                                                )))),
-                                    Center(
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red,
-                                              padding: EdgeInsets.all(3),
-                                              maximumSize: Size(20, 20),
-                                              minimumSize: Size(2, 2)),
-                                          onPressed: () {
-                                            removerItem("Coca-Cola 2 litros");
-                                          },
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 15,
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ]),
-                    TableRow(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                        ),
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Checkbox(
-                                  value: false, onChanged: (value) => {})),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
-                            child: Center(child: Text('Bebidas')),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Center(
-                                child: Text('Fanta Lata',
-                                    textAlign: TextAlign.center)),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                        child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 130, 30, 60),
-                                                padding: EdgeInsets.all(3),
-                                                maximumSize: Size(20, 20),
-                                                minimumSize: Size(2, 2)),
-                                            onPressed: () {
-                                              openDetails(
-                                                  "Bebidas",
-                                                  "Fanta Lata",
-                                                  "Falta lata  250 ml",
-                                                  5.00);
-                                            },
-                                            child: Transform.rotate(
-                                                angle: 1.64159,
-                                                child: Icon(
-                                                  Icons.search,
-                                                  color: Colors.white,
-                                                  size: 15,
-                                                )))),
-                                    Center(
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red,
-                                              padding: EdgeInsets.all(3),
-                                              maximumSize: Size(20, 20),
-                                              minimumSize: Size(2, 2)),
-                                          onPressed: () {
-                                            removerItem("Fanta Lata");
-                                          },
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 15,
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ]),
-                    TableRow(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                        ),
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Checkbox(
-                                  value: false, onChanged: (value) => {})),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
-                            child: Center(child: Text('sobremessa')),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Center(
-                                child: Text('Sorvete Napolitano',
-                                    textAlign: TextAlign.center)),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                        child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 130, 30, 60),
-                                                padding: EdgeInsets.all(3),
-                                                maximumSize: Size(20, 20),
-                                                minimumSize: Size(2, 2)),
-                                            onPressed: () {
-                                              openDetails(
-                                                  "Sobremessas",
-                                                  "Sorvete Napolitano",
-                                                  "Sorvete napolitano no copo 500 ml",
-                                                  12.00);
-                                            },
-                                            child: Transform.rotate(
-                                                angle: 1.64159,
-                                                child: Icon(
-                                                  Icons.search,
-                                                  color: Colors.white,
-                                                  size: 15,
-                                                )))),
-                                    Center(
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red,
-                                              padding: EdgeInsets.all(3),
-                                              maximumSize: Size(20, 20),
-                                              minimumSize: Size(2, 2)),
-                                          onPressed: () {
-                                            removerItem("Sorvete Napolitano");
-                                          },
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 15,
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ]),
-                    TableRow(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 229, 184),
-                        ),
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Checkbox(
-                                  value: false, onChanged: (value) => {})),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 5, 3, 2),
-                            child: Center(child: Text('Jatinha')),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: Center(
-                                child: Text('Prato feito com picanha',
-                                    textAlign: TextAlign.center)),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Container(
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            MyPopupNewproduct(),
+            MyPopupProduct(),
+          ],
+        ),
+      ),
+    );
+  }
+  /*Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -439,17 +269,10 @@ class _MyTableState extends State<MyTable> {
                                           )),
                                     )
                                   ],
-                                ),
-                              )),
-                        ]),
-                  ])),
-          MyPopupNewproduct(),
-          MyPopupProduct(),
-        ]))));
-  }
+                                ),*/
 
   Future openDetails(
-          String categoria, String nome, String descricao, double preco) =>
+          String categoria, String nome, String descricao, String preco) =>
       showDialog(
           context: context,
           builder: (context) => Dialog(

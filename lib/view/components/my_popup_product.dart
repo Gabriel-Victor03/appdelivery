@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+
 class MyPopupProduct extends StatefulWidget {
   const MyPopupProduct({super.key});
 
@@ -16,6 +17,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     super.initState();
     fetchCategorias(); // Carrega as categorias ao iniciar o widget
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -68,106 +70,110 @@ class _MyPopupProductState extends State<MyPopupProduct> {
   }
 
   Future<void> removerItemCategoria(String objectId, String categoriaNome) {
-  return showDialog(
-    context: context,
-    builder: (context) => Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusDirectional.circular(10),
-      ),
-      backgroundColor: Colors.white,
-      child: Container(
-        width: 450,
-        height: 225,
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "Remover Categoria",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            Divider(color: Colors.black, indent: 10.0, endIndent: 10.0),
-            SizedBox(height: 15),
-            Container(
-              alignment: Alignment.topCenter,
-              width: 270,
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(fontSize: 24, color: Colors.black),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "Tem certeza que deseja remover a categoria ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 18,
-                      ),
-                    ),
-                    TextSpan(
-                      text: categoriaNome,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+    return showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusDirectional.circular(10),
+        ),
+        backgroundColor: Colors.white,
+        child: Container(
+          width: 450,
+          height: 225,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Text(
+                "Remover Categoria",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Color.fromARGB(86, 0, 0, 0)),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Fecha o diálogo
-                  },
-                  child: Text(
-                    "Cancelar",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 211, 35, 23),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () {
-                    removerCategoria(objectId, categoriaNome); // Chama a função para remover a categoria
-                    Navigator.of(context).pop(); // Fecha o diálogo
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Categoria removida com sucesso!'),
-                        duration: Duration(seconds: 1), // Tempo que o SnackBar ficará visível
+              Divider(color: Colors.black, indent: 10.0, endIndent: 10.0),
+              SizedBox(height: 15),
+              Container(
+                alignment: Alignment.topCenter,
+                width: 270,
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontSize: 24, color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Tem certeza que deseja remover a categoria ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 18,
+                        ),
                       ),
-                    );
-                  },
-                  child: Text(
-                    "Sim",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      TextSpan(
+                        text: categoriaNome,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: Color.fromARGB(86, 0, 0, 0)),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Fecha o diálogo
+                    },
+                    child: Text(
+                      "Cancelar",
+                      style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 211, 35, 23),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      removerCategoria(objectId,
+                          categoriaNome); // Chama a função para remover a categoria
+                      Navigator.of(context).pop(); // Fecha o diálogo
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Categoria removida com sucesso!'),
+                          duration: Duration(
+                              seconds:
+                                  1), // Tempo que o SnackBar ficará visível
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Sim",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   Future openDialog() => showDialog(
         context: context,
         builder: (context) => Dialog(
@@ -203,45 +209,47 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                     child: Column(
                       children: tasks.map((task) {
                         return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 8),
-                            width: 180,
-                            child: Text(
-                              task.get<String>('nome') ?? '',
-                              style: TextStyle(fontSize: 14),
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 8),
+                              width: 180,
+                              child: Text(
+                                task.get<String>('nome') ?? '',
+                                style: TextStyle(fontSize: 14),
+                              ),
                             ),
-                          ),
-                          // Chama a função do Diálogo.
-                          Container(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                String objectId = task.objectId ?? '';
-                                String categoriaNome = task.get<String>('nome') ?? '';
-                                if (objectId.isNotEmpty) {
-                                    removerItemCategoria(objectId, categoriaNome);
+                            // Chama a função do Diálogo.
+                            Container(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  String objectId = task.objectId ?? '';
+                                  String categoriaNome =
+                                      task.get<String>('nome') ?? '';
+                                  if (objectId.isNotEmpty) {
+                                    removerItemCategoria(
+                                        objectId, categoriaNome);
                                   } else {
                                     print('Erro: objectId está vazio');
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: CircleBorder(),
-                                backgroundColor: Colors.red,
-                                padding: EdgeInsets.all(2),
-                                maximumSize: Size(20, 20),
-                                minimumSize: Size(5, 5),
-                              ),
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                                size: 15,
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: CircleBorder(),
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.all(2),
+                                  maximumSize: Size(20, 20),
+                                  minimumSize: Size(5, 5),
+                                ),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                          ],
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -284,11 +292,13 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Categoria adicionada com sucesso!'),
-                            duration: Duration(seconds: 1), // Tempo que o SnackBar ficará visível
+                            duration: Duration(
+                                seconds:
+                                    1), // Tempo que o SnackBar ficará visível
                           ),
                         );
                       },
-                          child: Icon(Icons.check, color: Colors.white, size: 20),
+                      child: Icon(Icons.check, color: Colors.white, size: 20),
                     ),
                   ],
                 ),
@@ -298,34 +308,35 @@ class _MyPopupProductState extends State<MyPopupProduct> {
         ),
       );
 
-Future<void> removerCategoria(String objectId, String categoriaNome) async {
-  final categoria = ParseObject('Categoria')..objectId = objectId;
+  Future<void> removerCategoria(String objectId, String categoriaNome) async {
+    final categoria = ParseObject('Categoria')..objectId = objectId;
 
-  // Remove a categoria
-  final deleteResponse = await categoria.delete();
+    // Remove a categoria
+    final deleteResponse = await categoria.delete();
 
-  if (deleteResponse.success) {
-    await fetchCategorias();
-    print('Categoria removida com sucesso: $objectId');
-  } else {
-    print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
+    if (deleteResponse.success) {
+      await fetchCategorias();
+      print('Categoria removida com sucesso: $objectId');
+    } else {
+      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
+    }
   }
-}
 
-Future<void> fetchCategorias() async {
-  final QueryBuilder<ParseObject> query =
-      QueryBuilder<ParseObject>(ParseObject('Categoria'));
-  
-  var response = await query.query();
+  Future<void> fetchCategorias() async {
+    final QueryBuilder<ParseObject> query =
+        QueryBuilder<ParseObject>(ParseObject('Categoria'));
 
-  if (response.success && response.results != null) {
-    setState(() {
-      tasks = response.results!.cast<ParseObject>();
-    });
-  } else {
-    print("Erro ao buscar categorias: ${response.error?.message}");
+    var response = await query.query();
+
+    if (response.success && response.results != null) {
+      setState(() {
+        tasks = response.results!.cast<ParseObject>();
+      });
+    } else {
+      print("Erro ao buscar categorias: ${response.error?.message}");
+    }
   }
-}
+
   Future<void> addCategoria() async {
     String task = taskController.text.trim();
     if (task.isNotEmpty) {
@@ -336,7 +347,7 @@ Future<void> fetchCategorias() async {
       if (response.success) {
         setState(() {
           tasks.add(categoria);
-            fetchCategorias();
+          fetchCategorias();
           print("Enviou");
         });
         taskController.clear();
