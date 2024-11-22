@@ -9,48 +9,20 @@ class MyDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          ListTile(
-            title: Text(
-              'Administração',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 130, 30, 60),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 16.0), // Adiciona espaço no topo
+            child: ListTile(
+              title: Text(
+                'Administração',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 130, 30, 60),
+                ),
               ),
             ),
           ),
-          /*Padding(
-            padding: EdgeInsets.all(16.0),
-            child: TextButton(
-              onTap: () => Navigator.pushNamed(context,
-                    '/login'),// Ação de navegação para o painel de administração
-              
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                backgroundColor: Colors.transparent, // Remove o fundo
-              ),
-
-
-              
-              child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.start, // Alinha o conteúdo à esquerda
-                children: [
-                  Icon(Icons.login, color: Colors.black), // Ícone de login
-                  SizedBox(width: 8), // Espaço entre o ícone e o texto
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: 'Arial',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),*/
-
           ListTile(
             leading: Icon(
               Icons.login,
