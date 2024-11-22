@@ -144,6 +144,13 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   onPressed: () {
                     removerCategoria(objectId, categoriaNome); // Chama a função para remover a categoria
                     Navigator.of(context).pop(); // Fecha o diálogo
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Categoria removida com sucesso!'),
+                        duration: Duration(seconds: 1), // Tempo que o SnackBar ficará visível
+                      ),
+                    );
                   },
                   child: Text(
                     "Sim",
@@ -271,8 +278,18 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               borderRadius: BorderRadius.circular(10)),
                           maximumSize: Size(50, 30),
                           minimumSize: Size(20, 5)),
-                      onPressed: addCategoria,
-                      child: Icon(Icons.check, color: Colors.white, size: 20),
+                      onPressed: () async {
+                        await addCategoria(); // Chama a função para adicionar a categoria
+
+                        // Exibe um SnackBar após adicionar a categoria
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Categoria adicionada com sucesso!'),
+                            duration: Duration(seconds: 1), // Tempo que o SnackBar ficará visível
+                          ),
+                        );
+                      },
+                          child: Icon(Icons.check, color: Colors.white, size: 20),
                     ),
                   ],
                 ),
