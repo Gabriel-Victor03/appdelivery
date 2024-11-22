@@ -67,7 +67,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     ));
   }
 
-  Future removerItem(var teste) => showDialog(
+  Future<void> removerItemCategoria(String categoriaNome) => showDialog(
       // função de remover itens da categoria
       context: context,
       builder: (context) => Dialog(
@@ -116,7 +116,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                             ), // Estilo normal
                           ),
                           TextSpan(
-                            text: teste, // Texto da variável
+                            text: categoriaNome, // Texto da variável
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18), // Estilo para o texto em negrito
@@ -143,7 +143,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                                       side: BorderSide(
                                           color: const Color.fromARGB(
                                               86, 0, 0, 0)))),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
                               child: Text(
                                 "Cancelar",
                                 style: TextStyle(
@@ -160,7 +162,10 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                                       const Color.fromARGB(255, 211, 35, 23),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12))),
-                              onPressed: () {},
+                              onPressed: () {
+                                removerCategoria(categoriaNome);
+                                Navigator.of(context).pop();
+                              },
                               child: Center(
                                 child: Text(
                                   "Sim",
@@ -223,10 +228,12 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
+                          // Chama a função do Diálogo.
                           Container(
                             child: ElevatedButton(
                               onPressed: () {
-                                removerItem(task.get<String>('nome'));
+                                String categoriaNome = task.get<String>('nome') ?? '';
+                                removerItemCategoria(categoriaNome);
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: CircleBorder(),
@@ -290,6 +297,34 @@ class _MyPopupProductState extends State<MyPopupProduct> {
           ),
         ),
       );
+
+// Função para remover uma categoria do banco de dados
+Future<void> removerCategoria(String categoriaNome) async {
+  // Cria uma consulta para encontrar a categoria
+  final query = QueryBuilder<ParseObject>(ParseObject('Categoria'))
+    ..whereEqualTo('nome', categoriaNome);
+
+  // Executa a consulta
+  final response = await query.query();
+
+  if (response.success && response.results != null && response.results!.isNotEmpty) {
+    // Obtém o primeiro resultado
+    final categoria = response.results!.first;
+
+    // Remove a categoria
+    final deleteResponse = await categoria.delete();
+
+    if (deleteResponse.success) {
+      await fetchCategorias();
+      print('Categoria removida com sucesso: $categoriaNome');
+    } else {
+      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
+    }
+  } else {
+    print('Categoria não encontrada: $categoriaNome');
+  }
+}
+
 Future<void> fetchCategorias() async {
   final QueryBuilder<ParseObject> query =
       QueryBuilder<ParseObject>(ParseObject('Categoria'));
