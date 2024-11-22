@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-
 class MyPopupProduct extends StatefulWidget {
   const MyPopupProduct({super.key});
 
