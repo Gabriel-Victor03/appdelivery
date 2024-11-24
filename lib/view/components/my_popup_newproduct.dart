@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -130,7 +129,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                                 items: tasks.map((ParseObject category) {
                                   return DropdownMenuItem<String>(
                                     value: category.objectId,
-                                    child: Text(category.get<String>('nome') ?? 'Categoria sem nome'), // Nome da categoria
+                                    child: Text(category.get<String>('nome') ?? 'Categoria sem nome'),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
