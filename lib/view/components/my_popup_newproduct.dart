@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyPopupNewproduct extends StatefulWidget {
   const MyPopupNewproduct({super.key});
@@ -10,7 +11,17 @@ class MyPopupNewproduct extends StatefulWidget {
 }
 
 class _MyPopupNewproductState extends State<MyPopupNewproduct> {
+  List<ParseObject> tasks = [];
   XFile? imagem;
+  String? selectedCategory;
+
+  TextEditingController taskController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategorias();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +119,29 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                             margin: EdgeInsets.fromLTRB(25, 0, 0, 0),
                             child: Container(
                               width: 100,
-                              child: DropdownButton(
-                                  items: null,
-                                  onChanged: (value) => (),
-                                  dropdownColor:
-                                      const Color.fromARGB(255, 255, 255, 255)),
                               decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(5)),
-                            )),
+                                  
+                              child: DropdownButton(
+                                value: selectedCategory, // Valor selecionado
+                                hint: Text("Selecione"),
+                                isExpanded: true, 
+                                items: tasks.map((ParseObject category) {
+                                  return DropdownMenuItem<String>(
+                                    value: category.objectId,
+                                    child: Text(category.get<String>('nome') ?? 'Categoria sem nome'), // Nome da categoria
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedCategory = value; // Atualiza a categoria selecionada
+                                  });
+                                },
+                                dropdownColor: Colors.white,
+                              ),
+                            )
+                            ),
                         Container(
                           margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
                           width: 130,
@@ -255,4 +280,18 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
   }
   //precisa importar as depencecias
   // https://pub.dev/packages/image_picker
+  Future<void> fetchCategorias() async {
+    final QueryBuilder<ParseObject> query =
+        QueryBuilder<ParseObject>(ParseObject('Categoria'));
+
+    var response = await query.query();
+
+    if (response.success && response.results != null) {
+      setState(() {
+        tasks = response.results!.cast<ParseObject>();
+      });
+    } else {
+      print("Erro ao buscar categorias: ${response.error?.message}");
+    }
+  }
 }

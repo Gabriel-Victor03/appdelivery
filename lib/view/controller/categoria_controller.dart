@@ -8,6 +8,8 @@ class CategoriaController {
 
   CategoriaController(this.taskController);
 
+  get text => null;
+
   Future<void> removerCategoria(String objectId) async {
     final categoria = ParseObject('Categoria')..objectId = objectId;
 
@@ -34,7 +36,7 @@ class CategoriaController {
     }
   }
 
-  Future<void> addCategoria() async {
+  Future<void> addCategoria(text) async {
     String task = taskController.text.trim();
     if (task.isNotEmpty) {
       var categoria = Categoria(nome: task);
@@ -52,4 +54,11 @@ class CategoriaController {
       }
     }
   }
+
+  void dispose() {
+    // Aqui você pode liberar recursos se necessário
+  }
+
+  void clear() {}
 }
+

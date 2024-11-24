@@ -64,12 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: isLoggedIn ? null : () => doUserLogin(), // Chamando a função de login
-                child: Text('Login'),
-              ),
-              TextButton(
-                onPressed: () => continueWithoutLogin(context),
-                child: Text('Continuar sem fazer login'),
+                onPressed: isLoggedIn || isLoading ? null : () => doUserLogin(),
+                child: isLoading ? CircularProgressIndicator() : Text('Login'),
+
               ),
             ]),
           ),
@@ -117,26 +114,35 @@ void showError(String errorMessage) {
     },
   );
 }
+bool isLoading = false; // Variável para controlar o estado de carregamento
 
-  void doUserLogin() async {
-    final username = controllerUsername.text.trim(); // Acessando o controlador corretamente
-    final password = controllerPassword.text.trim(); // Acessando o controlador corretamente
+void doUserLogin() async {
+  setState(() {
+    isLoading = true; // Começa o carregamento
+  });
 
-    final user = ParseUser (username, password, null);
+  final username = controllerUsername.text.trim();
+  final password = controllerPassword.text.trim();
 
-    var response = await user.login();
+  final user = ParseUser (username, password, null);
 
-    if (response.success) {
-      // Redirecionar para o painel ADM
-      Navigator.pushReplacementNamed(context, '/painel_adm');
-    } else {
-      // Exibir mensagem de erro
-      print(response.error?.message ?? 'Erro desconhecido');
-    }
+  var response = await user.login();
+
+  setState(() {
+    isLoading = false; // Para o carregamento
+  });
+
+  if (response.success) {
+    // Redirecionar para o painel ADM
+    Navigator.pushReplacementNamed(context, '/painel_adm');
+  } else {
+    // Exibir mensagem de erro usando SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(response.error?.message ?? 'Erro desconhecido'),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
-
-  void continueWithoutLogin(BuildContext context) {
-    // Redirecionar para o painel sem login
-    Navigator.pushReplacementNamed(context, '/home');
-  }
+}
 }
