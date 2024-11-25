@@ -17,9 +17,9 @@ class _OrdersPagesState extends State<OrdersPages> {
       "hora": "19:37",
       "nome": "Adauto Turíbio",
       "qtd": "2",
-      "nome_Produto": "x Burguer",
+      "nome_Produto": "Jatinha com picanha",
       "adicionais": "1x bacon, 2x cheeder",
-      "obs": "Sem tomate",
+      "obs": "Sem tomate, alface, repolho e couve",
       "tipo_entrega": "Delivery",
       "endereco": "Rua 01, Centro"
     },
@@ -36,9 +36,10 @@ class _OrdersPagesState extends State<OrdersPages> {
       "numero": "0002",
       "hora": "20:15",
       "nome": "Gabriel Vitor",
-      "qtd": "2",
-      "nome_Produto": "",
-      "obs": "Sem tomate",
+      "qtd": "20",
+      "nome_Produto": "X-SALADA",
+      "adicionais": "1x bacon, 2x cheeder, 3x tomate",
+      "obs": "Sem alface",
       "tipo_entrega": "Delivery",
       "endereco": "Rua 01, Centro"
     },
@@ -47,7 +48,7 @@ class _OrdersPagesState extends State<OrdersPages> {
       "numero": "0003",
       "hora": "21:00",
       "nome": "Come Tulio",
-      "qtd": "2",
+      "qtd": "20",
       "nome_Produto": "x Burguer",
       "obs": "Sem tomate",
       "tipo_entrega": "Delivery",
@@ -215,6 +216,8 @@ class _OrdersPagesState extends State<OrdersPages> {
     );
   }
 
+  //tulio:
+// IDEIAS DE LISTAGEM: FAZ UMA LISTAGEM A PARTIR DO NUMERO DO PEDIDO DA PESSOA, ASSIM FICARÁ MAIS FACIL DE RETORNAR TODOS OS DADOS DAQUELE PEDIDO!!!!!!!!!!1
   Future openDetails(
           String numPed,
           String horario,
@@ -226,163 +229,280 @@ class _OrdersPagesState extends State<OrdersPages> {
           String tipo_entre,
           String endereco) =>
       showDialog(
-        context: context,
-        builder: (context) => Dialog(
-            child: Container(
-                width: 480,
-                height: 420,
-                child: ListView(children: [
-                  Column(children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 240,
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                              fontSize: 24,
-                              color:
-                                  Colors.black), // Estilo padrão para o texto
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Pedido: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ), // Estilo normal
-                            ),
-                            TextSpan(
-                              text: numPed, // Texto da variável
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 20),
-                              // Estilo para o texto em negrito
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.start,
-                        //
+          context: context,
+          builder: (context) => Dialog(
+                  //elevation: 2.0,
+                  child: Container(
+                width: 520, // lçargura do pop-up
+                height: 320,
+                child: ListView(
+                  children: [
+                    Column(children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    Container(
-                      width: 240,
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                              fontSize: 24,
-                              color:
-                                  Colors.black), // Estilo padrão para o texto
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Horario: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ), // Estilo normal
-                            ),
-                            TextSpan(
-                              text: horario, // Texto da variável
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 20),
-                              // Estilo para o texto em negrito
-                            ),
-                          ],
+                      Container(
+                        width: 240,
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                                fontSize: 24,
+                                color:
+                                    Colors.black), // Estilo padrão para o texto
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Pedido: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ), // Estilo normal
+                              ),
+                              TextSpan(
+                                text: numPed, // Texto da variável
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20),
+                                // Estilo para o texto em negrito
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.start,
+                          //
                         ),
-                        textAlign: TextAlign.start,
-                        //
                       ),
-                    ),
-                    Container(
-                      width: 240,
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                              fontSize: 24,
-                              color:
-                                  Colors.black), // Estilo padrão para o texto
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Cliente: ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ), // Estilo normal
-                            ),
-                            TextSpan(
-                              text: nome, // Texto da variável
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 20),
-                              // Estilo para o texto em negrito
-                            ),
-                          ],
+                      Container(
+                        width: 240,
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                                fontSize: 24,
+                                color:
+                                    Colors.black), // Estilo padrão para o texto
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Horario: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ), // Estilo normal
+                              ),
+                              TextSpan(
+                                text: horario, // Texto da variável
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20),
+                                // Estilo para o texto em negrito
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.start,
+                          //
                         ),
-                        textAlign: TextAlign.start,
-                        //
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(
-                      indent: 10,
-                      endIndent: 10,
-                      color: Colors.black,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 25,
+                      Container(
+                        width: 240,
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                                fontSize: 24,
+                                color:
+                                    Colors.black), // Estilo padrão para o texto
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Cliente: ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ), // Estilo normal
+                              ),
+                              TextSpan(
+                                text: nome, // Texto da variável
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20),
+                                // Estilo para o texto em negrito
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.start,
+                          //
                         ),
-                        Container(
-                          child: Text("Qt"),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          child: Text("Produto"),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          child: Text("Add"),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(child: Text("Observações")),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Container(
-                          child: Text(quantidade),
-                        ),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Container(
-                          child: Text(nome_Produto),
-                        ),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Container(
-                          child: Text(add),
-                        ),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Container(
-                          child: Text(obs, textAlign: TextAlign.center),
-                        ),
-                      ],
-                    )
-                  ]),
-                ]))),
-      );
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(
+                        indent: 10,
+                        endIndent: 10,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                              // Borda para o container
+
+                              child: Column(children: [
+                            // Cabeçalho
+                            Container(
+                              width:
+                                  450, // largura da listagem de pedidos daquele cliente
+                              padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    padding: EdgeInsets.only(left: 13),
+                                    child: Text("Qt",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14)),
+                                  ),
+                                  Container(
+                                      child: Text('Produto',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14))),
+                                  Container(
+                                      child: Text('Add',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14))),
+                                  Container(
+                                      //margin: EdgeInsets.only(right: 30),
+                                      child: Text('Observações',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14))),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  width: 260,
+                                  padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Container(
+                                          margin:
+                                              EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                          child: Text(
+                                            quantidade,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12),
+                                          )),
+
+                                      Container(
+                                          width: 60,
+                                          margin:
+                                              EdgeInsets.fromLTRB(13, 0, 0, 0),
+                                          child: Text(nome_Produto,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 12))),
+
+                                      //VerticalDivider(color: Colors.b,),
+                                      Container(
+                                          margin:
+                                              EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                          width: 55,
+                                          //padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                          child: Text(add,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 12))),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.fromLTRB(10, 0, 5, 0),
+                                        width: 70,
+                                        //margin: EdgeInsets.only(right: 1000),
+                                        child: Text(obs,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 10)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              indent: 1,
+                              endIndent: 1,
+                              color: Colors.black,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: 240,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors
+                                          .black), // Estilo padrão para o texto
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "Entrega: ",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ), // Estilo normal
+                                    ),
+                                    TextSpan(
+                                      text: tipo_entre, // Texto da variável
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14),
+                                      // Estilo para o texto em negrito
+                                    ),
+                                  ],
+                                ),
+                                //textAlign: TextAlign.start,
+                                //
+                              ),
+                            ),
+                            Container(
+                              width: 240,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors
+                                          .black), // Estilo padrão para o texto
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "Entrega: ",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ), // Estilo normal
+                                    ),
+                                    TextSpan(
+                                      text: endereco, // Texto da variável
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 14),
+                                      // Estilo para o texto em negrito
+                                    ),
+                                  ],
+                                ),
+                                //textAlign: TextAlign.start,
+                                //
+                              ),
+                            )
+                          ]))),
+                    ]),
+                  ],
+                ),
+              )));
 }
