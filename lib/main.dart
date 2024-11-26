@@ -4,6 +4,7 @@ import 'package:appdelivery/view/pages/painel_adm.dart';
 import 'package:appdelivery/view/pages/product_page.dart';
 import 'package:appdelivery/view/pages/cart_page.dart';
 import 'package:appdelivery/view/pages/additional_page.dart';
+import 'package:appdelivery/view/pages/usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/produtos': (context) => const ProductPage(),
         '/pedidos': (context) => const OrdersPages(),
         '/adicionais': (context) => const AdditionalPage(),
+        '/usuarios': (context) => const Usuarios(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) =>

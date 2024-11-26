@@ -1,63 +1,34 @@
-import 'package:appdelivery/view/components/my_popup_product.dart';
-import 'package:appdelivery/view/components/my_popup_newproduct.dart';
-import 'package:appdelivery/view/pages/product_page.dart';
-
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [Table].
-
-void main() => runApp(const MyTable());
-
-class MyTable extends StatefulWidget {
-  const MyTable({super.key});
+class MyTableUser extends StatefulWidget {
+  const MyTableUser({super.key});
 
   @override
-  State<MyTable> createState() => _MyTableState();
+  State<MyTableUser> createState() => _MyTableUserState();
 }
 
-class _MyTableState extends State<MyTable> {
-  final List<Map<String, String>> produtos = [
+class _MyTableUserState extends State<MyTableUser> {
+  @override
+  final List<Map<String, String>> usuarios = [
     {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
+      "nome": "Atendente1",
+      "email": "atendente1@gmail.com",
     },
     {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
+      "nome": "Atendente2",
+      "email": "atendente2@gmail.com",
     },
     {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
+      "nome": "Cozinha1",
+      "email": "cozinha1@gmail.com",
     },
     {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
+      "nome": "Cozinha2",
+      "email": "cozinha2@gmail.com",
     },
     {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "Jatinha com picanha e salada",
-      "categoria": "Jatinha",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
+      "nome": "UserAdm",
+      "email": "useradm@gmail.com",
     },
 
     // Adicione mais pedidos aqui conforme necessário
@@ -73,7 +44,7 @@ class _MyTableState extends State<MyTable> {
             ),
             Center(
               child: Text(
-                "Produtos",
+                "Usuários",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
@@ -101,14 +72,13 @@ class _MyTableState extends State<MyTable> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(child: Icon(Icons.checklist)),
                           Expanded(
-                              child: Text('CATEGORIA',
+                              child: Text('NOME',
                                   textAlign: TextAlign.center,
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold))),
                           Expanded(
-                              child: Text('NOME',
+                              child: Text('EMAIL',
                                   textAlign: TextAlign.center,
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold))),
@@ -123,12 +93,12 @@ class _MyTableState extends State<MyTable> {
                         ],
                       ),
                     ),
-                    // ListView de produtos
+                    // ListView de usuarios
                     ListView.builder(
                       shrinkWrap: true,
                       physics:
                           NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
-                      itemCount: produtos.length,
+                      itemCount: usuarios.length,
                       itemBuilder: (context, index) {
                         return Container(
                           padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
@@ -138,14 +108,11 @@ class _MyTableState extends State<MyTable> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Expanded(
-                                  child: Checkbox(
-                                      value: false, onChanged: (value) => {})),
-                              Expanded(
-                                  child: Text(produtos[index]["categoria"]!,
+                                  child: Text(usuarios[index]["nome"]!,
                                       textAlign: TextAlign.center)),
 
                               Expanded(
-                                  child: Text(produtos[index]["nome"]!,
+                                  child: Text(usuarios[index]["email"]!,
                                       textAlign: TextAlign.center)),
 
                               //VerticalDivider(color: Colors.b,),
@@ -166,14 +133,10 @@ class _MyTableState extends State<MyTable> {
                                                   maximumSize: Size(25, 25),
                                                   minimumSize: Size(5, 5)),
                                               onPressed: () {
-                                                openDetails(
-                                                    produtos[index]['categoria']
+                                                editarUsuarios(
+                                                    usuarios[index]['nome']
                                                         .toString(),
-                                                    produtos[index]['nome']
-                                                        .toString(),
-                                                    produtos[index]['descricao']
-                                                        .toString(),
-                                                    produtos[index]['preco']
+                                                    usuarios[index]['email']
                                                         .toString());
                                               },
                                               child: Transform.rotate(
@@ -195,7 +158,7 @@ class _MyTableState extends State<MyTable> {
                                                 minimumSize: Size(5, 5)),
                                             onPressed: () {
                                               removerItem(
-                                                  produtos[index]['nome']);
+                                                  usuarios[index]['nome']);
                                             },
                                             child: Icon(
                                               Icons.delete,
@@ -216,8 +179,6 @@ class _MyTableState extends State<MyTable> {
                 ),
               ),
             ),
-            MyPopupNewproduct(),
-            MyPopupProduct(),
           ],
         ),
       ),
@@ -236,7 +197,7 @@ class _MyTableState extends State<MyTable> {
                                                 maximumSize: Size(20, 20),
                                                 minimumSize: Size(2, 2)),
                                             onPressed: () {
-                                              openDetails(
+                                              editarUsuarios(
                                                   "Jantinha",
                                                   "Prato feito com picanha e salada",
                                                   "Arroz branco, Feijão tropeiro, mandioca, 100 gramas de picanha e salada de tomate",
@@ -271,183 +232,18 @@ class _MyTableState extends State<MyTable> {
                                   ],
                                 ),*/
 
-  Future openDetails(
-          String categoria, String nome, String descricao, String preco) =>
-      showDialog(
-          context: context,
-          builder: (context) => Dialog(
-                  child: Container(
-                width: 480,
-                height: 420,
-                child: ListView(
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          child: Text(
-                            "Detalhes do produto",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Divider(
-                          indent: 8.0,
-                          endIndent: 8.0,
-                          color: Colors.black,
-                        ),
-                        Container(
-                          width: 180,
-                          height: 150,
-                          child: Image.asset("assets/images/burguer1.jpg"),
-                        ),
-                        Divider(
-                          indent: 8.0,
-                          endIndent: 8.0,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Categoria: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: categoria, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start, //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Nome: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: nome, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start, //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 275,
-                                padding: EdgeInsets.only(left: 12),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Descrição: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: descricao, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14),
-                                        // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start,
-                                  //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Preço: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: "R\$" +
-                                            preco
-                                                .toString(), // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  //
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                      ],
-                    ),
-                  ],
-                ),
-              )));
+  Future editarUsuarios(String nome, String email) => showDialog(
+      context: context,
+      builder: (context) => Dialog(
+              child: Container(
+            width: 480,
+            height: 420,
+            child: ListView(
+              children: [
+                
+              ],
+            ),
+          )));
   Future removerItem(var teste) => showDialog(
       // função de remover itens do produto
       context: context,
