@@ -72,18 +72,24 @@ class _MyTableUserState extends State<MyTableUser> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(
-                              child: Text('NOME',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
-                          Expanded(
-                              child: Text('EMAIL',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
                           Container(
-                            //margin: EdgeInsets.only(right: 30),
+                            width: 80,
+                            child: Expanded(
+                                child: Text('NOME',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                          ),
+                          Container(
+                            width: 120,
+                            child: Expanded(
+                                child: Text('EMAIL',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                          ),
+                          Container(
+                            width: 48,
                             child: Expanded(
                                 child: Text('AÇÕES',
                                     textAlign: TextAlign.center,
@@ -108,12 +114,18 @@ class _MyTableUserState extends State<MyTableUser> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Expanded(
-                                  child: Text(usuarios[index]["nome"]!,
-                                      textAlign: TextAlign.center)),
+                                  child: Text(
+                                usuarios[index]["nome"]!,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14),
+                              )),
 
                               Expanded(
-                                  child: Text(usuarios[index]["email"]!,
-                                      textAlign: TextAlign.center)),
+                                  child: Text(
+                                usuarios[index]["email"]!,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14),
+                              )),
 
                               //VerticalDivider(color: Colors.b,),
                               Container(
@@ -139,13 +151,11 @@ class _MyTableUserState extends State<MyTableUser> {
                                                     usuarios[index]['email']
                                                         .toString());
                                               },
-                                              child: Transform.rotate(
-                                                  angle: 1.64159,
-                                                  child: Icon(
-                                                    Icons.search,
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                  )))),
+                                              child: Icon(
+                                                Icons.edit_rounded,
+                                                color: Colors.white,
+                                                size: 18,
+                                              ))),
                                       Container(
                                         //margin: EdgeInsets.only(right: 1000),
                                         child: ElevatedButton(
@@ -235,16 +245,180 @@ class _MyTableUserState extends State<MyTableUser> {
   Future editarUsuarios(String nome, String email) => showDialog(
       context: context,
       builder: (context) => Dialog(
-              child: Container(
-            width: 480,
-            height: 420,
-            child: ListView(
-              children: [
-                
-              ],
-            ),
-          )));
-  Future removerItem(var teste) => showDialog(
+            child: Container(
+                width: 480,
+                height: 390,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: Text("Adicionar Usuarios",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                    ),
+                    Divider(
+                      indent: 10,
+                      endIndent: 10,
+                      color: Colors.black,
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 260,
+                            child: Text("Nome",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                            width: 260,
+                            height: 30,
+                            child: TextField(
+                              cursorWidth: 1,
+                              cursorHeight: 30,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 260,
+                            child: Text("Email",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                            width: 260,
+                            height: 30,
+                            child: TextField(
+                              cursorWidth: 1,
+                              cursorHeight: 30,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 260,
+                            child: Text("Senha",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                            width: 260,
+                            height: 30,
+                            child: TextField(
+                              cursorWidth: 1,
+                              cursorHeight: 30,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 260,
+                            child: Text("Confirma senha",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          Container(
+                            // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                            width: 260,
+                            height: 30,
+                            child: TextField(
+                              cursorWidth: 1,
+                              cursorHeight: 30,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 145),
+                        width: 115,
+                        child: Center(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.fromLTRB(23, 0, 0, 0),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 33, 221, 33),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(
+                                              13))),
+                              onPressed: () {},
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.save,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "Salvar",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                ],
+                              )),
+                        ))
+                  ],
+                )),
+          ));
+  Future removerItem(var usuario) => showDialog(
       // função de remover itens do produto
       context: context,
       builder: (context) => Dialog(
@@ -286,7 +460,7 @@ class _MyTableUserState extends State<MyTableUser> {
                           children: <TextSpan>[
                             TextSpan(
                               text:
-                                  "Tem certeza que deseja remover o produto ", // O restante do texto
+                                  "Tem certeza que deseja remover o usuário ", // O restante do texto
                               //textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
@@ -294,7 +468,7 @@ class _MyTableUserState extends State<MyTableUser> {
                               ), // Estilo normal
                             ),
                             TextSpan(
-                              text: teste + "?", // Texto da variável
+                              text: usuario + "?", // Texto da variável
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize:
