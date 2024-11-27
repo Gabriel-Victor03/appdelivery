@@ -166,6 +166,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   ),
                 ],
               ),
+             
             ],
           ),
         ),
@@ -173,7 +174,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     );
   }
 
-  Future openDialog() => showDialog(
+  openDialog() => showDialog(
         context: context,
         builder: (context) => Dialog(
           child: Container(
@@ -216,7 +217,6 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               child: Text(
                                 task.get<String>('nome') ?? '',
                                 style: TextStyle(fontSize: 14),
-                                
                               ),
                             ),
                             // Chama a função do Diálogo.
