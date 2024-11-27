@@ -216,6 +216,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                               child: Text(
                                 task.get<String>('nome') ?? '',
                                 style: TextStyle(fontSize: 14),
+                                
                               ),
                             ),
                             // Chama a função do Diálogo.

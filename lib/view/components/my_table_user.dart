@@ -10,31 +10,17 @@ class MyTableUser extends StatefulWidget {
 class _MyTableUserState extends State<MyTableUser> {
   @override
   final List<Map<String, String>> usuarios = [
-    {
-      "nome": "Atendente1",
-      "email": "atendente1@gmail.com",
-    },
-    {
-      "nome": "Atendente2",
-      "email": "atendente2@gmail.com",
-    },
-    {
-      "nome": "Cozinha1",
-      "email": "cozinha1@gmail.com",
-    },
-    {
-      "nome": "Cozinha2",
-      "email": "cozinha2@gmail.com",
-    },
-    {
-      "nome": "UserAdm",
-      "email": "useradm@gmail.com",
-    },
+    {"nome": "Atendente1", "email": "atendente1@gmail.com", "senha": "1235463"},
+    {"nome": "Atendente2", "email": "atendente2@gmail.com", "senha": "1235463"},
+    {"nome": "Cozinha1", "email": "cozinha1@gmail.com", "senha": "1235463"},
+    {"nome": "Cozinha2", "email": "cozinha2@gmail.com", "senha": "1235463"},
+    {"nome": "UserAdm", "email": "useradm@gmail.com", "senha": "1235463"},
 
     // Adicione mais pedidos aqui conforme necessário
   ];
   @override
   Widget build(BuildContext context) {
+    bool _isObscured = true;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -146,10 +132,13 @@ class _MyTableUserState extends State<MyTableUser> {
                                                   minimumSize: Size(5, 5)),
                                               onPressed: () {
                                                 editarUsuarios(
-                                                    usuarios[index]['nome']
+                                                    usuarios[index]["nome"]
                                                         .toString(),
-                                                    usuarios[index]['email']
-                                                        .toString());
+                                                    usuarios[index]["email"]
+                                                        .toString(),
+                                                    usuarios[index]["senha"]
+                                                        .toString(),
+                                                    _isObscured);
                                               },
                                               child: Icon(
                                                 Icons.edit_rounded,
@@ -189,6 +178,55 @@ class _MyTableUserState extends State<MyTableUser> {
                 ),
               ),
             ),
+            Container(
+                // alignment: AlignmentDirectional(10, 10),
+                child: Align(
+              alignment: Alignment.topLeft,
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(height: 10),
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      child: SizedBox(
+                        width: 200,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 2.0,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 33, 221, 33),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              side: BorderSide(
+                                  color: Color.fromARGB(50, 0, 0, 0))),
+                          onPressed: () {
+                            criarNovoUsuario();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "Adicionar usuarios",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )),
           ],
         ),
       ),
@@ -242,7 +280,7 @@ class _MyTableUserState extends State<MyTableUser> {
                                   ],
                                 ),*/
 
-  Future editarUsuarios(String nome, String email) => showDialog(
+  criarNovoUsuario() => showDialog(
       context: context,
       builder: (context) => Dialog(
             child: Container(
@@ -341,6 +379,9 @@ class _MyTableUserState extends State<MyTableUser> {
                             child: TextField(
                               cursorWidth: 1,
                               cursorHeight: 30,
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.none,
+                              obscureText: true,
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
                               decoration: InputDecoration(
@@ -374,6 +415,9 @@ class _MyTableUserState extends State<MyTableUser> {
                               cursorHeight: 30,
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.none,
+                              obscureText: true,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 contentPadding:
@@ -418,6 +462,180 @@ class _MyTableUserState extends State<MyTableUser> {
                   ],
                 )),
           ));
+  editarUsuarios(String nome, String email, String senha, bool _isObscured) =>
+      showDialog(
+          context: context,
+          builder: (context) => Dialog(
+                child: Container(
+                    width: 480,
+                    height: 390,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          child: Text("Adicionar Usuarios",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                        ),
+                        Divider(
+                          indent: 10,
+                          endIndent: 10,
+                          color: Colors.black,
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 260,
+                                child: Text("Nome",
+                                    textAlign: TextAlign.left,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              Container(
+                                // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                                width: 260,
+                                height: 30,
+                                child: TextField(
+                                  controller:
+                                      TextEditingController(text: "$nome"),
+                                  cursorWidth: 1,
+                                  cursorHeight: 30,
+                                  textAlign: TextAlign.center,
+                                  cursorColor: Colors.black,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 260,
+                                child: Text("Email",
+                                    textAlign: TextAlign.left,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              Container(
+                                // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+                                width: 260,
+                                height: 30,
+                                child: TextField(
+                                  cursorWidth: 1,
+                                  cursorHeight: 30,
+                                  controller:
+                                      TextEditingController(text: "$email"),
+                                  textAlign: TextAlign.center,
+                                  cursorColor: Colors.black,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 260,
+                                child: Text("Senha",
+                                    textAlign: TextAlign.left,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              Container(
+                                width: 260,
+                                height: 30,
+                                child: TextField(
+                                  controller:
+                                      TextEditingController(text: senha),
+                                  cursorWidth: 1,
+                                  cursorHeight: 30,
+                                  textAlign: TextAlign.center,
+                                  cursorColor: Colors.black,
+                                  obscureText:
+                                      _isObscured, // Controla visibilidade
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 0),
+                                    suffixIcon: GestureDetector(
+                                      child: Icon(
+                                        _isObscured
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Colors.black,
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          _isObscured =
+                                              !_isObscured; // Alterna visibilidade
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: 145),
+                            width: 115,
+                            child: Center(
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.fromLTRB(23, 0, 0, 0),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 33, 221, 33),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  13))),
+                                  onPressed: () {},
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.save,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Salvar",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                      ),
+                                    ],
+                                  )),
+                            ))
+                      ],
+                    )),
+              ));
+
   Future removerItem(var usuario) => showDialog(
       // função de remover itens do produto
       context: context,
