@@ -7,6 +7,8 @@ import 'package:appdelivery/view/pages/additional_page.dart';
 import 'package:appdelivery/view/pages/usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:appdelivery/view/pages/home_page.dart';
+import 'package:appdelivery/view/pages/forgotpassword_page.dart';
+
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 void main() async {
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/pedidos': (context) => const OrdersPages(),
         '/adicionais': (context) => const AdditionalPage(),
         '/usuarios': (context) => const Usuarios(),
+        '/senha': (context) => const ForgotPasswordPage()
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) =>
