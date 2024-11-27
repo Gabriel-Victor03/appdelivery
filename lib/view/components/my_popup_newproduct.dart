@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -73,12 +75,12 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
     ));
   }
 
-  Future openDialog() => showDialog(
+  openDialog() => showDialog(
       context: context,
       builder: (context) => Dialog(
             child: Container(
                 width: 450,
-                height: 350,
+                height: 450,
                 child: Column(
                   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -121,26 +123,26 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5)),
-                                  
                               child: DropdownButton(
                                 value: selectedCategory, // Valor selecionado
                                 hint: Text("Selecione"),
-                                isExpanded: true, 
+                                isExpanded: true,
                                 items: tasks.map((ParseObject category) {
                                   return DropdownMenuItem<String>(
                                     value: category.objectId,
-                                    child: Text(category.get<String>('nome') ?? 'Categoria sem nome'),
+                                    child: Text(category.get<String>('nome') ??
+                                        'Categoria sem nome'),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    selectedCategory = value; // Atualiza a categoria selecionada
+                                    selectedCategory =
+                                        value; // Atualiza a categoria selecionada
                                   });
                                 },
                                 dropdownColor: Colors.white,
                               ),
-                            )
-                            ),
+                            )),
                         Container(
                           margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
                           width: 130,
@@ -264,6 +266,34 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                             ))
                       ],
                     ),
+                    Container(
+                        child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 250,
+                          child: Text(
+                            "Arquivo selecionado:",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          alignment: Alignment.topCenter,
+                          width: 150,
+                          height: 50,
+                          child: imagem != null
+                              ? Image.file(File(imagem!.path))
+                              : Text("Nenhum arquivo selecionado",
+                                  style: TextStyle(fontSize: 12)),
+                        )
+                      ],
+                    ))
                   ],
                 )),
           ));
@@ -277,6 +307,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
       print(e);
     }
   }
+
   //precisa importar as depencecias
   // https://pub.dev/packages/image_picker
   Future<void> fetchCategorias() async {
