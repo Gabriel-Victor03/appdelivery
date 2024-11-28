@@ -166,7 +166,6 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                   ),
                 ],
               ),
-             
             ],
           ),
         ),
