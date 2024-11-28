@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyCards extends StatefulWidget {
   @override
@@ -6,32 +7,34 @@ class MyCards extends StatefulWidget {
 }
 
 class _MyCardsState extends State<MyCards> {
-  final List<Map<String, String>> products = [
-    {
-      'title': 'Duplo Burguer',
-      'description': 'Carne 180g, queijo, alface e tomate.',
-      'image': 'assets/images/burguer1.jpg',
-      'preco': 'R\$20,00',
-    },
-    {
-      'title': 'Cheeseburger',
-      'description': 'Carne 180g, queijo cheddar, cebola.',
-      'image': 'assets/images/burguer2.jpg',
-      'preco': 'R\$22,00',
-    },
-    {
-      'title': 'Triplo Burguer',
-      'description': 'Carne 180g, queijo, alface e tomate.',
-      'image': 'assets/images/burguer2.jpg',
-      'preco': 'R\$20,00',
-    },
-    {
-      'title': 'Comeu Deitou',
-      'description': 'Carne 180g, queijo cheddar, cebola.',
-      'image': 'assets/images/burguer1.jpg',
-      'preco': 'R\$22,00',
-    },
-  ];
+  List<Map<String, String>> products = [];
+
+    @override
+    void initState() {
+      super.initState();
+      fetchProdutos();
+    }
+
+  Future<void> fetchProdutos () async {
+    final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
+    final response = await query.query();
+    
+    if (response.success && response.result !=  null) {
+      setState(() {
+        products = response.results!.map((e) {
+          final product = e as ParseObject; // Cast para ParseObject
+          return {
+            'title': product.get<String>('nome') ?? '',
+            'description': product.get<String>('descricao') ?? '',
+            'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
+            'preco': product.get<dynamic>('preco')?.toString() ?? '',
+          };
+        }).toList().cast<Map<String, String>>(); // Faz o cast explícito
+      });
+        } else {
+          print('erro ao buscar produtos');
+        }       
+    }
 
   // Variáveis para os contadores de adicionais
   int _counterHamburguer = 0;
@@ -73,7 +76,7 @@ class _MyCardsState extends State<MyCards> {
                           color: Colors.black,
                         ),
                         SizedBox(height: 7),
-                        Image.asset(product['image']!, height: 170),
+                        Image.network(product['image']!, height: 170),
                         SizedBox(height: 10),
                         Text(
                           product['description']!,
@@ -281,7 +284,7 @@ class _MyCardsState extends State<MyCards> {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        child: Image.asset(product['image']!),
+                        child: Image.network(product['image']!),
                         height: 150,
                       ),
                       Text(
@@ -339,4 +342,7 @@ class _MyCardsState extends State<MyCards> {
       ),
     );
   }
+
+
+
 }
