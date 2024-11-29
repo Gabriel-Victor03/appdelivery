@@ -44,6 +44,17 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
           ),
+          ListTile(
+            title: Text(
+              'Horários',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromARGB(255, 130, 30, 60),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Arial',
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 16.0),
             child: Text(

@@ -6,6 +6,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: const Color.fromARGB(255, 130, 30, 60),
       foregroundColor: Colors.white,
       title: GestureDetector(

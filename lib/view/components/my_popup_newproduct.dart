@@ -44,6 +44,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
   @override
   void initState() {
     super.initState();
+    fetchCategorias();
   }
 
   @override
