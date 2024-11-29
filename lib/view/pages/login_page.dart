@@ -39,181 +39,187 @@ class _LoginPageState extends State<LoginPage> {
     final dividerWidth = screenWidth * 2 / 4;
 
     return Scaffold(
-      appBar: const MyAppBar(),
-      body: Center(
-        child: Container(
-          height: 420,
-          width: 400,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 229, 184),
-            borderRadius: BorderRadius.circular(20),
-          ),
+        appBar: const MyAppBar(),
+        body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    fontFamily: 'Arial',
-                    color: Color.fromARGB(198, 29, 28, 28),
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                // const SizedBox(height: 10),
-
-                Center(
-                  child: Container(
-                    width: dividerWidth,
-                    child: const Divider(
-                      color: Colors.grey,
-                      thickness: 1.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // Campo "Usuário"
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Usuário',
-                    style: TextStyle(
-                      fontFamily: 'Arial',
-                      color: Color.fromARGB(198, 29, 28, 28),
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: controllerUsername,
-                  enabled: !isLoggedIn,
-                  keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.none,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide:
-                          const BorderSide(color: Colors.blue, width: 2.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Campo "Senha"
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    'Senha',
-                    style: TextStyle(
-                      fontFamily: 'Arial',
-                      color: Color.fromARGB(198, 29, 28, 28),
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: controllerPassword,
-                  enabled: !isLoggedIn,
-                  keyboardType: TextInputType.text,
-                  textCapitalization: TextCapitalization.none,
-                  autocorrect: false,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide:
-                          const BorderSide(color: Colors.blue, width: 2.0),
-                    ),
-                  ),
-                ),
-
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgotPasswordPage()),
-                      );
-                    },
-                    child: const Text(
-                      'Esqueci minha senha',
+            padding: const EdgeInsets.symmetric(horizontal: 34.0),
+            child: Container(
+              height: 398,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 229, 184),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      spreadRadius: 4,
+                      offset: const Offset(1.0, 1.0))
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'LOGIN',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontFamily: 'Arial',
                         color: Color.fromARGB(198, 29, 28, 28),
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0, right: 20.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: ElevatedButton.icon(
-                      onPressed:
-                          isLoggedIn || isLoading ? null : () => doUserLogin(),
-                      icon: isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Icon(Icons.login, color: Colors.white),
-                      label: const Text(
-                        'Entrar',
+                    Center(
+                      child: Container(
+                        width: dividerWidth,
+                        child: const Divider(
+                          color: Colors.grey,
+                          thickness: 1.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Usuário',
                         style: TextStyle(
-                          color: Colors.white,
+                          fontFamily: 'Arial',
+                          color: Color.fromARGB(198, 29, 28, 28),
+                          fontSize: 19,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 130, 30, 60),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        disabledBackgroundColor: Colors.grey,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    Container(
+                      height: 40.0,
+                      child: TextField(
+                        controller: controllerUsername,
+                        enabled: !isLoggedIn,
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.none,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Senha',
+                        style: TextStyle(
+                          fontFamily: 'Arial',
+                          color: Color.fromARGB(198, 29, 28, 28),
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      height: 40.0,
+                      child: TextField(
+                        controller: controllerPassword,
+                        enabled: !isLoggedIn,
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.none,
+                        autocorrect: false,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Esqueci minha senha',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(198, 29, 28, 28),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0, right: 20.0),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton.icon(
+                          onPressed: isLoggedIn || isLoading
+                              ? null
+                              : () => doUserLogin(),
+                          icon: isLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Icon(Icons.login, color: Colors.white),
+                          label: const Text(
+                            'Entrar',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 130, 30, 60),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            disabledBackgroundColor: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
 //
