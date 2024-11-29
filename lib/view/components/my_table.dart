@@ -69,189 +69,170 @@ class _MyTableState extends State<MyTable> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<Controller>(
-        init: Controller(),
+        // init: Controller(),
         builder: (_) {
-          return Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: Text(
+                  "Produtos",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                        color: const Color.fromARGB(
+                            255, 0, 0, 0)), // Borda para o container
                   ),
-                  Center(
-                    child: Text(
-                      "Produtos",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        border: Border.all(
-                            color: const Color.fromARGB(
-                                255, 0, 0, 0)), // Borda para o container
-                      ),
-                      child: Column(
-                        children: [
-                          // Cabeçalho
-                          Container(
-                            width: 450,
-                            padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 229, 184),
+                  child: Column(
+                    children: [
+                      // Cabeçalho
+                      Container(
+                        width: 450,
+                        padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 229, 184),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(child: Icon(Icons.checklist)),
+                            Expanded(
+                                child: Text('CATEGORIA',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                            Expanded(
+                                child: Text('NOME',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                            Container(
+                              //margin: EdgeInsets.only(right: 30),
+                              child: Expanded(
+                                  child: Text('AÇÕES',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold))),
                             ),
+                          ],
+                        ),
+                      ),
+                      // ListView de produtos
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics:
+                            NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
+                        itemCount: _.produtos.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 255, 229, 184)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Expanded(child: Icon(Icons.checklist)),
                                 Expanded(
-                                    child: Text('CATEGORIA',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold))),
+                                    child: Checkbox(
+                                        value: false,
+                                        onChanged: (value) => {})),
                                 Expanded(
-                                    child: Text('NOME',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold))),
+                                    child: Text(_.produtos[index]["categoria"]!,
+                                        textAlign: TextAlign.center)),
+
+                                Expanded(
+                                    child: Text(_.produtos[index]["nome"]!,
+                                        textAlign: TextAlign.center)),
+
+                                //VerticalDivider(color: Colors.b,),
                                 Container(
-                                  //margin: EdgeInsets.only(right: 30),
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                                   child: Expanded(
-                                      child: Text('AÇÕES',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 130, 30, 60),
+                                                    padding: EdgeInsets.all(3),
+                                                    maximumSize: Size(25, 25),
+                                                    minimumSize: Size(5, 5)),
+                                                onPressed: () {
+                                                  openDetails(
+                                                      _.produtos[index]
+                                                              ['categoria']
+                                                          .toString(),
+                                                      _.produtos[index]['nome']
+                                                          .toString(),
+                                                      _.produtos[index]
+                                                              ['descricao']
+                                                          .toString(),
+                                                      _.produtos[index]['preco']
+                                                          .toString());
+                                                },
+                                                child: Transform.rotate(
+                                                    angle: 1.64159,
+                                                    child: Icon(
+                                                      Icons.search,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    )))),
+                                        Container(
+                                          //margin: EdgeInsets.only(right: 1000),
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color.fromARGB(
+                                                          255, 255, 17, 0),
+                                                  padding: EdgeInsets.all(3),
+                                                  maximumSize: Size(25, 25),
+                                                  minimumSize: Size(5, 5)),
+                                              onPressed: () {
+                                                removerItem(
+                                                    _.produtos[index]['nome']);
+                                              },
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 18,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          // ListView de produtos
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics:
-                                NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
-                            itemCount: _.produtos.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 229, 184)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                        child: Checkbox(
-                                            value: false,
-                                            onChanged: (value) => {})),
-                                    Expanded(
-                                        child: Text(
-                                            _.produtos[index]["categoria"]!,
-                                            textAlign: TextAlign.center)),
-
-                                    Expanded(
-                                        child: Text(_.produtos[index]["nome"]!,
-                                            textAlign: TextAlign.center)),
-
-                                    //VerticalDivider(color: Colors.b,),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                      child: Expanded(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Center(
-                                                child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                            backgroundColor:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    130,
-                                                                    30,
-                                                                    60),
-                                                            padding:
-                                                                EdgeInsets
-                                                                    .all(3),
-                                                            maximumSize:
-                                                                Size(25, 25),
-                                                            minimumSize:
-                                                                Size(5, 5)),
-                                                    onPressed: () {
-                                                      openDetails(
-                                                          _.produtos[index]
-                                                                  ['categoria']
-                                                              .toString(),
-                                                          _.produtos[index]
-                                                                  ['nome']
-                                                              .toString(),
-                                                          _.produtos[index]
-                                                                  ['descricao']
-                                                              .toString(),
-                                                          _.produtos[index]
-                                                                  ['preco']
-                                                              .toString());
-                                                    },
-                                                    child: Transform.rotate(
-                                                        angle: 1.64159,
-                                                        child: Icon(
-                                                          Icons.search,
-                                                          color: Colors.white,
-                                                          size: 18,
-                                                        )))),
-                                            Container(
-                                              //margin: EdgeInsets.only(right: 1000),
-                                              child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          backgroundColor:
-                                                              const Color
-                                                                  .fromARGB(255,
-                                                                  255, 17, 0),
-                                                          padding:
-                                                              EdgeInsets.all(3),
-                                                          maximumSize:
-                                                              Size(25, 25),
-                                                          minimumSize:
-                                                              Size(5, 5)),
-                                                  onPressed: () {
-                                                    removerItem(
-                                                        _.produtos[index]
-                                                            ['nome']);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                  )),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    ),
+                    ],
                   ),
-                  MyPopupNewproduct(),
-                  MyPopupProduct(),
-                ],
+                ),
               ),
-            ),
-          );
-        });
+              MyPopupNewproduct(),
+              MyPopupProduct(),
+            ],
+          ),
+        ),
+      );
+    });
   }
   /*Container(
                                 child: Row(

@@ -35,7 +35,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Endereço',
+              'Horários',
               style: TextStyle(
                 fontSize: 20,
                 color: Color.fromARGB(255, 130, 30, 60),
@@ -46,7 +46,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Horários',
+              'Endereço',
               style: TextStyle(
                 fontSize: 20,
                 color: Color.fromARGB(255, 130, 30, 60),
@@ -65,6 +65,14 @@ class MyDrawer extends StatelessWidget {
                 fontFamily: 'Arial',
               ),
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person,
+                color: Colors.black), // Ícone de perfil
+            title: const Text('Painel Administrativo'),
+            onTap: () {
+              Navigator.pushNamed(context, '/painel_adm');
+            },
           ),
         ],
       ),

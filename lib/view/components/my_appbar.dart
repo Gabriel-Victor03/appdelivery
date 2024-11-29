@@ -11,7 +11,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       foregroundColor: Colors.white,
       title: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/homepage'); // Navega para a HomePage
+          Navigator.pushNamed(context, '/homepage');
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -22,6 +22,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       toolbarHeight: 100,
+      // actions: [
+      //   IconButton(
+      //     icon: const Icon(Icons.person),
+      //     iconSize: 28,
+      //     onPressed: () {
+      //       Navigator.pushNamed(context, '/painel_adm');
+      //     },
+      //     // tooltip: 'Painel Administrativo',
+      //   ),
+      // ],
     );
   }
 
