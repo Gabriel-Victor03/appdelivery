@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyCards extends StatefulWidget {
@@ -14,6 +15,12 @@ class _MyCardsState extends State<MyCards> {
       super.initState();
       fetchProdutos();
     }
+  String formatarPreco(num preco) {
+    return NumberFormat.currency(
+      locale: 'pt_BR', // Formato brasileiro
+      symbol: 'R\$',
+    ).format(preco);
+  }
 
   Future<void> fetchProdutos () async {
     final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
@@ -27,7 +34,7 @@ class _MyCardsState extends State<MyCards> {
             'title': product.get<String>('nome') ?? '',
             'description': product.get<String>('descricao') ?? '',
             'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
-            'preco': product.get<dynamic>('preco')?.toString() ?? '',
+            'preco': formatarPreco(product.get<num>('preco') ?? 0),
           };
         }).toList().cast<Map<String, String>>(); // Faz o cast explícito
       });
