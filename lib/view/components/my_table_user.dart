@@ -1,4 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class Controller extends GetxController {
+  final List<Map<String, String>> usuarios = [
+    {"nome": "Atendente1", "email": "atendente1@gmail.com", "senha": "1235463"},
+    {"nome": "Atendente2", "email": "atendente2@gmail.com", "senha": "1235463"},
+    {"nome": "Cozinha1", "email": "cozinha1@gmail.com", "senha": "1235463"},
+    {"nome": "Cozinha2", "email": "cozinha2@gmail.com", "senha": "1235463"},
+    {"nome": "UserAdm", "email": "useradm@gmail.com", "senha": "1235463"},
+
+    // Adicione mais pedidos aqui conforme necessário
+  ];
+}
 
 class MyTableUser extends StatefulWidget {
   const MyTableUser({super.key});
@@ -9,228 +22,242 @@ class MyTableUser extends StatefulWidget {
 
 class _MyTableUserState extends State<MyTableUser> {
   @override
-  final List<Map<String, String>> usuarios = [
-    {"nome": "Atendente1", "email": "atendente1@gmail.com", "senha": "1235463"},
-    {"nome": "Atendente2", "email": "atendente2@gmail.com", "senha": "1235463"},
-    {"nome": "Cozinha1", "email": "cozinha1@gmail.com", "senha": "1235463"},
-    {"nome": "Cozinha2", "email": "cozinha2@gmail.com", "senha": "1235463"},
-    {"nome": "UserAdm", "email": "useradm@gmail.com", "senha": "1235463"},
-
-    // Adicione mais pedidos aqui conforme necessário
-  ];
   @override
   Widget build(BuildContext context) {
     bool _isObscured = true;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: Text(
-                "Usuários",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  border: Border.all(
-                      color: const Color.fromARGB(
-                          255, 0, 0, 0)), // Borda para o container
-                ),
-                child: Column(
-                  children: [
-                    // Cabeçalho
-                    Container(
-                      width: 450,
-                      padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+    return GetBuilder<Controller>(
+        init: Controller(),
+        builder: (_) {
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Text(
+                      "Usuários",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 229, 184),
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(
+                            color: const Color.fromARGB(
+                                255, 0, 0, 0)), // Borda para o container
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      child: Column(
                         children: [
+                          // Cabeçalho
                           Container(
-                            width: 80,
-                            child: Expanded(
-                                child: Text('NOME',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                            width: 450,
+                            padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 229, 184),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Container(
+                                  width: 80,
+                                  child: Expanded(
+                                      child: Text('NOME',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold))),
+                                ),
+                                SizedBox(
+                                  width: 120,
+                                  child: Expanded(
+                                      child: Text('EMAIL',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold))),
+                                ),
+                                Container(
+                                  width: 48,
+                                  child: Expanded(
+                                      child: Text('AÇÕES',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold))),
+                                ),
+                              ],
+                            ),
                           ),
-                          Container(
-                            width: 120,
-                            child: Expanded(
-                                child: Text('EMAIL',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
-                          ),
-                          Container(
-                            width: 48,
-                            child: Expanded(
-                                child: Text('AÇÕES',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                          // ListView de usuarios
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics:
+                                NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
+                            itemCount: _.usuarios.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 229, 184)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      _.usuarios[index]["nome"]!,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 14),
+                                    )),
+
+                                    Expanded(
+                                        child: Text(
+                                      _.usuarios[index]["email"]!,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 14),
+                                    )),
+
+                                    //VerticalDivider(color: Colors.b,),
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                      child: Expanded(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                                child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    130,
+                                                                    30,
+                                                                    60),
+                                                            padding:
+                                                                EdgeInsets
+                                                                    .all(3),
+                                                            maximumSize:
+                                                                Size(25, 25),
+                                                            minimumSize:
+                                                                Size(5, 5)),
+                                                    onPressed: () {
+                                                      editarUsuarios(
+                                                          _.usuarios[index]
+                                                                  ["nome"]
+                                                              .toString(),
+                                                          _.usuarios[index]
+                                                                  ["email"]
+                                                              .toString(),
+                                                          _.usuarios[index]
+                                                                  ["senha"]
+                                                              .toString(),
+                                                          _isObscured);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.edit_rounded,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ))),
+                                            Container(
+                                              //margin: EdgeInsets.only(right: 1000),
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              const Color
+                                                                  .fromARGB(255,
+                                                                  255, 17, 0),
+                                                          padding:
+                                                              EdgeInsets.all(3),
+                                                          maximumSize:
+                                                              Size(25, 25),
+                                                          minimumSize:
+                                                              Size(5, 5)),
+                                                  onPressed: () {
+                                                    removerItem(
+                                                        _.usuarios[index]
+                                                            ['nome']);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
                     ),
-                    // ListView de usuarios
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics:
-                          NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
-                      itemCount: usuarios.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 229, 184)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                usuarios[index]["nome"]!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
-                              )),
-
-                              Expanded(
-                                  child: Text(
-                                usuarios[index]["email"]!,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 14),
-                              )),
-
-                              //VerticalDivider(color: Colors.b,),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Expanded(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Color.fromARGB(
-                                                          255, 130, 30, 60),
-                                                  padding: EdgeInsets.all(3),
-                                                  maximumSize: Size(25, 25),
-                                                  minimumSize: Size(5, 5)),
-                                              onPressed: () {
-                                                editarUsuarios(
-                                                    usuarios[index]["nome"]
-                                                        .toString(),
-                                                    usuarios[index]["email"]
-                                                        .toString(),
-                                                    usuarios[index]["senha"]
-                                                        .toString(),
-                                                    _isObscured);
-                                              },
-                                              child: Icon(
-                                                Icons.edit_rounded,
-                                                color: Colors.white,
-                                                size: 18,
-                                              ))),
-                                      Container(
-                                        //margin: EdgeInsets.only(right: 1000),
-                                        child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 255, 17, 0),
-                                                padding: EdgeInsets.all(3),
-                                                maximumSize: Size(25, 25),
-                                                minimumSize: Size(5, 5)),
-                                            onPressed: () {
-                                              removerItem(
-                                                  usuarios[index]['nome']);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.white,
-                                              size: 18,
-                                            )),
+                  ),
+                  Container(
+                      // alignment: AlignmentDirectional(10, 10),
+                      child: Align(
+                    alignment: Alignment.topLeft,
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(height: 10),
+                          Container(
+                            margin: EdgeInsets.only(left: 15),
+                            child: SizedBox(
+                              width: 200,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    elevation: 2.0,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 33, 221, 33),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    side: BorderSide(
+                                        color: Color.fromARGB(50, 0, 0, 0))),
+                                onPressed: () {
+                                  criarNovoUsuario();
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      "Adicionar usuarios",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        );
-                      },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  )),
+                ],
               ),
             ),
-            Container(
-                // alignment: AlignmentDirectional(10, 10),
-                child: Align(
-              alignment: Alignment.topLeft,
-              child: IntrinsicHeight(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(height: 10),
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: SizedBox(
-                        width: 200,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              elevation: 2.0,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 33, 221, 33),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              side: BorderSide(
-                                  color: Color.fromARGB(50, 0, 0, 0))),
-                          onPressed: () {
-                            criarNovoUsuario();
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                "Adicionar usuarios",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
   /*Container(
                                 child: Row(
