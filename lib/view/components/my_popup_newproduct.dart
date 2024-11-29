@@ -1,5 +1,5 @@
 import 'dart:io';
-  
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +7,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class ControllerPd extends GetxController {
   XFile? imagem;
+  String? selectedCategory;
   selecionarImagem() async {
     final ImagePicker picker = ImagePicker();
     try {
@@ -17,6 +18,12 @@ class ControllerPd extends GetxController {
     } catch (e) {
       print(e);
     }
+  }
+
+  visualizarCategoria(String? select) {
+    selectedCategory = select;
+    print("off");
+    update();
   }
 }
 
@@ -37,7 +44,6 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
   @override
   void initState() {
     super.initState();
-    fetchCategorias();
   }
 
   @override
@@ -144,7 +150,8 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(5)),
                                 child: DropdownButton(
-                                  value: selectedCategory, // Valor selecionado
+                                  value:
+                                      _.selectedCategory, // Valor selecionado
                                   hint: Text("Selecione"),
                                   isExpanded: true,
                                   items: tasks.map((ParseObject category) {
@@ -157,8 +164,8 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                                   }).toList(),
                                   onChanged: (value) {
                                     setState(() {
-                                      selectedCategory =
-                                          value; // Atualiza a categoria selecionada
+                                      _.visualizarCategoria(
+                                          value); // Atualiza a categoria selecionada
                                     });
                                   },
                                   dropdownColor: Colors.white,
@@ -325,7 +332,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
 
   //precisa importar as depencecias
   // https://pub.dev/packages/image_picker
-  Future<void> fetchCategorias() async {
+  fetchCategorias() async {
     final QueryBuilder<ParseObject> query =
         QueryBuilder<ParseObject>(ParseObject('Categoria'));
 
