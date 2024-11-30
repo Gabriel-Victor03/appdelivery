@@ -6,7 +6,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false,
+      // automaticallyImplyLeading: false,
       backgroundColor: const Color.fromARGB(255, 130, 30, 60),
       foregroundColor: Colors.white,
       title: GestureDetector(
@@ -22,16 +22,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       toolbarHeight: 100,
-      // actions: [
-      //   IconButton(
-      //     icon: const Icon(Icons.person),
-      //     iconSize: 28,
-      //     onPressed: () {
-      //       Navigator.pushNamed(context, '/painel_adm');
-      //     },
-      //     // tooltip: 'Painel Administrativo',
-      //   ),
-      // ],
     );
   }
 

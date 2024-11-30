@@ -32,9 +32,7 @@ class _MyTableUserState extends State<MyTableUser> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 30),
                   Center(
                     child: Text(
                       "Usuários",
@@ -42,161 +40,156 @@ class _MyTableUserState extends State<MyTableUser> {
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                  SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        border: Border.all(
-                            color: const Color.fromARGB(
-                                255, 0, 0, 0)), // Borda para o container
+                        borderRadius: BorderRadius.circular(8),
+                        border:
+                            Border.all(color: Colors.black), // Borda principal
                       ),
                       child: Column(
                         children: [
                           // Cabeçalho
                           Container(
-                            width: 450,
-                            padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+                            padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 229, 184),
+                              color: Color.fromARGB(255, 130, 30, 60),
+                              border: Border(
+                                bottom:
+                                    BorderSide(color: Colors.black, width: 1),
+                              ),
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Container(
-                                  width: 80,
-                                  child: Expanded(
-                                      child: Text('NOME',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))),
+                                Expanded(
+                                  child: Text(
+                                    'NOME',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 120,
-                                  child: Expanded(
-                                      child: Text('EMAIL',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))),
+                                Expanded(
+                                  child: Text(
+                                    'EMAIL',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
-                                Container(
-                                  width: 48,
-                                  child: Expanded(
-                                      child: Text('AÇÕES',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))),
+                                Expanded(
+                                  child: Text(
+                                    'AÇÕES',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          // ListView de usuarios
+
+                          // ListView de usuários
                           ListView.builder(
                             shrinkWrap: true,
                             physics:
                                 NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
                             itemCount: _.usuarios.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 229, 184)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                        child: Text(
-                                      _.usuarios[index]["nome"]!,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 14),
-                                    )),
-
-                                    Expanded(
-                                        child: Text(
-                                      _.usuarios[index]["email"]!,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 14),
-                                    )),
-
-                                    //VerticalDivider(color: Colors.b,),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                      child: Expanded(
+                              return Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _.usuarios[index]["nome"]!,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        color: Colors.black, // Divisor vertical
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _.usuarios[index]["email"]!,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        color: Colors.black, // Divisor vertical
+                                      ),
+                                      Expanded(
                                         child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Center(
-                                                child: ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                            backgroundColor:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    130,
-                                                                    30,
-                                                                    60),
-                                                            padding:
-                                                                EdgeInsets
-                                                                    .all(3),
-                                                            maximumSize:
-                                                                Size(25, 25),
-                                                            minimumSize:
-                                                                Size(5, 5)),
-                                                    onPressed: () {
-                                                      editarUsuarios(
-                                                          _.usuarios[index]
-                                                                  ["nome"]
-                                                              .toString(),
-                                                          _.usuarios[index]
-                                                                  ["email"]
-                                                              .toString(),
-                                                          _.usuarios[index]
-                                                                  ["senha"]
-                                                              .toString(),
-                                                          _isObscured);
-                                                    },
-                                                    child: Icon(
-                                                      Icons.edit_rounded,
-                                                      color: Colors.white,
-                                                      size: 18,
-                                                    ))),
-                                            Container(
-                                              //margin: EdgeInsets.only(right: 1000),
-                                              child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          backgroundColor:
-                                                              const Color
-                                                                  .fromARGB(255,
-                                                                  255, 17, 0),
-                                                          padding:
-                                                              EdgeInsets.all(3),
-                                                          maximumSize:
-                                                              Size(25, 25),
-                                                          minimumSize:
-                                                              Size(5, 5)),
-                                                  onPressed: () {
-                                                    removerItem(
-                                                        _.usuarios[index]
-                                                            ['nome']);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                  )),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Color.fromARGB(
+                                                    255, 130, 30, 60),
+                                                padding: EdgeInsets.all(3),
+                                                maximumSize: Size(25, 25),
+                                                minimumSize: Size(5, 5),
+                                              ),
+                                              onPressed: () {
+                                                editarUsuarios(
+                                                  _.usuarios[index]["nome"]!,
+                                                  _.usuarios[index]["email"]!,
+                                                  _.usuarios[index]["senha"]!,
+                                                  _isObscured,
+                                                );
+                                              },
+                                              child: Icon(
+                                                Icons.edit_rounded,
+                                                color: Colors.white,
+                                                size: 18,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 255, 17, 0),
+                                                padding: EdgeInsets.all(3),
+                                                maximumSize: Size(25, 25),
+                                                minimumSize: Size(5, 5),
+                                              ),
+                                              onPressed: () {
+                                                removerItem(
+                                                    _.usuarios[index]['nome']);
+                                              },
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 18,
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                  if (index < _.usuarios.length - 1)
+                                    Divider(
+                                        color:
+                                            Colors.black), // Divisor horizontal
+                                ],
                               );
                             },
                           ),
