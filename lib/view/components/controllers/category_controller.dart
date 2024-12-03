@@ -9,11 +9,10 @@ class CategoryController extends ChangeNotifier {
   var objectId;
   var categoriaNome;
   List<ParseObject> tasks = [];
+  List<ParseObject> category = [];
   TextEditingController taskController = TextEditingController();
 
   getCategoria() async {
-    isLoading = true;
-    error = '';
     notifyListeners();
     try {
       final QueryBuilder<ParseObject> query =
@@ -35,8 +34,6 @@ class CategoryController extends ChangeNotifier {
   }
 
   addCategoria() async {
-    isLoading = true;
-    error = '';
     notifyListeners();
     try {
       String task = taskController.text.trim();
