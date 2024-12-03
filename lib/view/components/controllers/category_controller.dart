@@ -6,6 +6,8 @@ class CategoryController extends ChangeNotifier {
   var isLoading = false;
   var error = '';
   var categoria = <Categoria>[];
+  var objectId;
+  var categoriaNome;
   List<ParseObject> tasks = [];
   TextEditingController taskController = TextEditingController();
 
@@ -57,6 +59,22 @@ class CategoryController extends ChangeNotifier {
       }
     } catch (e) {
       error = e.toString();
+      notifyListeners();
+    }
+  }
+
+  removerCategoria(String objectId, String categoriaNome) async {
+    final categoria = ParseObject('Categoria')..objectId = objectId;
+
+    // Remove a categoria
+    final deleteResponse = await categoria.delete();
+    notifyListeners();
+    if (deleteResponse.success) {
+      await getCategoria();
+      notifyListeners();
+      print('Categoria removida com sucesso: $objectId');
+    } else {
+      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
       notifyListeners();
     }
   }

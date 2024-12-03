@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/controllers/category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
@@ -9,12 +10,14 @@ class MyPopupProduct extends StatefulWidget {
 }
 
 class _MyPopupProductState extends State<MyPopupProduct> {
+  final store = CategoryController();
   List<ParseObject> tasks = [];
   TextEditingController taskController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    fetchCategorias(); // Carrega as categorias ao iniciar o widget
+    //store.getCategoria();
+    store.getCategoria();
   }
 
   @override
@@ -103,7 +106,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                         ),
                       ),
                       TextSpan(
-                        text: categoriaNome,
+                        text: store.categoriaNome,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -142,8 +145,9 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                       ),
                     ),
                     onPressed: () {
-                      removerCategoria(objectId,
-                          categoriaNome); // Chama a função para remover a categoria
+                      store.removerCategoria(
+                          store.objectId, store.categoriaNome);
+                      //store.getCategoria(); // Chama a função para remover a categoria
                       Navigator.of(context).pop(); // Fecha o diálogo
 
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -175,184 +179,181 @@ class _MyPopupProductState extends State<MyPopupProduct> {
 
   openDialog() => showDialog(
         context: context,
-        builder: (context) => Dialog(
-          child: Container(
-            width: 450,
-            height: 405,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                  child: Center(
-                    child: Text(
-                      "Editar Categoria",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                Divider(indent: 10.0, endIndent: 10.0, color: Colors.black),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 165, 0),
-                  child: Text(
-                    "Categorias",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 190,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: tasks.map((task) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(left: 8),
-                              width: 180,
-                              child: Text(
-                                task.get<String>('nome') ?? '',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ),
-                            // Chama a função do Diálogo.
-                            Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  String objectId = task.objectId ?? '';
-                                  String categoriaNome =
-                                      task.get<String>('nome') ?? '';
-                                  if (objectId.isNotEmpty) {
-                                    removerItemCategoria(
-                                        objectId, categoriaNome);
-                                  } else {
-                                    print('Erro: objectId está vazio');
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  backgroundColor: Colors.red,
-                                  padding: EdgeInsets.all(2),
-                                  maximumSize: Size(20, 20),
-                                  minimumSize: Size(5, 5),
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 153, 0),
-                  child: Text("Nova Categoria"),
-                ),
-                // Aqui começa adicionar a categoria
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      width: 120,
-                      height: 30,
-                      child: TextField(
-                        controller: taskController,
-                        cursorWidth: 1,
-                        cursorHeight: 20,
-                        textAlign: TextAlign.center,
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+        builder: (context) => ListenableBuilder(
+            listenable: store,
+            builder: (context, snapshot) {
+              return Dialog(
+                child: Container(
+                  width: 450,
+                  height: 405,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                        child: Center(
+                          child: Text(
+                            "Editar Categoria",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          maximumSize: Size(50, 30),
-                          minimumSize: Size(20, 5)),
-                      onPressed: () async {
-                        await addCategoria(); // Chama a função para adicionar a categoria
-
-                        // Exibe um SnackBar após adicionar a categoria
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Categoria adicionada com sucesso!'),
-                            duration: Duration(
-                                seconds:
-                                    1), // Tempo que o SnackBar ficará visível
+                      Divider(
+                          indent: 10.0, endIndent: 10.0, color: Colors.black),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 10, 165, 0),
+                        child: Text(
+                          "Categorias",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 190,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: store.tasks.map((task) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    width: 180,
+                                    child: Text(
+                                      task.get<String>('nome') ?? '',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                  // Chama a função do Diálogo.
+                                  Container(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        store.objectId = task.objectId ?? '';
+                                        store.categoriaNome =
+                                            task.get<String>('nome') ?? '';
+                                        if (store.objectId.isNotEmpty) {
+                                          removerItemCategoria(store.objectId,
+                                              store.categoriaNome);
+                                        } else {
+                                          print('Erro: objectId está vazio');
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: CircleBorder(),
+                                        backgroundColor: Colors.red,
+                                        padding: EdgeInsets.all(2),
+                                        maximumSize: Size(20, 20),
+                                        minimumSize: Size(5, 5),
+                                      ),
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
                           ),
-                        );
-                      },
-                      child: Icon(Icons.check, color: Colors.white, size: 20),
-                    ),
-                  ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 20, 153, 0),
+                        child: Text("Nova Categoria"),
+                      ),
+                      // Aqui começa adicionar a categoria
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                            width: 120,
+                            height: 30,
+                            child: TextField(
+                              controller: store.taskController,
+                              cursorWidth: 1,
+                              cursorHeight: 20,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0),
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                maximumSize: Size(50, 30),
+                                minimumSize: Size(20, 5)),
+                            onPressed: () async {
+                              await store
+                                  .addCategoria(); // Chama a função para adicionar a categoria
+
+                              // Exibe um SnackBar após adicionar a categoria
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Categoria adicionada com sucesso!'),
+                                  duration: Duration(
+                                      seconds:
+                                          1), // Tempo que o SnackBar ficará visível
+                                ),
+                              );
+                            },
+                            child: Icon(Icons.check,
+                                color: Colors.white, size: 20),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              );
+            }),
       );
 
-  Future<void> removerCategoria(String objectId, String categoriaNome) async {
-    final categoria = ParseObject('Categoria')..objectId = objectId;
+  // Future<void> fetchCategorias() async {
+  //   final QueryBuilder<ParseObject> query =
+  //       QueryBuilder<ParseObject>(ParseObject('Categoria'));
 
-    // Remove a categoria
-    final deleteResponse = await categoria.delete();
+  //   var response = await query.query();
 
-    if (deleteResponse.success) {
-      await fetchCategorias();
-      print('Categoria removida com sucesso: $objectId');
-    } else {
-      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
-    }
-  }
+  //   if (response.success && response.results != null) {
+  //     setState(() {
+  //       tasks = response.results!.cast<ParseObject>();
+  //     });
+  //   } else {
+  //     print("Erro ao buscar categorias: ${response.error?.message}");
+  //   }
+  // }
 
-  Future<void> fetchCategorias() async {
-    final QueryBuilder<ParseObject> query =
-        QueryBuilder<ParseObject>(ParseObject('Categoria'));
+  // Future<void> addCategoria() async {
+  //   String task = taskController.text.trim();
+  //   if (task.isNotEmpty) {
+  //     var categoria = ParseObject('Categoria')..set('nome', task);
 
-    var response = await query.query();
+  //     var response = await categoria.save();
 
-    if (response.success && response.results != null) {
-      setState(() {
-        tasks = response.results!.cast<ParseObject>();
-      });
-    } else {
-      print("Erro ao buscar categorias: ${response.error?.message}");
-    }
-  }
-
-  Future<void> addCategoria() async {
-    String task = taskController.text.trim();
-    if (task.isNotEmpty) {
-      var categoria = ParseObject('Categoria')..set('nome', task);
-
-      var response = await categoria.save();
-
-      if (response.success) {
-        setState(() {
-          tasks.add(categoria);
-          fetchCategorias();
-          print("Enviou");
-        });
-        taskController.clear();
-      } else {
-        print("Erro");
-      }
-    }
-  }
+  //     if (response.success) {
+  //       setState(() {
+  //         tasks.add(categoria);
+  //         fetchCategorias();
+  //         print("Enviou");
+  //       });
+  //       taskController.clear();
+  //     } else {
+  //       print("Erro");
+  //     }
+  //   }
+  // }
 }
