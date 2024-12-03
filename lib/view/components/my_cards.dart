@@ -10,12 +10,16 @@ class MyCards extends StatefulWidget {
 class _MyCardsState extends State<MyCards> {
   List<Map<String, String>> products = [];
   List<Map<String, String>> adicionais = [];
+  Map<String, int> adicionaisCounter = {};
+  int _counterQuantidade = 1; // Começa com 1 por padrão
+
   @override
-      void initState() {
-        super.initState();
-        fetchProdutos();
-        fetchAdicionais();
-      }
+  void initState() {
+    super.initState();
+    fetchProdutos();
+    fetchAdicionais();
+  }
+
   String formatarPreco(num preco) {
     return NumberFormat.currency(
       locale: 'pt_BR', // Formato brasileiro
@@ -31,49 +35,52 @@ class _MyCardsState extends State<MyCards> {
     }
   }
 
-  Future<void> fetchAdicionais () async {
-    final query = QueryBuilder<ParseObject> (ParseObject('Adicional'));
-    final response = await query.query();
-    if (response.success && response.result !=  null) {  
-      
-      setState(() {
-        adicionais = response.results!.map((e) {
-          final adicional = e as ParseObject; // Cast para ParseObject
-          return {
-            'nome_categoria': adicional.get<String>('nome') ?? '',
-            'preco': formatarPreco(adicional.get<num>('preco') ?? 0),
-          };
-        }).toList().cast<Map<String, String>>(); // Faz o cast explícito
-      });
-        } else {
-          print('erro ao buscar adicional');
-      }
-  }
-  
-  Future<void> fetchProdutos () async {
+  Future<void> fetchProdutos() async {
     final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
     final response = await query.query();
-    
-    if (response.success && response.result !=  null) {  
-      
+
+    if (response.success && response.result != null) {
+      if (!mounted) return; // Verifica se o widget ainda está montado
       setState(() {
         products = response.results!.map((e) {
-          final product = e as ParseObject; // Cast para ParseObject
+          final product = e as ParseObject;
           return {
-            'title': product.get<String>('nome') ?? '',
-            'description': product.get<String>('descricao') ?? '',
+            'title': product.get<String>('nome') ?? 'Nome não disponível',
+            'description': product.get<String>('descricao') ?? 'Descrição não disponível',
             'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
             'preco': formatarPreco(product.get<num>('preco') ?? 0),
           };
-        }).toList().cast<Map<String, String>>(); // Faz o cast explícito
+        }).toList().cast<Map<String, String>>();
       });
-        } else {
-          print('erro ao buscar produtos');
-        }       
+    } else {
+      print('erro ao buscar produtos');
     }
+  }
 
-  Map<String, int> adicionaisCounter = {};
-  int _counterQuantidade = 1; // Começa com 1 por padrão
+  Future<void> fetchAdicionais() async {
+    final query = QueryBuilder<ParseObject>(ParseObject('Adicional'));
+    final response = await query.query();
+
+    if (response.success && response.result != null) {
+      if (!mounted) return; // Verifica se o widget ainda está montado
+      setState(() {
+        adicionais = response.results!.map((e) {
+          final adicional = e as ParseObject;
+          return {
+            'nome_categoria': adicional.get<String>('nome') ?? 'Adicional',
+            'preco': formatarPreco(adicional.get<num>('preco') ?? 0),
+          };
+        }).toList().cast<Map<String, String>>();
+
+        // Inicializa o contador de adicionais
+        adicionais.forEach((adicional) {
+          adicionaisCounter[adicional['nome_categoria']!] = 0;
+        });
+      });
+    } else {
+      print('erro ao buscar adicional');
+    }
+  }
 
   Future<void> openDialog(BuildContext context, Map<String, String> product) =>
       showDialog(
@@ -96,7 +103,7 @@ class _MyCardsState extends State<MyCards> {
                       Stack(
                         children: [
                           Text(
-                            product['title']!,
+                            product['title'] ?? 'Nome não disponível',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -105,11 +112,10 @@ class _MyCardsState extends State<MyCards> {
                         ],
                       ),
                       Divider(color: Colors.black),
-                      Image.network(product['image']!, height: 150),
+                      Image.network(product['image'] ?? '', height: 150),
                       SizedBox(height: 10),
-                      Text(product['description']!),
+                      Text(product['description'] ?? 'Descrição não disponível'),
                       Divider(color: Colors.black),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -147,9 +153,7 @@ class _MyCardsState extends State<MyCards> {
                           ),
                         ],
                       ),
-
                       Divider(color: Colors.black),
-
                       // Seção de Adicionais
                       Text(
                         "Adicionais",
@@ -182,10 +186,8 @@ class _MyCardsState extends State<MyCards> {
                           );
                         }).toList(),
                       ),
-
                       SizedBox(height: 10),
                       Divider(color: Colors.black),
-
                       // Valor total (para ser ajustado com base nos contadores)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,7 +208,6 @@ class _MyCardsState extends State<MyCards> {
                         ],
                       ),
                       Divider(color: Colors.black),
-
                       SizedBox(height: 10),
                       Text(
                         "Descrição",
@@ -335,45 +336,41 @@ class _MyCardsState extends State<MyCards> {
                       // Centralizando a imagem
                       Center(
                         child: Image.network(
-                          product['image']!,
+                          product['image'] ?? '',
                           height: 120,
                         ),
                       ),
                       Text(
-                        _truncateText(product['description']!, 30),
+                        _truncateText(product['description'] ?? 'Descrição não disponível', 30),
                         style: TextStyle(fontSize: 12),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            product['preco']!,
+                            product['preco'] ?? 'R\$ 0,00',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 130, 30,
-                                  60), // Cor personalizada adicionada
+                              color: Color.fromARGB(255, 130, 30, 60),
                             ),
                           ),
                           Container(
                             width: 30,
                             height: 30,
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(
-                                  255, 130, 30, 60), // Cor de fundo do botão
+                              color: Color.fromARGB(255, 130, 30, 60),
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
                               icon: Icon(
                                 Icons.shopping_bag,
-                                color: Colors.white, // Ícone branco
+                                color: Colors.white,
                                 size: 18,
                               ),
                               onPressed: () => openDialog(context, product),
-                              padding:
-                                  EdgeInsets.zero, // Remove padding adicional
-                              constraints:
-                                  BoxConstraints(), // Limita o tamanho do botão
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
                             ),
                           ),
                         ],
