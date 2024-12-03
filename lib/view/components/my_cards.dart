@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyCards extends StatefulWidget {
   @override
@@ -6,38 +8,71 @@ class MyCards extends StatefulWidget {
 }
 
 class _MyCardsState extends State<MyCards> {
-  final List<Map<String, String>> products = [
-    {
-      'title': 'Duplo Burguer',
-      'description': 'Carne 180g, queijo, alface e tomate.',
-      'image': 'assets/images/burguer1.jpg',
-      'preco': 'R\$20,00',
-    },
-    {
-      'title': 'Cheeseburger',
-      'description': 'Carne 180g, queijo cheddar, cebola.',
-      'image': 'assets/images/burguer2.jpg',
-      'preco': 'R\$22,00',
-    },
-    {
-      'title': 'Triplo Burguer',
-      'description': 'Carne 180g, queijo, alface e tomate.',
-      'image': 'assets/images/burguer2.jpg',
-      'preco': 'R\$20,00',
-    },
-    {
-      'title': 'Comeu Deitou',
-      'description': 'Carne 180g, queijo cheddar, cebola.',
-      'image': 'assets/images/burguer1.jpg',
-      'preco': 'R\$22,00',
-    },
-  ];
+  List<Map<String, String>> products = [];
+  List<Map<String, String>> adicionais = [];
+  @override
+      void initState() {
+        super.initState();
+        fetchProdutos();
+        fetchAdicionais();
+      }
+  String formatarPreco(num preco) {
+    return NumberFormat.currency(
+      locale: 'pt_BR', // Formato brasileiro
+      symbol: 'R\$',
+    ).format(preco);
+  }
 
-  int _counterCheddar = 0;
-  int _counterBacon = 0;
-  int _counterCalabresa = 0;
-  int _counterOvo = 0;
-  int _counterBarbecue = 0;
+  String _truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + '...';
+    }
+  }
+
+  Future<void> fetchAdicionais () async {
+    final query = QueryBuilder<ParseObject> (ParseObject('Adicional'));
+    final response = await query.query();
+    if (response.success && response.result !=  null) {  
+      
+      setState(() {
+        adicionais = response.results!.map((e) {
+          final adicional = e as ParseObject; // Cast para ParseObject
+          return {
+            'nome_categoria': adicional.get<String>('nome') ?? '',
+            'preco': formatarPreco(adicional.get<num>('preco') ?? 0),
+          };
+        }).toList().cast<Map<String, String>>(); // Faz o cast explícito
+      });
+        } else {
+          print('erro ao buscar adicional');
+      }
+  }
+  
+  Future<void> fetchProdutos () async {
+    final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
+    final response = await query.query();
+    
+    if (response.success && response.result !=  null) {  
+      
+      setState(() {
+        products = response.results!.map((e) {
+          final product = e as ParseObject; // Cast para ParseObject
+          return {
+            'title': product.get<String>('nome') ?? '',
+            'description': product.get<String>('descricao') ?? '',
+            'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
+            'preco': formatarPreco(product.get<num>('preco') ?? 0),
+          };
+        }).toList().cast<Map<String, String>>(); // Faz o cast explícito
+      });
+        } else {
+          print('erro ao buscar produtos');
+        }       
+    }
+
+  Map<String, int> adicionaisCounter = {};
   int _counterQuantidade = 1; // Começa com 1 por padrão
 
   Future<void> openDialog(BuildContext context, Map<String, String> product) =>
@@ -70,7 +105,7 @@ class _MyCardsState extends State<MyCards> {
                         ],
                       ),
                       Divider(color: Colors.black),
-                      Image.asset(product['image']!, height: 150),
+                      Image.network(product['image']!, height: 150),
                       SizedBox(height: 10),
                       Text(product['description']!),
                       Divider(color: Colors.black),
@@ -124,55 +159,29 @@ class _MyCardsState extends State<MyCards> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      _buildAdditionalItem("Cheddar (R\$1,00)", _counterCheddar,
-                          () {
-                        setState(() {
-                          if (_counterCheddar > 0) _counterCheddar--;
-                        });
-                      }, () {
-                        setState(() {
-                          _counterCheddar++;
-                        });
-                      }),
-                      _buildAdditionalItem("Bacon (R\$2,00)", _counterBacon,
-                          () {
-                        setState(() {
-                          if (_counterBacon > 0) _counterBacon--;
-                        });
-                      }, () {
-                        setState(() {
-                          _counterBacon++;
-                        });
-                      }),
-                      _buildAdditionalItem(
-                          "Calabresa (R\$0,50)", _counterCalabresa, () {
-                        setState(() {
-                          if (_counterCalabresa > 0) _counterCalabresa--;
-                        });
-                      }, () {
-                        setState(() {
-                          _counterCalabresa++;
-                        });
-                      }),
-                      _buildAdditionalItem("Ovo (R\$1,00)", _counterOvo, () {
-                        setState(() {
-                          if (_counterOvo > 0) _counterOvo--;
-                        });
-                      }, () {
-                        setState(() {
-                          _counterOvo++;
-                        });
-                      }),
-                      _buildAdditionalItem(
-                          "Barbecue (R\$1,50)", _counterBarbecue, () {
-                        setState(() {
-                          if (_counterBarbecue > 0) _counterBarbecue--;
-                        });
-                      }, () {
-                        setState(() {
-                          _counterBarbecue++;
-                        });
-                      }),
+                      Column(
+                        children: adicionais.map((adicional) {
+                          final nomeCategoria = adicional['nome_categoria'] ?? 'Adicional';
+                          final contador = adicionaisCounter[nomeCategoria] ?? 0;
+
+                          return _buildAdditionalItem(
+                            nomeCategoria,
+                            contador,
+                            () {
+                              setState(() {
+                                if (adicionaisCounter[nomeCategoria] != null && adicionaisCounter[nomeCategoria]! > 0) {
+                                  adicionaisCounter[nomeCategoria] = adicionaisCounter[nomeCategoria]! - 1;
+                                }
+                              });
+                            },
+                            () {
+                              setState(() {
+                                adicionaisCounter[nomeCategoria] = (adicionaisCounter[nomeCategoria] ?? 0) + 1;
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
 
                       SizedBox(height: 10),
                       Divider(color: Colors.black),
@@ -325,13 +334,13 @@ class _MyCardsState extends State<MyCards> {
                     children: [
                       // Centralizando a imagem
                       Center(
-                        child: Image.asset(
+                        child: Image.network(
                           product['image']!,
                           height: 120,
                         ),
                       ),
                       Text(
-                        product['description']!,
+                        _truncateText(product['description']!, 30),
                         style: TextStyle(fontSize: 12),
                       ),
                       Row(
