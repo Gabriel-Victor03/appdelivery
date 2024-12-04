@@ -12,6 +12,7 @@ class AdicionalController extends ChangeNotifier{
   
   List<Map<String, String>> adicionais = [];
   Map<String, int> adicionaisCounter = {};
+
   String formatarPreco(num preco) {
     return NumberFormat.currency(
       locale: 'pt_BR', // Formato brasileiro
@@ -31,7 +32,7 @@ class AdicionalController extends ChangeNotifier{
         adicionais = response.results!.map((e) {
           final adicional = e as ParseObject;
           return {
-            'nome_categoria': adicional.get<String>('nome') ?? 'Adicional',
+            'nomeAdicional': adicional.get<String>('nome') ?? 'Adicional',
             'preco': formatarPreco(adicional.get<num>('preco') ?? 0),
           };
         }).toList().cast<Map<String, String>>();
@@ -39,18 +40,19 @@ class AdicionalController extends ChangeNotifier{
 
         // Inicializa o contador de adicionais
         adicionais.forEach((adicional) {
-          adicionaisCounter[adicional['nome_categoria']!] = 0;
+          adicionaisCounter[adicional['nomeAdicional']!] = 0;
         });
       };
     }
 
-    incrementar(){
-      contador++;
+    void incrementar(String nomeAdicional) {
+    adicionaisCounter[nomeAdicional] = (adicionaisCounter[nomeAdicional] ?? 0) + 1;
+    notifyListeners();
+  }
+      void decrement(String nomeAdicional) {
+    if (adicionaisCounter[nomeAdicional] != null && adicionaisCounter[nomeAdicional]! > 0) {
+      adicionaisCounter[nomeAdicional] = adicionaisCounter[nomeAdicional]! - 1;
       notifyListeners();
       }
-      decrement(){
-        contador--;
-        notifyListeners();
-      }
-
+    }
 }

@@ -144,23 +144,20 @@ class _MyCardsState extends State<MyCards> {
                           SizedBox(height: 5),
                           Column(
                             children: adicionalController.adicionais.map((adicional) {
-                              final nomeCategoria = adicional['nome_categoria'] ?? 'Adicional';
-                              //final contador = adicionalController.adicionaisCounter[nomeCategoria] ?? 0;
+                              final nomeAdicional = adicional['nomeAdicional'] ?? 'Adicional';
+                              final contador = adicionalController.adicionaisCounter[nomeAdicional] ?? 0;
               
                               return _buildAdditionalItem(
-                                nomeCategoria,
-                                adicionalController.contador,
+                                nomeAdicional,
+                                contador,
                                 () {
                                   setState(() {
-                                    if (adicionalController.adicionaisCounter[nomeCategoria] != null && adicionalController.adicionaisCounter[nomeCategoria]! > 0) {
-                                      print(adicionalController.adicionaisCounter[nomeCategoria]);
-                                      adicionalController.decrement();
-                                    }
+                                    adicionalController.decrement(nomeAdicional);
                                   });
                                 },
                                 () {
                                   setState(() {
-                                   adicionalController.incrementar();
+                                    adicionalController.incrementar(nomeAdicional);
                                   });
                                 },
                               );
