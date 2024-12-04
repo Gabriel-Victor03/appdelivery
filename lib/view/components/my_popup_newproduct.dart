@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appdelivery/view/components/controllers/category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,7 +39,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
   List<ParseObject> tasks = [];
   XFile? imagem;
   String? selectedCategory;
-
+  final store = CategoryController();
   TextEditingController taskController = TextEditingController();
 
   @override
@@ -74,6 +75,7 @@ class _MyPopupNewproductState extends State<MyPopupNewproduct> {
                       side: BorderSide(color: Color.fromARGB(50, 0, 0, 0))),
                   onPressed: () {
                     openDialog();
+                    store.getCategoria();
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
