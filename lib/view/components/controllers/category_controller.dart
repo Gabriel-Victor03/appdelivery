@@ -1,5 +1,6 @@
 import 'package:appdelivery/view/models/categoria_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class CategoryController extends ChangeNotifier {
@@ -11,6 +12,8 @@ class CategoryController extends ChangeNotifier {
   List<ParseObject> tasks = [];
   List<ParseObject> category = [];
   TextEditingController taskController = TextEditingController();
+  XFile? image;
+  var selectimagem;
 
   getCategoria() async {
     notifyListeners();
@@ -72,6 +75,24 @@ class CategoryController extends ChangeNotifier {
       print('Categoria removida com sucesso: $objectId');
     } else {
       print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
+      notifyListeners();
+    }
+  }
+
+  void visualizarCategoria(Object? value) {
+    selectimagem = value;
+    notifyListeners();
+  }
+
+  selecionarImagem() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      XFile? file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) image = file;
+      notifyListeners();
+      print("cheguei");
+    } catch (e) {
+      print(e);
       notifyListeners();
     }
   }
