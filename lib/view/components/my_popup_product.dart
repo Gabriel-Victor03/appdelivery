@@ -1,4 +1,4 @@
-import 'package:appdelivery/view/components/controllers/category_controller.dart';
+import 'package:appdelivery/view/controllers/category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 

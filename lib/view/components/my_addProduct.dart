@@ -1,46 +1,8 @@
 import 'dart:io';
-
-import 'package:appdelivery/view/components/controllers/addProduct_controller.dart';
+import 'package:appdelivery/view/controllers/addProduct_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-// class ControllerPd extends GetxController {
-//   XFile? imagem;
-//   String? selectedCategory;
-//   List<ParseObject> tasks = [];
-//   selecionarImagem() async {
-//     final ImagePicker picker = ImagePicker();
-//     try {
-//       XFile? file = await picker.pickImage(source: ImageSource.gallery);
-//       if (file != null) imagem = file;
-//       update();
-//       print("cheguei");
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-
-//   visualizarCategoria(String? select) {
-//     selectedCategory = select;
-//     print("off");
-//     update();
-//   }
-
-//   fetchCategorias() async {
-//     final QueryBuilder<ParseObject> query =
-//         QueryBuilder<ParseObject>(ParseObject('Categoria'));
-
-//     var response = await query.query();
-
-//     if (response.success && response.results != null) {
-//       tasks = response.results!.cast<ParseObject>();
-//     } else {
-//       print("Erro ao buscar categorias: ${response.error?.message}");
-//     }
-//   }
-// }
 
 class MyAddproduct extends StatefulWidget {
   const MyAddproduct({super.key});

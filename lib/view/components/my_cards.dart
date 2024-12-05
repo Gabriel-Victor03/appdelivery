@@ -1,5 +1,5 @@
-import 'package:appdelivery/view/components/controllers/adicional_controller.dart';
-import 'package:appdelivery/view/components/controllers/adicional_controller.dart';
+import 'package:appdelivery/view/controllers/adicional_controller.dart';
+import 'package:appdelivery/view/controllers/adicional_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
