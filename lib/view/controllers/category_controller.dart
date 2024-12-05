@@ -14,6 +14,7 @@ class CategoryController extends ChangeNotifier {
   TextEditingController taskController = TextEditingController();
   XFile? image;
   var selectimagem;
+  //List<ParseObject> publisher = [];
 
   getCategoria() async {
     notifyListeners();
@@ -88,9 +89,8 @@ class CategoryController extends ChangeNotifier {
     final ImagePicker picker = ImagePicker();
     try {
       XFile? file = await picker.pickImage(source: ImageSource.gallery);
-      if (file != null) image = file;
+      if (file != null) return image = file;
       notifyListeners();
-      print("cheguei");
     } catch (e) {
       print(e);
       notifyListeners();

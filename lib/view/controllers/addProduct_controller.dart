@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -44,5 +46,18 @@ class AddproductController extends ChangeNotifier {
     } catch (e) {
       error = e.toString();
     }
+  }
+
+  inserirProduto(String nome, String descricao, double preco, var objectId,
+      String image) async {
+    final File file = File(image);
+    final product = ParseObject('Produto')
+      ..set('descricao', descricao)
+      ..set(
+          'categoria_produto', (ParseObject('categoria')..objectId = objectId))
+      ..set('preco', preco)
+      ..set('image_produto', file)
+      ..set('nome', nome);
+    await product.save();
   }
 }

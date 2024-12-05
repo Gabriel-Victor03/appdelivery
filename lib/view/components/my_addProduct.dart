@@ -1,8 +1,8 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:appdelivery/view/controllers/addProduct_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-
 
 class MyAddproduct extends StatefulWidget {
   const MyAddproduct({super.key});
@@ -14,6 +14,9 @@ class MyAddproduct extends StatefulWidget {
 class _MyAddproductState extends State<MyAddproduct> {
   final store = AddproductController();
   TextEditingController taskController = TextEditingController();
+  final TextEditingController descricao = TextEditingController();
+  final TextEditingController nome = TextEditingController();
+  final TextEditingController preco = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -146,6 +149,7 @@ class _MyAddproductState extends State<MyAddproduct> {
                       width: 260,
                       height: 60,
                       child: TextField(
+                        controller: descricao,
                         cursorWidth: 1,
                         cursorHeight: 30,
                         textAlign: TextAlign.center,
@@ -198,7 +202,16 @@ class _MyAddproductState extends State<MyAddproduct> {
                                           borderRadius:
                                               BorderRadiusDirectional.circular(
                                                   13))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // double prec =
+                                    //     double.tryParse(preco.text) ?? (20.0);
+                                    // AddproductController().inserirProduto(
+                                    //     nome.text,
+                                    //     descricao.text,
+                                    //     prec,
+                                    //     store.selectedCategory,
+                                    //     store.imagem.toString());
+                                  },
                                   child: Row(
                                     children: [
                                       Icon(
