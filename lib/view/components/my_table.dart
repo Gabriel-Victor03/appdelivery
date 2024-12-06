@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_detailsprod.dart';
 import 'package:appdelivery/view/components/my_popup_newproduct.dart';
 import 'package:appdelivery/view/components/my_popup_product.dart';
 import 'package:flutter/material.dart';
@@ -164,15 +165,18 @@ class _MyTableState extends State<MyTable> {
                                                   maximumSize: Size(25, 25),
                                                   minimumSize: Size(5, 5)),
                                               onPressed: () {
-                                                openDetails(
-                                                    produtos[index]['categoria']
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        MyDetailsprod(nome: produtos[index]['nome']
+                                                        .toString(),descricao: produtos[index]['descricao']
                                                         .toString(),
-                                                    produtos[index]['nome']
-                                                        .toString(),
-                                                    produtos[index]['descricao']
-                                                        .toString(),
-                                                    produtos[index]['preco']
-                                                        .toString());
+                                                         preco: produtos[index]['preco'].toString()
+                                                        , categoria: produtos[index]['categoria']
+                                                        .toString(),));
+                                                    
+                                                   
+                                                    
                                               },
                                               child: Transform.rotate(
                                                   angle: 1.64159,
@@ -269,183 +273,6 @@ class _MyTableState extends State<MyTable> {
                                   ],
                                 ),*/
 
-  Future openDetails(
-          String categoria, String nome, String descricao, String preco) =>
-      showDialog(
-          context: context,
-          builder: (context) => Dialog(
-                  child: Container(
-                width: 480,
-                height: 420,
-                child: ListView(
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          child: Text(
-                            "Detalhes do produto",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Divider(
-                          indent: 8.0,
-                          endIndent: 8.0,
-                          color: Colors.black,
-                        ),
-                        Container(
-                          width: 180,
-                          height: 150,
-                          child: Image.asset("assets/images/burguer1.jpg"),
-                        ),
-                        Divider(
-                          indent: 8.0,
-                          endIndent: 8.0,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Categoria: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: categoria, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start, //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Nome: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: nome, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start, //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 275,
-                                padding: EdgeInsets.only(left: 12),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Descrição: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: descricao, // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14),
-                                        // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.start,
-                                  //
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 250,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors
-                                            .black), // Estilo padrão para o texto
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Preço: ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ), // Estilo normal
-                                      ),
-                                      TextSpan(
-                                        text: "R\$" +
-                                            preco
-                                                .toString(), // Texto da variável
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize:
-                                                14), // Estilo para o texto em negrito
-                                      ),
-                                    ],
-                                  ),
-                                  //
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                      ],
-                    ),
-                  ],
-                ),
-              )));
   Future removerItem(var teste) => showDialog(
       // função de remover itens do produto
       context: context,
