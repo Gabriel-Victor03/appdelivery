@@ -100,6 +100,7 @@ class _MyAddproductState extends State<MyAddproduct> {
                           width: 130,
                           height: 30,
                           child: TextField(
+                            controller: preco,
                             cursorWidth: 1,
                             cursorHeight: 20,
                             textAlign: TextAlign.center,
@@ -123,9 +124,11 @@ class _MyAddproductState extends State<MyAddproduct> {
                     ),
                     Container(
                       // margin: EdgeInsets.fromLTRB(0, 0, 130, 0),
+
                       width: 260,
                       height: 30,
                       child: TextField(
+                        controller: nome,
                         cursorWidth: 1,
                         cursorHeight: 20,
                         textAlign: TextAlign.center,
@@ -202,15 +205,26 @@ class _MyAddproductState extends State<MyAddproduct> {
                                           borderRadius:
                                               BorderRadiusDirectional.circular(
                                                   13))),
-                                  onPressed: () {
-                                    // double prec =
-                                    //     double.tryParse(preco.text) ?? (20.0);
-                                    // AddproductController().inserirProduto(
-                                    //     nome.text,
-                                    //     descricao.text,
-                                    //     prec,
-                                    //     store.selectedCategory,
-                                    //     store.imagem.toString());
+                                  onPressed: () async {
+                                    if (store.selectedCategory == null) {
+                                      print(
+                                          'Selecione uma categoria antes de salvar.');
+                                      return;
+                                    }
+
+                                    if (store.imagem == null) {
+                                      print(
+                                          'Selecione uma imagem antes de salvar.');
+                                      return;
+                                    }
+
+                                    await store.inserirProduto(
+                                      nome.text,
+                                      descricao.text,
+                                      preco.text.toString(),
+                                      store.selectedCategory,
+                                      store.imagem,
+                                    );
                                   },
                                   child: Row(
                                     children: [

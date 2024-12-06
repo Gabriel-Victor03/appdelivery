@@ -48,16 +48,37 @@ class AddproductController extends ChangeNotifier {
     }
   }
 
-  inserirProduto(String nome, String descricao, double preco, var objectId,
-      String image) async {
-    final File file = File(image);
-    final product = ParseObject('Produto')
-      ..set('descricao', descricao)
-      ..set(
-          'categoria_produto', (ParseObject('categoria')..objectId = objectId))
-      ..set('preco', preco)
-      ..set('image_produto', file)
-      ..set('nome', nome);
-    await product.save();
+  inserirProduto(String nome, String descricao, String preco,
+      String? categoriaId, XFile? imagem) async {
+    if (imagem != null) {
+      try {
+        print("AQUIIIIIII");
+        print(preco);
+        double prec =
+            double.tryParse(preco.replaceAll(',', '.').trim()) ?? 20.0;
+        print(prec);
+        final parseFile = ParseFile(File(imagem.path));
+        await parseFile.save();
+
+        final produto = ParseObject('Produto')
+          ..set('descricao', descricao)
+          ..set('preco', prec)
+          ..set('categoriaId', categoriaId)
+          ..set('image_produto', parseFile)
+          ..set('nome', nome);
+
+        final response = await produto.save();
+
+        if (response.success) {
+          print('Produto salvo com sucesso!');
+        } else {
+          print('Erro ao salvar produto: ${response.error?.message}');
+        }
+      } catch (e) {
+        print('Erro ao processar a imagem: $e');
+      }
+    } else {
+      print('Nenhuma imagem selecionada.');
+    }
   }
 }
