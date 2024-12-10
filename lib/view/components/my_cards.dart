@@ -59,188 +59,193 @@ class _MyCardsState extends State<MyCards> {
   }
 
   Future<void> openDialog(BuildContext context, Map<String, String> product) =>
-      showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-          ListenableBuilder(
-            listenable: adicionalController,
-            builder: (context, snapshot) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                backgroundColor: Color.fromARGB(255, 255, 229, 184),
-                contentPadding: EdgeInsets.zero,
-                content: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            children: [
-                              Text(
-                                product['title'] ?? 'Nome não disponível',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ListenableBuilder(
+          listenable: adicionalController,
+          builder: (context, snapshot) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              backgroundColor: Color.fromARGB(255, 255, 229, 184),
+              contentPadding: EdgeInsets.zero,
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Text(
+                              product['title'] ?? 'Nome não disponível',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Divider(color: Colors.black),
-                          Image.network(product['image'] ?? '', height: 150),
-                          SizedBox(height: 10),
-                          Text(product['description'] ?? 'Descrição não disponível'),
-                          Divider(color: Colors.black),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Quantidade:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_counterQuantidade > 1)
-                                          _counterQuantidade--;
-                                      });
-                                    },
-                                    icon: Icon(Icons.remove),
-                                  ),
-                                  Text(
-                                    '$_counterQuantidade',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _counterQuantidade++;
-                                      });
-                                    },
-                                    icon: Icon(Icons.add),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Divider(color: Colors.black),
-                          // Seção de Adicionais
-                          Text(
-                            "Adicionais",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                          SizedBox(height: 5),
-                          Column(
-                            children: adicionalController.adicionais.map((adicional) {
-                              final nomeAdicional = adicional['nomeAdicional'] ?? 'Adicional';
-                              final contador = adicionalController.adicionaisCounter[nomeAdicional] ?? 0;
-              
-                              return _buildAdditionalItem(
-                                nomeAdicional,
-                                contador,
-                                () {
-                                  setState(() {
-                                    adicionalController.decrement(nomeAdicional);
-                                  });
-                                },
-                                () {
-                                  setState(() {
-                                    adicionalController.incrementar(nomeAdicional);
-                                  });
-                                },
-                              );
-                            }).toList(),
-                          ),
-                          SizedBox(height: 10),
-                          Divider(color: Colors.black),
-                          // Valor total (para ser ajustado com base nos contadores)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Valor total:",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                          ],
+                        ),
+                        Divider(color: Colors.black),
+                        Image.network(product['image'] ?? '', height: 150),
+                        SizedBox(height: 10),
+                        Text(product['description'] ?? 'Descrição não disponível'),
+                        Divider(color: Colors.black),
+                        StatefulBuilder(
+                          builder: (BuildContext context, StateSetter setState) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Quantidade:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "R\$ 20,00",
-                                style: TextStyle(
-                                  fontSize: 18,
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_counterQuantidade > 1) {
+                                            _counterQuantidade--;
+                                          }
+                                        });
+                                      },
+                                      icon: Icon(Icons.remove),
+                                    ),
+                                    Text(
+                                      '$_counterQuantidade',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _counterQuantidade++;
+                                        });
+                                      },
+                                      icon: Icon(Icons.add),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            );
+                          },
+                        ),
+                        Divider(color: Colors.black),
+                        // Seção de Adicionais
+                        Text(
+                          "Adicionais",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Divider(color: Colors.black),
-                          SizedBox(height: 10),
-                          Text(
-                            "Descrição",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        SizedBox(height: 5),
+                        Column(
+                          children: adicionalController.adicionais.map((adicional) {
+                            final nomeAdicional = adicional['nomeAdicional'] ?? 'Adicional';
+                            final contador = adicionalController.adicionaisCounter[nomeAdicional] ?? 0;
+
+                            return _buildAdditionalItem(
+                              nomeAdicional,
+                              contador,
+                              () {
+                                adicionalController.decrement(nomeAdicional);
+                              },
+                              () {
+                                adicionalController.incrementar(nomeAdicional);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        SizedBox(height: 10),
+                        Divider(color: Colors.black),
+                        // Valor total (para ser ajustado com base nos contadores)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Valor total:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          TextField(
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                              hintText: " ",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: const Color.fromARGB(255, 109, 109, 109),
-                                ),
+                            Text(
+                              "R\$ 20,00",
+                              style: TextStyle(
+                                fontSize: 18,
                               ),
-                              filled: true,
-                              fillColor: Colors.white,
                             ),
+                          ],
+                        ),
+                        Divider(color: Colors.black),
+                        SizedBox(height: 10),
+                        Text(
+                          "Descrição",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 15),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 130, 30, 60),
-                                padding: EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+                        ),
+                        SizedBox(height: 10),
+                        TextField(
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: " ",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 109, 109, 109),
                               ),
-                              label: Text(
-                                "Adicionar na sacola",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              icon: Icon(
-                                Icons.shopping_bag,
+                            ),
+                            label: Text(
+                              "Adicionar na sacola",
+                              style: TextStyle(
                                 color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
+                            icon: Icon(
+                              Icons.shopping_bag,
+                              color: Colors.white,
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              );
-            }
-       ) );
+              ),
+            );
+          },
+        );
+      },
+    );
+
+      
         
       
 
