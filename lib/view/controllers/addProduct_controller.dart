@@ -12,7 +12,7 @@ class AddproductController extends ChangeNotifier {
 
   visualizarCategoria(String? select) {
     selectedCategory = select;
-    print("off");
+    print("Entrou para o Controller");
     notifyListeners();
   }
 
@@ -52,30 +52,43 @@ class AddproductController extends ChangeNotifier {
       String? categoriaId, XFile? imagem) async {
     if (imagem != null) {
       try {
-        print("AQUIIIIIII");
-        print(preco);
         double prec =
             double.tryParse(preco.replaceAll(',', '.').trim()) ?? 20.0;
-        print(prec);
+
         final parseFile = ParseFile(File(imagem.path));
         await parseFile.save();
 
-        final produto = ParseObject('Produto')
-          ..set('descricao', descricao)
-          ..set('preco', prec)
-          ..set('categoria_produto', categoriaId)
-          ..set('image_produto', parseFile)
-          ..set('nome', nome);
+        if (categoriaId != null) {
+          final categoria = ParseObject('Categoria')
+            ..objectId = categoriaId;
+          await categoria.fetch();
 
-        final response = await produto.save();
+          if (categoria.objectId != null) {
+            final produto = ParseObject('Produto')
+              ..set('descricao', descricao)
+              ..set('preco', prec)
+              ..set('nome', nome)
+              ..set('image_produto', parseFile);
 
-        if (response.success) {
-          print('Produto salvo com sucesso!');
+            // Usando a relação para adicionar a categoria
+            final catRelation = produto.getRelation('categoria_produto');
+            catRelation.add(categoria);
+
+            final produtoResponse = await produto.save();
+
+            if (produtoResponse.success) {
+              print('Produto salvo com sucesso!');
+            } else {
+              print('Erro ao salvar produto: ${produtoResponse.error?.message}');
+            }
+          } else {
+            print('Categoria não encontrada!');
+          }
         } else {
-          print('Erro ao salvar produto: ${response.error?.message}');
+          print('Categoria não especificada!');
         }
       } catch (e) {
-        print('Erro ao processar a imagem: $e');
+        print('Erro ao processar a imagem ou salvar produto: $e');
       }
     } else {
       print('Nenhuma imagem selecionada.');

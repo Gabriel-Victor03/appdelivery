@@ -87,8 +87,8 @@ class _MyAddproductState extends State<MyAddproduct> {
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    store.visualizarCategoria(
-                                        value); // Atualiza a categoria selecionada
+                                    store.visualizarCategoria(value); // Atualiza a categoria selecionada
+                                    print('Categoria selecionada: $value'); // Imprime o valor da categoria Atualiza a categoria selecionada
                                   });
                                 },
                                 dropdownColor: Colors.white,
