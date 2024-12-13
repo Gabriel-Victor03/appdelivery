@@ -63,7 +63,7 @@ class AddproductController extends ChangeNotifier {
         final produto = ParseObject('Produto')
           ..set('descricao', descricao)
           ..set('preco', prec)
-          ..set('categoriaId', categoriaId)
+          ..set('categoria_produto', categoriaId)
           ..set('image_produto', parseFile)
           ..set('nome', nome);
 

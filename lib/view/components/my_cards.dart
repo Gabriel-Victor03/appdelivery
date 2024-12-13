@@ -11,6 +11,8 @@ class MyCards extends StatefulWidget {
 
 class _MyCardsState extends State<MyCards> {
   List<Map<String, String>> products = [];
+  Map<String, List<Map<String, String>>> categoriaProduto = {};
+  
   int _counterQuantidade = 1; // Começa com 1 por padrão
   final adicionalController = new AdicionalController(); // Instancia o controller
 
@@ -36,27 +38,56 @@ class _MyCardsState extends State<MyCards> {
     }
   }
 
-  Future<void> fetchProdutos() async {
-    final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
-    final response = await query.query();
+Future<void> fetchProdutos() async {
+  final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
+  final response = await query.query();
 
-    if (response.success && response.result != null) {
-      if (!mounted) return; // Verifica se o widget ainda está montado
-      setState(() {
-        products = response.results!.map((e) {
-          final product = e as ParseObject;
-          return {
-            'title': product.get<String>('nome') ?? 'Nome não disponível',
-            'description': product.get<String>('descricao') ?? 'Descrição não disponível',
-            'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
-            'preco': formatarPreco(product.get<num>('preco') ?? 0),
-          };
-        }).toList().cast<Map<String, String>>();
+  if (response.success && response.result != null) {
+    if (!mounted) return; // Verifica se o widget ainda está montado
+    setState(() {
+      categoriaProduto.clear(); // Limpa as categorias para evitar duplicação
+
+      final productList = response.results!.map((e) async {
+        final product = e as ParseObject;
+
+        // Obtém a relação 'categoria_produto'
+        final relation = product.getRelation('categoria_produto');
+        final categoria = await relation.getQuery().first(); // Obtém o primeiro item da relação, se houver
+        final categoryName = categoria != null ? categoria.get<String>('nome') ?? 'Sem Categoria' : 'Sem Categoria';
+
+        return {
+          'category': categoryName,
+          'title': product.get<String>('nome') ?? 'Nome não disponível',
+          'description': product.get<String>('descricao') ?? 'Descrição não disponível',
+          'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
+          'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
+        };
+      }).toList();
+
+      // Espera todas as operações assíncronas terminarem
+      Future.wait(productList).then((products) {
+        // Organiza os produtos por categoria
+        products.forEach((product) {
+          final category = product['category'] as String;
+          if (!categoriaProduto.containsKey(category)) {
+            categoriaProduto[category] = [];
+          }
+          categoriaProduto[category]!.add(product);
+        });
       });
-    } else {
-      print('erro ao buscar produtos');
-    }
+    });
+  } else {
+    print('Erro ao buscar produtos');
   }
+}
+
+
+
+
+
+
+
+
 
   Future<void> openDialog(BuildContext context, Map<String, String> product) =>
     showDialog(
@@ -178,7 +209,7 @@ class _MyCardsState extends State<MyCards> {
                               ),
                             ),
                             Text(
-                              "R\$ 20,00",
+                              product['preco'] ?? 'R\$ 0,00',
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -273,100 +304,121 @@ class _MyCardsState extends State<MyCards> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Hambúrguer',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 130, 30, 60),
+Widget build(BuildContext context) {
+  return SingleChildScrollView(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: categoriaProduto.entries.map((entry) {
+        final categoryName = entry.key;
+        final categoryProducts = entry.value;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Título da categoria
+            Text(
+              categoryName, textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 130, 30, 60),
+              ),
             ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            height: 3,
-            color: Color.fromARGB(255, 130, 30, 60),
-            margin: EdgeInsets.only(left: 4, bottom: 10),
-          ),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: products.map((product) {
-              return Container(
-                width: MediaQuery.of(context).size.width * 0.45,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Centralizando a imagem
-                      Center(
-                        child: Image.network(
-                          product['image'] ?? '',
-                          height: 120,
-                        ),
-                      ),
-                      Text(
-                        _truncateText(product['description'] ?? 'Descrição não disponível', 30),
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            product['preco'] ?? 'R\$ 0,00',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 130, 30, 60),
-                            ),
-                          ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 130, 30, 60),
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.shopping_bag,
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                              onPressed: () => openDialog(context, product),
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                            ),
-                          ),
-                        ],
+            SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              height: 3,
+              color: Color.fromARGB(255, 130, 30, 60),
+              margin: EdgeInsets.only(left: 4, bottom: 10),
+            ),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: categoryProducts.map<Widget>((product) {
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Image.network(
+                            product['image'] ?? '',
+                            height: 120,
+                          ),
+                        ),
+                        Text(
+                          product['title'] ?? 'Nome não disponível',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 130, 30, 60),
+                          ),
+                        ),
+                        Text(
+                          _truncateText(
+                            product['description'] ?? 'Descrição não disponível',
+                            30,
+                          ),
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              formatarPreco(double.tryParse(product['preco'] ?? '0.00') ?? 0.00),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 130, 30, 60),
+                              ),
+                            ),
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 130, 30, 60),
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.shopping_bag,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                onPressed: () => openDialog(context, product),
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 20),
+          ],
+        );
+      }).toList(),
+    ),
+  );
+}
+
 }
