@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/controllers/usercontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,10 +22,27 @@ class MyTableUser extends StatefulWidget {
 }
 
 class _MyTableUserState extends State<MyTableUser> {
+  final store = Usercontroller();
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _loadProdutos();
+    });
+  }
+
+  void _loadProdutos() async {
+    List<Map<String, String>> dados = await store.getUser();
+
+    // Aqui você pode atualizar o estado do seu widget com os dados obtidos
+    setState(() {
+      produtos = dados;
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _isObscured = true;
     return GetBuilder<Controller>(
         init: Controller(),
         builder: (_) {
@@ -148,10 +166,9 @@ class _MyTableUserState extends State<MyTableUser> {
                                               ),
                                               onPressed: () {
                                                 editarUsuarios(
-                                                  _.usuarios[index]["nome"]!,
-                                                  _.usuarios[index]["email"]!,
-                                                  _.usuarios[index]["senha"]!,
-                                                  _isObscured,
+                                                  usuarios[index]["nome"]!,
+                                                  usuarios[index]["email"]!,
+                                                  usuarios[index]["senha"]!,
                                                 );
                                               },
                                               child: Icon(
