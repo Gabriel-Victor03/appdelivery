@@ -36,8 +36,8 @@ class _MyTableUserState extends State<MyTableUser> {
 
     // Aqui você pode atualizar o estado do seu widget com os dados obtidos
     setState(() {
-      produtos = dados;
-      isLoading = false;
+      // produtos = dados;
+      // isLoading = false;
     });
   }
 
@@ -165,11 +165,12 @@ class _MyTableUserState extends State<MyTableUser> {
                                                 minimumSize: Size(5, 5),
                                               ),
                                               onPressed: () {
-                                                editarUsuarios(
-                                                  usuarios[index]["nome"]!,
-                                                  usuarios[index]["email"]!,
-                                                  usuarios[index]["senha"]!,
-                                                );
+                                                // editarUsuarios(
+                                                //   _.usuarios[index]["nome"]!,
+                                                //   _.usuarios[index]["email"]!,
+                                                //   _.usuarios[index]["senha"]!,
+                                                //   _.
+                                                // );
                                               },
                                               child: Icon(
                                                 Icons.edit_rounded,
