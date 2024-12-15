@@ -35,6 +35,7 @@ class Retornarprod extends GetxController {
                   'Descrição não disponível',
               'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
               'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
+              'id': product.get<String>('objectId') ?? "sem id"
             };
           }).toList(),
         );

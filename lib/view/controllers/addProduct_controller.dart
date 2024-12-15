@@ -94,4 +94,19 @@ class AddproductController extends ChangeNotifier {
       print('Nenhuma imagem selecionada.');
     }
   }
+  removerProduto(String objectId) async {
+    final categoria = ParseObject('Produto')..objectId = objectId;
+
+    // Remove a categoria
+    final deleteResponse = await categoria.delete();
+    notifyListeners();
+    if (deleteResponse.success) {
+      await getCategoria();
+      notifyListeners();
+      print('Categoria removida com sucesso: $objectId');
+    } else {
+      print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
+      notifyListeners();
+    }
+  }
 }

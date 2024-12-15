@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_deleteProd.dart';
 import 'package:appdelivery/view/components/my_detailsprod.dart';
 import 'package:appdelivery/view/components/my_popup_newproduct.dart';
 import 'package:appdelivery/view/components/my_popup_product.dart';
@@ -25,7 +26,9 @@ class _MyTableState extends State<MyTable> {
   @override
   void initState() {
     super.initState();
-    _loadProdutos();
+    setState(() {
+      _loadProdutos();
+    });
   }
 
   void _loadProdutos() async {
@@ -41,71 +44,70 @@ class _MyTableState extends State<MyTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          // Exibe o indicador de carregamento enquanto os dados são carregados
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: Text(
-                      "Pedidos",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Text(
+                "Pedidos",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(
+                      color: const Color.fromARGB(
+                          255, 0, 0, 0)), // Borda para o container
+                ),
+                child: Column(
+                  children: [
+                    // Cabeçalho
+                    Container(
+                      width: 450,
+                      padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        border: Border.all(
-                            color: const Color.fromARGB(
-                                255, 0, 0, 0)), // Borda para o container
+                        color: Color.fromARGB(255, 255, 229, 184),
                       ),
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // Cabeçalho
+                          Expanded(child: Icon(Icons.checklist)),
+                          Expanded(
+                              child: Text('CATEGORIA',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold))),
+                          Expanded(
+                              child: Text('NOME',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold))),
                           Container(
-                            width: 450,
-                            padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 229, 184),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(child: Icon(Icons.checklist)),
-                                Expanded(
-                                    child: Text('CATEGORIA',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold))),
-                                Expanded(
-                                    child: Text('NOME',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold))),
-                                Container(
-                                  //margin: EdgeInsets.only(right: 30),
-                                  child: Expanded(
-                                      child: Text('AÇÕES',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))),
-                                ),
-                              ],
-                            ),
+                            //margin: EdgeInsets.only(right: 30),
+                            child: Expanded(
+                                child: Text('AÇÕES',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
                           ),
-
-                          // ListView de produtos
-                          ListView.builder(
+                        ],
+                      ),
+                    ),
+                    isLoading
+                        // Exibe o indicador de carregamento enquanto os dados são carregados
+                        ? Center(child: CircularProgressIndicator())
+                        :
+                        // ListView de produtos
+                        ListView.builder(
                             shrinkWrap: true,
                             physics:
                                 NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
@@ -174,6 +176,9 @@ class _MyTableState extends State<MyTable> {
                                                                     "preco"],
                                                                 categoria: produto[
                                                                     "categoriaN"],
+                                                                imagemUrl: produto[
+                                                                        "image"]
+                                                                    .toString(),
                                                               ));
                                                     },
                                                     child: Transform.rotate(
@@ -199,7 +204,18 @@ class _MyTableState extends State<MyTable> {
                                                           minimumSize:
                                                               Size(5, 5)),
                                                   onPressed: () {
-                                                    removerItem(controler.nome);
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            MyDeleteprod(
+                                                              nome: produto[
+                                                                      "nome"]
+                                                                  .toString(),
+                                                              id: produto["id"]
+                                                                  .toString(),
+                                                            ));
+                                                    print(produto["id"]
+                                                        .toString());
                                                   },
                                                   child: Icon(
                                                     Icons.delete,
@@ -216,15 +232,15 @@ class _MyTableState extends State<MyTable> {
                               );
                             },
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  MyPopupProduct(),
-                  MyPopupNewproduct(),
-                ],
+                  ],
+                ),
               ),
             ),
+            MyPopupProduct(),
+            MyPopupNewproduct(),
+          ],
+        ),
+      ),
     );
   }
   /*Container(
@@ -274,119 +290,4 @@ class _MyTableState extends State<MyTable> {
                                     )
                                   ],
                                 ),*/
-
-  Future removerItem(var teste) => showDialog(
-      // função de remover itens do produto
-      context: context,
-      builder: (context) => Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusDirectional.circular(10)),
-            backgroundColor: Colors.white,
-            child: Container(
-              width: 450,
-              height: 230,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    child: Text(
-                      "Remover produto",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    indent: 10.0,
-                    endIndent: 10.0,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 60,
-                    child: SingleChildScrollView(
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                              fontSize: 24,
-                              color:
-                                  Colors.black), // Estilo padrão para o texto
-                          children: <TextSpan>[
-                            TextSpan(
-                              text:
-                                  "Tem certeza que deseja remover o produto ", // O restante do texto
-                              //textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18,
-                              ), // Estilo normal
-                            ),
-                            TextSpan(
-                              text: teste + "?", // Texto da variável
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      18), // Estilo para o texto em negrito
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center, //
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 15),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(12),
-                                      side: BorderSide(
-                                          color: const Color.fromARGB(
-                                              86, 0, 0, 0)))),
-                              onPressed: () {},
-                              child: Text(
-                                "Cancelar",
-                                style: TextStyle(
-                                    color: const Color.fromARGB(255, 0, 0, 0)),
-                              )),
-                        ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        Container(
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 211, 35, 23),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12))),
-                              onPressed: () {},
-                              child: Center(
-                                child: Text(
-                                  "Sim",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ));
 }

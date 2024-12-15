@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MyDetailsprod extends StatefulWidget {
   final String nome;
   final String? preco;
   final String? descricao;
   final String? categoria;
-  
+   final String imagemUrl;
   const MyDetailsprod(
       {super.key,
       this.nome = '',
       this.descricao = '',
       this.preco,
-      this.categoria});
+      this.categoria,
+      this.imagemUrl = ''});
 
   @override
   State<MyDetailsprod> createState() => _MyDetailsprodState();
@@ -45,7 +48,7 @@ class _MyDetailsprodState extends State<MyDetailsprod> {
               Container(
                 width: 180,
                 height: 150,
-                child: Image.asset("assets/images/burguer1.jpg"),
+                child: Image.network(widget.imagemUrl),
               ),
               Divider(
                 indent: 8.0,
