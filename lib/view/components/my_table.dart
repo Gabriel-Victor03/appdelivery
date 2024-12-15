@@ -52,7 +52,7 @@ class _MyTableState extends State<MyTable> {
             ),
             Center(
               child: Text(
-                "Pedidos",
+                "Produtos",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
