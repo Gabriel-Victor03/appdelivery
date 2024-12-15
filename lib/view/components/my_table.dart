@@ -1,10 +1,15 @@
 import 'package:appdelivery/view/components/my_detailsprod.dart';
 import 'package:appdelivery/view/components/my_popup_newproduct.dart';
 import 'package:appdelivery/view/components/my_popup_product.dart';
+import 'package:appdelivery/view/controllers/retornarprod.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-/// Flutter code sample for [Table].
+class Controller extends GetxController {
+  final List<Map<String, String>> produtos = [];
+}
 
+bool isLoading = true;
 void main() => runApp(const MyTable());
 
 class MyTable extends StatefulWidget {
@@ -15,214 +20,211 @@ class MyTable extends StatefulWidget {
 }
 
 class _MyTableState extends State<MyTable> {
-  final List<Map<String, String>> produtos = [
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "Jatinha com picanha e salada",
-      "categoria": "Jatinha",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
-    {
-      "nome": "X Burguer Duplo",
-      "categoria": "Hámburguer",
-      "descricao": "Pão, 2 hamburgueres 180g, bacon, ovo, cheddar",
-      "preco": "28,9"
-    },
+  final controler = Get.put(Retornarprod());
+  List<Map<String, String>> produtos = [];
+  @override
+  void initState() {
+    super.initState();
+    _loadProdutos();
+  }
 
-    // Adicione mais pedidos aqui conforme necessário
-  ];
+  void _loadProdutos() async {
+    List<Map<String, String>> dados = await controler.getProdutos();
+
+    // Aqui você pode atualizar o estado do seu widget com os dados obtidos
+    setState(() {
+      produtos = dados;
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: Text(
-                "Pedidos",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  border: Border.all(
-                      color: const Color.fromARGB(
-                          255, 0, 0, 0)), // Borda para o container
-                ),
-                child: Column(
-                  children: [
-                    // Cabeçalho
-                    Container(
-                      width: 450,
-                      padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+      body: isLoading
+          // Exibe o indicador de carregamento enquanto os dados são carregados
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Text(
+                      "Pedidos",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 229, 184),
+                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(
+                            color: const Color.fromARGB(
+                                255, 0, 0, 0)), // Borda para o container
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      child: Column(
                         children: [
-                          Expanded(child: Icon(Icons.checklist)),
-                          Expanded(
-                              child: Text('CATEGORIA',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
-                          Expanded(
-                              child: Text('NOME',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold))),
+                          // Cabeçalho
                           Container(
-                            //margin: EdgeInsets.only(right: 30),
-                            child: Expanded(
-                                child: Text('AÇÕES',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                            width: 450,
+                            padding: EdgeInsets.fromLTRB(3, 0, 20, 0),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 229, 184),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(child: Icon(Icons.checklist)),
+                                Expanded(
+                                    child: Text('CATEGORIA',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))),
+                                Expanded(
+                                    child: Text('NOME',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))),
+                                Container(
+                                  //margin: EdgeInsets.only(right: 30),
+                                  child: Expanded(
+                                      child: Text('AÇÕES',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold))),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // ListView de produtos
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics:
+                                NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
+                            itemCount: produtos.length,
+                            itemBuilder: (context, index) {
+                              final produto = produtos[index];
+
+                              return Container(
+                                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 255, 229, 184)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                        child: Checkbox(
+                                            value: false,
+                                            onChanged: (value) => {})),
+                                    Expanded(
+                                        child: Text(
+                                            produto["categoriaN"] ?? "null",
+                                            textAlign: TextAlign.center)),
+
+                                    Expanded(
+                                        child: Text(produto["nome"] ?? "null",
+                                            textAlign: TextAlign.center)),
+
+                                    //VerticalDivider(color: Colors.b,),
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                      child: Expanded(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                                child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    130,
+                                                                    30,
+                                                                    60),
+                                                            padding:
+                                                                EdgeInsets
+                                                                    .all(3),
+                                                            maximumSize:
+                                                                Size(25, 25),
+                                                            minimumSize:
+                                                                Size(5, 5)),
+                                                    onPressed: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              MyDetailsprod(
+                                                                nome: produto[
+                                                                        "nome"]
+                                                                    .toString(),
+                                                                descricao: produto[
+                                                                        "desc"]
+                                                                    .toString(),
+                                                                preco: produto[
+                                                                    "preco"],
+                                                                categoria: produto[
+                                                                    "categoriaN"],
+                                                              ));
+                                                    },
+                                                    child: Transform.rotate(
+                                                        angle: 1.64159,
+                                                        child: Icon(
+                                                          Icons.search,
+                                                          color: Colors.white,
+                                                          size: 18,
+                                                        )))),
+                                            Container(
+                                              //margin: EdgeInsets.only(right: 1000),
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              const Color
+                                                                  .fromARGB(255,
+                                                                  255, 17, 0),
+                                                          padding:
+                                                              EdgeInsets.all(3),
+                                                          maximumSize:
+                                                              Size(25, 25),
+                                                          minimumSize:
+                                                              Size(5, 5)),
+                                                  onPressed: () {
+                                                    removerItem(controler.nome);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
                     ),
-                    // ListView de produtos
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics:
-                          NeverScrollableScrollPhysics(), // Impede o scroll duplicado com SingleChildScrollView
-                      itemCount: produtos.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 229, 184)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                  child: Checkbox(
-                                      value: false, onChanged: (value) => {})),
-                              Expanded(
-                                  child: Text(produtos[index]["categoria"]!,
-                                      textAlign: TextAlign.center)),
-
-                              Expanded(
-                                  child: Text(produtos[index]["nome"]!,
-                                      textAlign: TextAlign.center)),
-
-                              //VerticalDivider(color: Colors.b,),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Expanded(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Color.fromARGB(
-                                                          255, 130, 30, 60),
-                                                  padding: EdgeInsets.all(3),
-                                                  maximumSize: Size(25, 25),
-                                                  minimumSize: Size(5, 5)),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        MyDetailsprod(nome: produtos[index]['nome']
-                                                        .toString(),descricao: produtos[index]['descricao']
-                                                        .toString(),
-                                                         preco: produtos[index]['preco'].toString()
-                                                        , categoria: produtos[index]['categoria']
-                                                        .toString(),));
-                                                    
-                                                   
-                                                    
-                                              },
-                                              child: Transform.rotate(
-                                                  angle: 1.64159,
-                                                  child: Icon(
-                                                    Icons.search,
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                  )))),
-                                      Container(
-                                        //margin: EdgeInsets.only(right: 1000),
-                                        child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 255, 17, 0),
-                                                padding: EdgeInsets.all(3),
-                                                maximumSize: Size(25, 25),
-                                                minimumSize: Size(5, 5)),
-                                            onPressed: () {
-                                              removerItem(
-                                                  produtos[index]['nome']);
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.white,
-                                              size: 18,
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  MyPopupProduct(),
+                  MyPopupNewproduct(),
+                ],
               ),
             ),
-            MyPopupProduct(),
-            MyPopupNewproduct(),
-          ],
-        ),
-      ),
     );
   }
   /*Container(

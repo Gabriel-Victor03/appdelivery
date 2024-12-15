@@ -5,6 +5,7 @@ class MyDetailsprod extends StatefulWidget {
   final String? preco;
   final String? descricao;
   final String? categoria;
+  
   const MyDetailsprod(
       {super.key,
       this.nome = '',
@@ -75,7 +76,7 @@ class _MyDetailsprodState extends State<MyDetailsprod> {
                               ), // Estilo normal
                             ),
                             TextSpan(
-                              text: "${widget.nome}", // Texto da variável
+                              text: "${widget.categoria}", // Texto da variável
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize:
