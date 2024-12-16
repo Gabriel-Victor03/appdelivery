@@ -37,7 +37,7 @@ dependencies:
   get: ^4.6.6
 
   carousel_slider: ^5.0.0
- 
+  passwordfield: ^0.2.0
 
 
 

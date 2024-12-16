@@ -75,110 +75,114 @@ class _MyPopupProductState extends State<MyPopupProduct> {
     return showDialog(
       context: context,
       builder: (context) => ListenableBuilder(
-        listenable: store,
-        builder: (context, snapshot) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusDirectional.circular(10),
-            ),
-            backgroundColor: Colors.white,
-            child: Container(
-              width: 450,
-              height: 225,
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  Text(
-                    "Remover Categoria",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Divider(color: Colors.black, indent: 10.0, endIndent: 10.0),
-                  SizedBox(height: 15),
-                  Container(
-                    alignment: Alignment.topCenter,
-                    width: 270,
-                    child: RichText(
-                      text: TextSpan(
-                        style: TextStyle(fontSize: 24, color: Colors.black),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "Tem certeza que deseja remover a categoria ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 18,
-                            ),
-                          ),
-                          TextSpan(
-                            text: store.categoriaNome,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(color: Color.fromARGB(86, 0, 0, 0)),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
-                        },
-                        child: Text(
-                          "Cancelar",
-                          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 211, 35, 23),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {
-                          store.removerCategoria(
-                              store.objectId, store.categoriaNome);
-                          //store.getCategoria(); // Chama a função para remover a categoria
-                          Navigator.of(context).pop(); // Fecha o diálogo
-          
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Categoria removida com sucesso!'),
-                              duration: Duration(
-                                  seconds:
-                                      1), // Tempo que o SnackBar ficará visível
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Sim",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+          listenable: store,
+          builder: (context, snapshot) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusDirectional.circular(10),
               ),
-            ),
-          );
-        }
-      ),
+              backgroundColor: Colors.white,
+              child: Container(
+                width: 450,
+                height: 225,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Remover Categoria",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Divider(color: Colors.black, indent: 10.0, endIndent: 10.0),
+                    SizedBox(height: 15),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      width: 270,
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(fontSize: 24, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text:
+                                  "Tem certeza que deseja remover a categoria ",
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 18,
+                              ),
+                            ),
+                            TextSpan(
+                              text: store.categoriaNome,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                  color: Color.fromARGB(86, 0, 0, 0)),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Fecha o diálogo
+                          },
+                          child: Text(
+                            "Cancelar",
+                            style:
+                                TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 211, 35, 23),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            store.removerCategoria(
+                                store.objectId, store.categoriaNome);
+                            //store.getCategoria(); // Chama a função para remover a categoria
+                            Navigator.of(context).pop(); // Fecha o diálogo
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('Categoria removida com sucesso!'),
+                                duration: Duration(
+                                    seconds:
+                                        1), // Tempo que o SnackBar ficará visível
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Sim",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 

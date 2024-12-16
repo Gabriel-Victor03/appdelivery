@@ -23,9 +23,9 @@ class Retornarprod extends GetxController {
           response.results!.map((e) async {
             final product = e as ParseObject;
             final relation = product.getRelation('categoria_produto');
-            final categoria = await relation.getQuery().first();
+             final categoria = await relation.getQuery().first();
             final categoryName = categoria != null
-                ? categoria.get<String>('nome') ?? 'Sem Categoria'
+             ? categoria.get<String>('nome') ?? 'Sem Categoria'
                 : 'Sem Categoria';
 
             return {
