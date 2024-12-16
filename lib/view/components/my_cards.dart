@@ -1,5 +1,4 @@
 import 'package:appdelivery/view/controllers/adicional_controller.dart';
-import 'package:appdelivery/view/controllers/adicional_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -14,6 +13,8 @@ class _MyCardsState extends State<MyCards> {
   Map<String, List<Map<String, String>>> categoriaProduto = {};
 
   int _counterQuantidade = 1; // Começa com 1 por padrão
+  double _valorTotal = 0.0; // Valor total inicial
+  
   final adicionalController =
       new AdicionalController(); // Instancia o controller
 
@@ -39,250 +40,240 @@ class _MyCardsState extends State<MyCards> {
     }
   }
 
+  void atualizarValorTotal(Map<String, String> product) {
+  final precoBase = double.tryParse(product['preco'] ?? '0') ?? 0.0;
+  setState(() {
+    _valorTotal = _counterQuantidade * precoBase;
+        print("Valor total atualizado: $_valorTotal"); // Imprime o valor no console
+
+  });
+}
+
+
+
   Future<void> fetchProdutos() async {
-    final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
-    final response = await query.query();
+  final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
+  final response = await query.query();
 
-    if (response.success && response.result != null) {
-      if (!mounted) return; // Verifica se o widget ainda está montado
-      setState(() {
-        categoriaProduto.clear(); // Limpa as categorias para evitar duplicação
+  if (response.success && response.result != null) {
+    if (!mounted) return; // Verifica se o widget ainda está montado
+    setState(() {
+      categoriaProduto.clear(); // Limpa as categorias para evitar duplicação
 
-        final productList = response.results!.map((e) async {
-          final product = e as ParseObject;
+      final productList = response.results!.map((e) async {
+        final product = e as ParseObject;
+        final relation = product.getRelation('categoria_produto');
+        final categoria = await relation.getQuery().first();
+        final categoryName = categoria != null
+            ? categoria.get<String>('nome') ?? 'Sem Categoria'
+            : 'Sem Categoria';
 
-          // Obtém a relação 'categoria_produto'
-          final relation = product.getRelation('categoria_produto');
-          final categoria = await relation
-              .getQuery()
-              .first(); // Obtém o primeiro item da relação, se houver
-          final categoryName = categoria != null
-              ? categoria.get<String>('nome') ?? 'Sem Categoria'
-              : 'Sem Categoria';
+        return {
+          'category': categoryName,
+          'title': product.get<String>('nome') ?? 'Nome não disponível',
+          'description': product.get<String>('descricao') ?? 'Descrição não disponível',
+          'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
+          'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
+        };
+      }).toList();
 
-          return {
-            'category': categoryName,
-            'title': product.get<String>('nome') ?? 'Nome não disponível',
-            'description':
-                product.get<String>('descricao') ?? 'Descrição não disponível',
-            'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
-            'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
-          };
-        }).toList();
-
-        // Espera todas as operações assíncronas terminarem
-        Future.wait(productList).then((products) {
-          // Organiza os produtos por categoria
-          products.forEach((product) {
-            final category = product['category'] as String;
-            if (!categoriaProduto.containsKey(category)) {
-              categoriaProduto[category] = [];
-            }
-            categoriaProduto[category]!.add(product);
-          });
+      // Espera todas as operações assíncronas terminarem
+      Future.wait(productList).then((products) {
+        // Organiza os produtos por categoria
+        products.forEach((product) {
+          final category = product['category'] as String;
+          if (!categoriaProduto.containsKey(category)) {
+            categoriaProduto[category] = [];
+          }
+          categoriaProduto[category]!.add(product);
         });
       });
-    } else {
-      print('Erro ao buscar produtos');
-    }
+    });
+  } else {
+    print('Erro ao buscar produtos');
   }
+}
 
-  Future<void> openDialog(BuildContext context, Map<String, String> product) =>
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ListenableBuilder(
-            listenable: adicionalController,
-            builder: (context, snapshot) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                backgroundColor: Color.fromARGB(255, 255, 229, 184),
-                contentPadding: EdgeInsets.zero,
-                content: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            children: [
-                              Text(
-                                product['title'] ?? 'Nome não disponível',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(color: Colors.black),
-                          Image.network(product['image'] ?? '', height: 150),
-                          SizedBox(height: 10),
-                          Text(product['description'] ??
-                              'Descrição não disponível'),
-                          Divider(color: Colors.black),
-                          StatefulBuilder(
-                            builder:
-                                (BuildContext context, StateSetter setState) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Quantidade:",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            if (_counterQuantidade > 1) {
-                                              _counterQuantidade--;
-                                            }
-                                          });
-                                        },
-                                        icon: Icon(Icons.remove),
-                                      ),
-                                      Text(
-                                        '$_counterQuantidade',
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _counterQuantidade++;
-                                          });
-                                        },
-                                        icon: Icon(Icons.add),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          Divider(color: Colors.black),
-                          // Seção de Adicionais
-                          Text(
-                            "Adicionais",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Column(
-                            children:
-                                adicionalController.adicionais.map((adicional) {
-                              final nomeAdicional =
-                                  adicional['nomeAdicional'] ?? 'Adicional';
-                              final contador = adicionalController
-                                      .adicionaisCounter[nomeAdicional] ??
-                                  0;
 
-                              return _buildAdditionalItem(
-                                nomeAdicional,
-                                contador,
-                                () {
-                                  adicionalController.decrement(nomeAdicional);
-                                },
-                                () {
-                                  adicionalController
-                                      .incrementar(nomeAdicional);
-                                },
-                              );
-                            }).toList(),
-                          ),
-                          SizedBox(height: 10),
-                          Divider(color: Colors.black),
-                          // Valor total (para ser ajustado com base nos contadores)
-                          Row(
+  Future<void> openDialog(BuildContext context, Map<String, String> product) async {
+  int _counterQuantidade  = 1; //Reinicia a quantidade para 1 novamente
+  double _valorTotal  = double.tryParse(product['preco'] ?? '0') ?? 0.0; // Preço inicial do produto
+
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return ListenableBuilder(
+        listenable: adicionalController, // Mantém o adicionalController
+        builder: (context, _) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: Color.fromARGB(255, 255, 229, 184),
+            contentPadding: EdgeInsets.zero,
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Título e imagem do produto
+                      Text(
+                        product['title'] ?? 'Nome não disponível',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Divider(color: Colors.black),
+                      Image.network(product['image'] ?? '', height: 150),
+                      SizedBox(height: 10),
+                      Text(product['description'] ?? 'Descrição não disponível'),
+                      Divider(color: Colors.black),
+
+                      // Controle de quantidade
+                      StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Valor total:",
+                                "Quantidade:",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                product['preco'] ?? 'R\$ 0,00',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      if (_counterQuantidade > 1) {
+                                        setState(() {
+                                          _counterQuantidade--;
+                                           print("Quantidade diminuida: $_counterQuantidade"); // Imprime a quantidade
+                                          print("Valor total atualizado: $_valorTotal"); // Imprime o valor
+                                        
+                                          _valorTotal = _counterQuantidade * double.tryParse(product['preco'] ?? '0')!;
+                                                                                   
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(Icons.remove),
+                                  ),
+                                  Text(
+                                    '$_counterQuantidade',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _counterQuantidade++;
+                                          _valorTotal = _counterQuantidade * double.tryParse(product['preco'] ?? '0')!;
+                                          print("Quantidade aumentada: $_counterQuantidade"); // Imprime a quantidade
+                                          print("Valor total atualizado: $_valorTotal"); // Imprime o valor
+                                        
+                                      });
+                                    },
+                                    icon: Icon(Icons.add),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                          Divider(color: Colors.black),
-                          SizedBox(height: 10),
+                          );
+                        },
+                      ),
+                      Divider(color: Colors.black),
+
+                      // Valor total
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text(
-                            "Descrição",
+                            "Valor total:",
                             style: TextStyle(
-                              fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
-                          SizedBox(height: 10),
-                          TextField(
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                              hintText: " ",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color:
-                                      const Color.fromARGB(255, 109, 109, 109),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 130, 30, 60),
-                                padding: EdgeInsets.symmetric(vertical: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              label: Text(
-                                "Adicionar na sacola",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              icon: Icon(
-                                Icons.shopping_bag,
-                                color: Colors.white,
-                              ),
-                            ),
+                          Text(
+                             NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(_valorTotal),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ],
                       ),
-                    ),
+                      Divider(color: Colors.black),
+
+                      // Seção de Adicionais (mantida, mas sem lógica implementada)
+                      Text(
+                        "Adicionais",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Column(
+                        children: adicionalController.adicionais.map((adicional) {
+                          final nomeAdicional = adicional['nomeAdicional'] ?? 'Adicional';
+                          final contador = adicionalController.adicionaisCounter[nomeAdicional] ?? 0;
+
+                          return _buildAdditionalItem(
+                            nomeAdicional,
+                            contador,
+                            () {
+                              adicionalController.decrement(nomeAdicional);
+                            },
+                            () {
+                              adicionalController.incrementar(nomeAdicional);
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      Divider(color: Colors.black),
+
+                      // Botão adicionar à sacola
+                      SizedBox(height: 15),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                             atualizarValorTotal(product); // Chama o método que atualiza o valor total
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 130, 30, 60),
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          label: Text(
+                            "Adicionar na sacola",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.shopping_bag,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
+              ),
+            ),
           );
         },
       );
+    },
+  );
+}
+
 
   Widget _buildAdditionalItem(
       String name, int counter, VoidCallback onRemove, VoidCallback onAdd) {
