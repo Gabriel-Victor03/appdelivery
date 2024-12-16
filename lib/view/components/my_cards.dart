@@ -41,15 +41,13 @@ class _MyCardsState extends State<MyCards> {
   }
 
   void atualizarValorTotal(Map<String, String> product) {
-  final precoBase = double.tryParse(product['preco'] ?? '0') ?? 0.0;
-  setState(() {
-    _valorTotal = _counterQuantidade * precoBase;
-        print("Valor total atualizado: $_valorTotal"); // Imprime o valor no console
+    final precoBase = double.tryParse(product['preco'] ?? '0') ?? 0.0;
+    setState(() {
+      _valorTotal = _counterQuantidade * precoBase;
+          print("Valor total atualizado: $_valorTotal"); // Imprime o valor no console
 
-  });
-}
-
-
+    });
+  }
 
   Future<void> fetchProdutos() async {
   final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
@@ -96,15 +94,17 @@ class _MyCardsState extends State<MyCards> {
 
 
   Future<void> openDialog(BuildContext context, Map<String, String> product) async {
-  int _counterQuantidade  = 1; //Reinicia a quantidade para 1 novamente
-  double _valorTotal  = double.tryParse(product['preco'] ?? '0') ?? 0.0; // Preço inicial do produto
+  // Inicializa as variáveis globais para o produto selecionado
+  setState(() {
+    _counterQuantidade = 1; // Reinicia a quantidade para 1
+    _valorTotal = double.tryParse(product['preco'] ?? '0') ?? 0.0; // Preço inicial
+  });
 
   await showDialog(
     context: context,
     builder: (BuildContext context) {
-      return ListenableBuilder(
-        listenable: adicionalController, // Mantém o adicionalController
-        builder: (context, _) {
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setStateDialog) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -134,56 +134,49 @@ class _MyCardsState extends State<MyCards> {
                       Divider(color: Colors.black),
 
                       // Controle de quantidade
-                      StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Quantidade:",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
                             children: [
-                              Text(
-                                "Quantidade:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              IconButton(
+                                onPressed: () {
+                                  if (_counterQuantidade > 1) {
+                                    setState(() {
+                                      _counterQuantidade--;
+                                      _valorTotal = _counterQuantidade *
+                                          (double.tryParse(product['preco'] ?? '0') ?? 0.0);
+                                    });
+                                    setStateDialog(() {}); // Atualiza o diálogo
+                                  }
+                                },
+                                icon: Icon(Icons.remove),
                               ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      if (_counterQuantidade > 1) {
-                                        setState(() {
-                                          _counterQuantidade--;
-                                           print("Quantidade diminuida: $_counterQuantidade"); // Imprime a quantidade
-                                          print("Valor total atualizado: $_valorTotal"); // Imprime o valor
-                                        
-                                          _valorTotal = _counterQuantidade * double.tryParse(product['preco'] ?? '0')!;
-                                                                                   
-                                        });
-                                      }
-                                    },
-                                    icon: Icon(Icons.remove),
-                                  ),
-                                  Text(
-                                    '$_counterQuantidade',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _counterQuantidade++;
-                                          _valorTotal = _counterQuantidade * double.tryParse(product['preco'] ?? '0')!;
-                                          print("Quantidade aumentada: $_counterQuantidade"); // Imprime a quantidade
-                                          print("Valor total atualizado: $_valorTotal"); // Imprime o valor
-                                        
-                                      });
-                                    },
-                                    icon: Icon(Icons.add),
-                                  ),
-                                ],
+                              Text(
+                                '$_counterQuantidade',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _counterQuantidade++;
+                                    _valorTotal = _counterQuantidade *
+                                        (double.tryParse(product['preco'] ?? '0') ?? 0.0);
+                                  });
+                                  setStateDialog(() {}); // Atualiza o diálogo
+                                },
+                                icon: Icon(Icons.add),
                               ),
                             ],
-                          );
-                        },
+                          ),
+                        ],
                       ),
                       Divider(color: Colors.black),
 
@@ -199,38 +192,11 @@ class _MyCardsState extends State<MyCards> {
                             ),
                           ),
                           Text(
-                             NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(_valorTotal),
+                            NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$')
+                                .format(_valorTotal),
                             style: TextStyle(fontSize: 18),
                           ),
                         ],
-                      ),
-                      Divider(color: Colors.black),
-
-                      // Seção de Adicionais (mantida, mas sem lógica implementada)
-                      Text(
-                        "Adicionais",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Column(
-                        children: adicionalController.adicionais.map((adicional) {
-                          final nomeAdicional = adicional['nomeAdicional'] ?? 'Adicional';
-                          final contador = adicionalController.adicionaisCounter[nomeAdicional] ?? 0;
-
-                          return _buildAdditionalItem(
-                            nomeAdicional,
-                            contador,
-                            () {
-                              adicionalController.decrement(nomeAdicional);
-                            },
-                            () {
-                              adicionalController.incrementar(nomeAdicional);
-                            },
-                          );
-                        }).toList(),
                       ),
                       Divider(color: Colors.black),
 
@@ -240,7 +206,8 @@ class _MyCardsState extends State<MyCards> {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                             atualizarValorTotal(product); // Chama o método que atualiza o valor total
+                            atualizarValorTotal(product); // Atualiza o valor total global
+                            Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 130, 30, 60),
@@ -273,6 +240,7 @@ class _MyCardsState extends State<MyCards> {
     },
   );
 }
+
 
 
   Widget _buildAdditionalItem(
