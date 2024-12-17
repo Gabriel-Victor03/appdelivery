@@ -1,50 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-class SacolaController extends ChangeNotifier {
-  List<Map<String, dynamic>> _produtosNaSacola = [];
-  double _valorTotal = 0.0;
+class SacolaController with ChangeNotifier {
+  final String? sacolaId;
+  List<Map<String, dynamic>> _products = [];
 
-  List<Map<String, dynamic>> get produtosNaSacola => _produtosNaSacola;
-  double get valorTotal => _valorTotal;
+  List<Map<String, dynamic>> get products => _products;
 
-  // Método para adicionar produto
-  void adicionarProduto(Map<String, dynamic> produto, int quantidade) {
-    // Encontre o produto na sacola
-    bool produtoExistente = false;
-    for (var item in _produtosNaSacola) {
-      if (item['id'] == produto['id']) {
-        item['quantidade'] += quantidade;
-        produtoExistente = true;
-        break;
+  SacolaController({this.sacolaId});
+
+  Future<void> fetchSacolaData() async {
+    try {
+      if (sacolaId == null) {
+        print("Nenhuma sacola ativa.");
+        return;
       }
-    }
 
-    if (!produtoExistente) {
-      _produtosNaSacola.add({
-        'id': produto['id'],
-        'nome': produto['nome'],
-        'preco': produto['preco'],
-        'quantidade': quantidade,
-      });
-    }
+      print("Buscando produtos para sacola com ID: $sacolaId");
 
-    // Atualiza o valor total
-    _atualizarValorTotal();
-    notifyListeners();
-  }
+      // Busca os produtos associados à sacola
+      final query = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
+        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaId)
+        ..includeObject(['produto_produto']);
 
-  // Método para remover produto
-  void removerProduto(Map<String, dynamic> produto) {
-    _produtosNaSacola.removeWhere((item) => item['id'] == produto['id']);
-    _atualizarValorTotal();
-    notifyListeners();
-  }
+      final response = await query.query();
 
-  // Atualiza o valor total
-  void _atualizarValorTotal() {
-    _valorTotal = 0.0;
-    for (var item in _produtosNaSacola) {
-      _valorTotal += item['preco'] * item['quantidade'];
+      if (response.success && response.results != null) {
+        _products.clear();
+        for (var result in response.results!) {
+          final produtoSacola = result as ParseObject;
+          final produto = produtoSacola.get<ParseObject>('produto_produto');
+
+          if (produto != null) {
+            _products.add({
+              'name': produto.get<String>('nome') ?? 'Produto',
+              'price': produto.get<double>('preco') ?? 0.0,
+              'quantity': produtoSacola.get<int>('quantidade') ?? 0,
+              'total': produtoSacola.get<double>('total') ?? 0.0,
+            });
+          }
+        }
+        notifyListeners(); // Notifica a UI para re-renderizar
+      } else {
+        print("Erro ao buscar produtos: ${response.error?.message}");
+      }
+    } catch (e) {
+      print("Erro ao buscar dados da sacola: $e");
     }
   }
 }

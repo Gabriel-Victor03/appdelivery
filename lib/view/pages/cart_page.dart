@@ -1,4 +1,5 @@
 import 'package:appdelivery/view/components/my_popup_informaddress.dart';
+import 'package:appdelivery/view/controllers/sacola_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -10,10 +11,21 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final List<Map<String, dynamic>> products = [
-    {'name': 'X-Salada', 'price': 19.0, 'quantity': 2},
-    {'name': 'X-Ratão', 'price': 23.0, 'quantity': 1},
-  ];
+  List<Map<String, dynamic>> products = [];
+  final sacolaController = SacolaController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSacolaData();
+  }
+
+  Future<void> _fetchSacolaData() async {
+    await sacolaController.fetchSacolaData(); // Carrega os dados
+    setState(() {
+      products = sacolaController.products; // Atualiza a lista de produtos
+    });
+  }
 
   String? deliveryType = 'entrega';
   String? paymentMethod = 'cartao';
@@ -106,7 +118,6 @@ class _CartPageState extends State<CartPage> {
                             children: [
                               Text(
                                   'Preço Unitário: ${formatter.format(product['price'])}'),
-                              Text('Adicionais: 2x Bacon'),
                               Text('Observações: '),
                               Align(
                                 alignment: Alignment.centerRight,
@@ -139,7 +150,6 @@ class _CartPageState extends State<CartPage> {
               ),
 
               // Função para calcular e exibir o subtotal da sacola
-
               const SizedBox(height: 28),
               Row(
                 children: [
@@ -161,9 +171,6 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
-
-              // ,
-
               Container(
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
@@ -461,22 +468,11 @@ class _CartPageState extends State<CartPage> {
               ),
 
               const SizedBox(height: 25),
-
-              //
-              //
-              //
-              //
-
               Divider(
                 color: Colors.black,
                 indent: 10.0,
                 endIndent: 10.0,
               ),
-
-              //
-              //
-              //
-              //
 
               Padding(
                 padding: const EdgeInsets.only(right: 18.0, left: 18.0),
@@ -524,10 +520,6 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-              //
-              //
-              //
-              //
 
               Divider(
                 color: Colors.black,
@@ -548,11 +540,6 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               ),
-
-              //
-              //
-              //
-              //
 
               Center(
                 child: ElevatedButton.icon(
