@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -7,6 +6,8 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 class AddproductController extends ChangeNotifier {
   XFile? imagem;
   String? selectedCategory;
+  String? sacolaAtualId; // Variável para armazenar o ID da sacola atual
+
   List<ParseObject> tasks = [];
   var error = "";
 
@@ -107,6 +108,59 @@ class AddproductController extends ChangeNotifier {
     } else {
       print('Erro ao remover a categoria: ${deleteResponse.error?.message}');
       notifyListeners();
+    }
+  }
+
+  Future<void> adicionarNaSacola(
+      String produtoId, int quantidade, double total) async {
+    try {
+      if (produtoId.isEmpty) {
+        print("Erro: produtoId não pode ser vazio.");
+        return;
+      }
+
+      // Passo 1: Criar uma sacola apenas se não existir
+      if (sacolaAtualId == null) {
+        final sacola = ParseObject('Sacola')..set('subtotal', total);
+
+        final responseSacola = await sacola.save();
+
+        if (responseSacola.success) {
+          sacolaAtualId = sacola.objectId;
+          print("Nova sacola criada: $sacolaAtualId");
+        } else {
+          print(
+              "Erro ao criar sacola: ${responseSacola.error?.message}");
+          return;
+        }
+      }
+
+      // Passo 2: Adicionar o produto à sacola existente
+      final sacolaProduto = ParseObject('Produto_Sacola')
+        ..set('sacolaId', ParseObject('Sacola')..objectId = sacolaAtualId)
+        ..set('produtoId', ParseObject('Produto')..objectId = produtoId)
+        ..set('quantidade', quantidade)
+        ..set('total', total);
+
+      final responseRelation = await sacolaProduto.save();
+
+      if (responseRelation.success) {
+        print("Produto adicionado à sacola com sucesso!");
+      } else {
+        print("Erro ao adicionar produto: ${responseRelation.error?.message}");
+      }
+    } catch (e) {
+      print("Erro ao adicionar produto na sacola: $e");
+    }
+  }
+
+  Future<void> finalizarSacola() async {
+    if (sacolaAtualId != null) {
+      print("Finalizando a sacola: $sacolaAtualId");
+      sacolaAtualId = null; // Resetar para criar uma nova sacola no futuro
+      notifyListeners();
+    } else {
+      print("Nenhuma sacola ativa para finalizar.");
     }
   }
 }
