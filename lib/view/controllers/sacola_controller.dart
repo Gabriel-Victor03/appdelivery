@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SacolaController with ChangeNotifier {
-  final String? sacolaId;
+  String? sacolaAtualId;  // ID da sacola atual
+
   List<Map<String, dynamic>> _products = [];
 
   List<Map<String, dynamic>> get products => _products;
 
-  SacolaController({this.sacolaId});
+  SacolaController({this.sacolaAtualId});
 
   Future<void> fetchSacolaData() async {
     try {
-      if (sacolaId == null) {
+      if (sacolaAtualId == null) {
         print("Nenhuma sacola ativa.");
         return;
       }
 
-      print("Buscando produtos para sacola com ID: $sacolaId");
+      print("Buscando produtos para sacola com ID: $sacolaAtualId");
 
       // Busca os produtos associados à sacola
       final query = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
-        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaId)
+        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId)
         ..includeObject(['produto_produto']);
 
       final response = await query.query();

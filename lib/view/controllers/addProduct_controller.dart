@@ -17,6 +17,11 @@ class AddproductController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSacolaId(String? id) {
+    sacolaAtualId = id;
+    notifyListeners();
+  }
+
   getCategoria() async {
     notifyListeners();
     try {
@@ -111,53 +116,45 @@ class AddproductController extends ChangeNotifier {
     }
   }
   
-  Future<void> adicionarNaSacola(
-  String produtoId, int quantidade, double total) async {
-  try {
-    if (produtoId.isEmpty) {
-      print("Erro: produtoId não pode ser vazio.");
-      return;
-    }
-
-    // Passo 1: Criar uma sacola apenas se não existir
-    if (sacolaAtualId == null) {
-      final sacola = ParseObject('Sacola')..set('subtotal', total);
-
-      final responseSacola = await sacola.save();
-
-      if (responseSacola.success) {
-        sacolaAtualId = sacola.objectId;
-        print("Nova sacola criada: $sacolaAtualId");
-      } else {
-        print("Erro ao criar sacola: ${responseSacola.error?.message}");
+   Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) async {
+    try {
+      if (produtoId.isEmpty) {
+        print("Erro: produtoId não pode ser vazio.");
         return;
       }
-    }
 
-    // Passo 2: Adicionar o produto à sacola existente
-    final sacolaProduto = ParseObject('Produto_Sacola')
-      ..set('quantidade', quantidade)
-      ..set('total', total);
-  
-    // Usando addRelation para associar o Produto à Produto_Sacola
-    sacolaProduto.addRelation('produto_produto', [ParseObject('Produto')..set('objectId', produtoId)]);
+      // Passo 1: Criar uma sacola apenas se não existir
+      if (sacolaAtualId == null) {
+        final sacola = ParseObject('Sacola')..set('subtotal', total);
+
+        final responseSacola = await sacola.save();
+
+        if (responseSacola.success) {
+          sacolaAtualId = sacola.objectId;  // Armazenar o ID da sacola
+          print("Nova sacola criada: $sacolaAtualId");
+        } else {
+          print("Erro ao criar sacola: ${responseSacola.error?.message}");
+          return;
+        }
+      }
+
+      // Passo 2: Adicionar o produto à sacola existente
+      final sacolaProduto = ParseObject('Produto_Sacola')
+        ..set('quantidade', quantidade)
+        ..set('total', total);
     
-    // Usando addRelation para associar a Sacola à Produto_Sacola
-    sacolaProduto.addRelation('produto_sacola', [ParseObject('Sacola')..set('objectId', sacolaAtualId)]);
+      sacolaProduto.addRelation('produto_produto', [ParseObject('Produto')..set('objectId', produtoId)]);
+      sacolaProduto.addRelation('produto_sacola', [ParseObject('Sacola')..set('objectId', sacolaAtualId)]);
 
-    final responseRelation = await sacolaProduto.save();
+      final responseRelation = await sacolaProduto.save();
 
-    if (responseRelation.success) {
-      print("Produto adicionado à sacola com sucesso!");
-    } else {
-      print("Erro ao adicionar produto: ${responseRelation.error?.message}");
+      if (responseRelation.success) {
+        print("Produto adicionado à sacola com sucesso!");
+      } else {
+        print("Erro ao adicionar produto: ${responseRelation.error?.message}");
+      }
+    } catch (e) {
+      print("Erro ao adicionar produto na sacola: $e");
     }
-  } catch (e) {
-    print("Erro ao adicionar produto na sacola: $e");
   }
-}
-
-
-
-
 }
