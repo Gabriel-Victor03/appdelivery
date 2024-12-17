@@ -30,4 +30,24 @@ class Usercontroller extends ChangeNotifier {
       return [];
     }
   }
+
+  inserirUser(String nome, String senha, String email) async {
+    try {
+      final produto = ParseObject('_User')
+        ..set('username', nome)
+        ..set('email', email)
+        ..set('password', senha);
+
+      // Usando a relação para adicionar a categoria
+
+      final response = await produto.save();
+      if (response.success) {
+        print("foi");
+      } else {
+        print("deu erro");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }
