@@ -1,5 +1,6 @@
   import 'package:appdelivery/view/components/my_add_Cart.dart';
-import 'package:appdelivery/view/controllers/addproduct_controller.dart';
+import 'package:appdelivery/view/controllers/addProduct_controller.dart';
+
 import 'package:appdelivery/view/controllers/adicional_controller.dart';
   import 'package:flutter/material.dart';
   import 'package:intl/intl.dart';

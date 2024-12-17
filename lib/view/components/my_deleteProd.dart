@@ -1,4 +1,5 @@
-import 'package:appdelivery/view/controllers/addproduct_controller.dart';
+import 'package:appdelivery/view/controllers/addProduct_controller.dart';
+
 import 'package:flutter/material.dart';
 
 class MyDeleteprod extends StatefulWidget {
