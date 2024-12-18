@@ -16,6 +16,7 @@ class Usercontroller extends ChangeNotifier {
         final user = e as ParseObject;
 
         return {
+          'Objectid': user.get<String>('objectId') ?? "sem id",
           'username': user.get<String>('username') ?? 'Nome não disponível',
           'email': user.get<String>("email") ?? 'sem@email.com',
         };
@@ -49,5 +50,18 @@ class Usercontroller extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  updateTodo(String id, String nome, String email) async {
+    var usr = ParseObject('_User')
+      ..objectId = id
+      ..set('username', nome)
+      ..set('email', email);
+    await usr.save();
+  }
+
+  deleteTodo(String id) async {
+    var todo = ParseObject('_User')..objectId = id;
+    await todo.delete();
   }
 }

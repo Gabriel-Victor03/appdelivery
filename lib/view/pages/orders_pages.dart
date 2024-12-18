@@ -1,5 +1,5 @@
 import 'package:appdelivery/view/components/my_appbar.dart';
-import 'package:appdelivery/view/components/my_finalityProd.dart';
+import 'package:appdelivery/view/components/my_editUser.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
