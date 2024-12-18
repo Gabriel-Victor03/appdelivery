@@ -1,10 +1,10 @@
-  import 'package:appdelivery/view/components/my_add_Cart.dart';
+import 'package:appdelivery/view/components/my_add_Cart.dart';
 import 'package:appdelivery/view/controllers/addProduct_controller.dart';
-
-import 'package:appdelivery/view/controllers/adicional_controller.dart';
-  import 'package:flutter/material.dart';
-  import 'package:intl/intl.dart';
-  import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'package:appdelivery/view/controllers/sacola_controller.dart';
+import 'package:appdelivery/view/models/sacola.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
   class MyCards extends StatefulWidget {
     @override
@@ -17,15 +17,13 @@ import 'package:appdelivery/view/controllers/adicional_controller.dart';
 
     int _counterQuantidade = 1; // Começa com 1 por padrão
     double _valorTotal = 0.0; // Valor total inicia
-    
-    final adicionalController = AdicionalController(); // Instancia o controller
-    final addproductController = AddproductController();
+    late final SacolaController sacolaController;
 
     @override
     void initState() {
       super.initState();
       fetchProdutos();
-      adicionalController.getAdicionais();
+      sacolaController = SacolaController();
     }
 
     String formatarPreco(num preco) {
@@ -51,7 +49,7 @@ import 'package:appdelivery/view/controllers/adicional_controller.dart';
 
       });
     }
-    Future<void> fetchProdutos() async {
+  Future<void> fetchProdutos() async {
     final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
     final response = await query.query();
 
@@ -204,7 +202,7 @@ import 'package:appdelivery/view/controllers/adicional_controller.dart';
                         // Botão adicionar à sacola
                         SizedBox(height: 15),
                         AddToCartButton(
-                          controller: addproductController,
+                          controller: SacolaController(),
                           produtoId: product['id'] ?? '',
                           quantidade: _counterQuantidade,
                           total: _valorTotal,

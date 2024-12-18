@@ -1,11 +1,12 @@
-import 'package:appdelivery/view/controllers/addProduct_controller.dart';
+import 'package:appdelivery/view/controllers/sacola_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:appdelivery/view/controllers/addProduct_controller.dart';
 
 class AddToCartButton extends StatefulWidget {
-  final AddproductController controller;
-  final String produtoId; // ID do produto
-  final int quantidade; // Quantidade escolhida
-  final double total; // Subtotal do produto
+  final SacolaController controller;
+  final String produtoId;
+  final int quantidade;
+  final double total;
 
   const AddToCartButton({
     Key? key,
@@ -27,24 +28,25 @@ class _AddToCartButtonState extends State<AddToCartButton> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: _isProcessing ? null : () async {
-          setState(() {
-            _isProcessing = true; // Inicia o processamento
-          });
+        onPressed: _isProcessing
+            ? null
+            : () async {
+                setState(() {
+                  _isProcessing = true;
+                });
 
-          // Indicador de carregamento no botão
-          await widget.controller.adicionarNaSacola(
-            widget.produtoId,
-            widget.quantidade,
-            widget.total,
-          );
+                await widget.controller.adicionarNaSacola(
+                  widget.produtoId,
+                  widget.quantidade,
+                  widget.total,
+                );
 
-          setState(() {
-            _isProcessing = false; // Finaliza o processamento
-          });
+                setState(() {
+                  _isProcessing = false;
+                });
 
-          Navigator.pop(context); // Fecha a página atual após adicionar
-        },
+                Navigator.pop(context);
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 130, 30, 60),
           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -58,18 +60,10 @@ class _AddToCartButtonState extends State<AddToCartButton> {
                 strokeWidth: 2,
               )
             : const Icon(Icons.shopping_bag, color: Colors.white),
-        label: _isProcessing
-            ? const Text(
-                "Adicionando...",
-                style: TextStyle(color: Colors.white),
-              )
-            : const Text(
-                "Adicionar na sacola",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        label: Text(
+          _isProcessing ? "Adicionando..." : "Adicionar na sacola",
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
