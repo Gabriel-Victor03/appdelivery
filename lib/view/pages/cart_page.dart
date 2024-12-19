@@ -17,14 +17,6 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    _fetchSacolaData();
-  }
-
-  Future<void> _fetchSacolaData() async {
-    await sacolaController.fetchSacolaData(); // Carrega os dados
-    setState(() {
-      products = sacolaController.products; // Atualiza a lista de produtos
-    });
   }
 
   String? deliveryType = 'entrega';
