@@ -2,6 +2,7 @@ import 'package:appdelivery/view/components/my_popup_informaddress.dart';
 import 'package:appdelivery/view/controllers/sacola_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -12,12 +13,22 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   List<Map<String, dynamic>> products = [];
+
   final sacolaController = SacolaController();
 
   @override
   void initState() {
     super.initState();
+    loadSacola();
   }
+  Future<void> loadSacola() async {
+  final prefs = await SharedPreferences.getInstance();
+  await sacolaController.loadSacolaId();
+  await sacolaController.fetchProdutosNaSacola();
+  setState(() {
+    products = sacolaController.products;
+  });
+}
 
   String? deliveryType = 'entrega';
   String? paymentMethod = 'cartao';

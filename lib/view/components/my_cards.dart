@@ -12,7 +12,7 @@ class MyCards extends StatefulWidget {
 }
 
 class _MyCardsState extends State<MyCards> {
-  List<Map<String, String>> products = [];
+  late Future<void> _fetchProdutosFuture;
   Map<String, List<Map<String, String>>> categoriaProduto = {};
 
   int _counterQuantidade = 1; // Começa com 1 por padrão
@@ -22,8 +22,8 @@ class _MyCardsState extends State<MyCards> {
   @override
   void initState() {
     super.initState();
-    fetchProdutos();
     sacolaController = SacolaController();
+    _fetchProdutosFuture = fetchProdutos(); // Inicializa o Future aqui
   }
 
   String formatarPreco(num preco) {
@@ -41,54 +41,38 @@ class _MyCardsState extends State<MyCards> {
     }
   }
 
-  void atualizarValorTotal(Map<String, String> product) {
-    final precoBase = double.tryParse(product['preco'] ?? '0') ?? 0.0;
-    setState(() {
-      _valorTotal = _counterQuantidade * precoBase;
-      print(
-          "Valor total atualizado: $_valorTotal"); // Imprime o valor no console
-    });
-  }
-
   Future<void> fetchProdutos() async {
     final query = QueryBuilder<ParseObject>(ParseObject('Produto'));
     final response = await query.query();
 
     if (response.success && response.result != null) {
-      if (!mounted) return; // Verifica se o widget ainda está montado
+      if (!mounted) return;
+      final productList = await Future.wait(response.results!.map((e) async {
+        final product = e as ParseObject;
+        final relation = product.getRelation('categoria_produto');
+        final categoria = await relation.getQuery().first();
+        final categoryName = categoria != null
+            ? categoria.get<String>('nome') ?? 'Sem Categoria'
+            : 'Sem Categoria';
+
+        return {
+          'id': product.objectId ?? '',
+          'category': categoryName,
+          'title': product.get<String>('nome') ?? 'Nome não disponível',
+          'description': product.get<String>('descricao') ?? 'Descrição não disponível',
+          'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
+          'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
+        };
+      }).toList());
+
       setState(() {
-        categoriaProduto.clear(); // Limpa as categorias para evitar duplicação
-
-        final productList = response.results!.map((e) async {
-          final product = e as ParseObject;
-          final relation = product.getRelation('categoria_produto');
-          final categoria = await relation.getQuery().first();
-          final categoryName = categoria != null
-              ? categoria.get<String>('nome') ?? 'Sem Categoria'
-              : 'Sem Categoria';
-
-          return {
-            'id':
-                product.objectId ?? '', // Garante que o objectId seja incluído
-            'category': categoryName,
-            'title': product.get<String>('nome') ?? 'Nome não disponível',
-            'description':
-                product.get<String>('descricao') ?? 'Descrição não disponível',
-            'image': (product.get<ParseFile>('image_produto')?.url) ?? '',
-            'preco': product.get<num>('preco')?.toStringAsFixed(2) ?? '0.00',
-          };
-        }).toList();
-
-        // Espera todas as operações assíncronas terminarem
-        Future.wait(productList).then((products) {
-          // Organiza os produtos por categoria
-          products.forEach((product) {
-            final category = product['category'] as String;
-            if (!categoriaProduto.containsKey(category)) {
-              categoriaProduto[category] = [];
-            }
-            categoriaProduto[category]!.add(product);
-          });
+        categoriaProduto.clear();
+        productList.forEach((product) {
+          final category = product['category'] as String;
+          if (!categoriaProduto.containsKey(category)) {
+            categoriaProduto[category] = [];
+          }
+          categoriaProduto[category]!.add(product);
         });
       });
     } else {
@@ -96,13 +80,10 @@ class _MyCardsState extends State<MyCards> {
     }
   }
 
-  Future<void> openDialog(
-      BuildContext context, Map<String, String> product) async {
-    // Inicializa as variáveis globais para o produto selecionado
+  Future<void> openDialog(BuildContext context, Map<String, String> product) async {
     setState(() {
-      _counterQuantidade = 1; // Reinicia a quantidade para 1
-      _valorTotal =
-          double.tryParse(product['preco'] ?? '0') ?? 0.0; // Preço inicial
+      _counterQuantidade = 1;
+      _valorTotal = double.tryParse(product['preco'] ?? '0') ?? 0.0;
     });
 
     await showDialog(
@@ -124,7 +105,6 @@ class _MyCardsState extends State<MyCards> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Título e imagem do produto
                         Text(
                           product['title'] ?? 'Nome não disponível',
                           style: TextStyle(
@@ -135,11 +115,8 @@ class _MyCardsState extends State<MyCards> {
                         Divider(color: Colors.black),
                         Image.network(product['image'] ?? '', height: 150),
                         SizedBox(height: 10),
-                        Text(product['description'] ??
-                            'Descrição não disponível'),
+                        Text(product['description'] ?? 'Descrição não disponível'),
                         Divider(color: Colors.black),
-
-                        // Controle de quantidade
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -158,12 +135,9 @@ class _MyCardsState extends State<MyCards> {
                                       setState(() {
                                         _counterQuantidade--;
                                         _valorTotal = _counterQuantidade *
-                                            (double.tryParse(
-                                                    product['preco'] ?? '0') ??
-                                                0.0);
+                                            (double.tryParse(product['preco'] ?? '0') ?? 0.0);
                                       });
-                                      setStateDialog(
-                                          () {}); // Atualiza o diálogo
+                                      setStateDialog(() {});
                                     }
                                   },
                                   icon: Icon(Icons.remove),
@@ -177,11 +151,9 @@ class _MyCardsState extends State<MyCards> {
                                     setState(() {
                                       _counterQuantidade++;
                                       _valorTotal = _counterQuantidade *
-                                          (double.tryParse(
-                                                  product['preco'] ?? '0') ??
-                                              0.0);
+                                          (double.tryParse(product['preco'] ?? '0') ?? 0.0);
                                     });
-                                    setStateDialog(() {}); // Atualiza o diálogo
+                                    setStateDialog(() {});
                                   },
                                   icon: Icon(Icons.add),
                                 ),
@@ -190,8 +162,6 @@ class _MyCardsState extends State<MyCards> {
                           ],
                         ),
                         Divider(color: Colors.black),
-
-                        // Valor total
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -203,16 +173,12 @@ class _MyCardsState extends State<MyCards> {
                               ),
                             ),
                             Text(
-                              NumberFormat.currency(
-                                      locale: 'pt_BR', symbol: 'R\$')
-                                  .format(_valorTotal),
+                              NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(_valorTotal),
                               style: TextStyle(fontSize: 18),
                             ),
                           ],
                         ),
                         Divider(color: Colors.black),
-
-                        // Botão adicionar à sacola
                         SizedBox(height: 15),
                         AddToCartButton(
                           controller: SacolaController(),
@@ -232,148 +198,132 @@ class _MyCardsState extends State<MyCards> {
     );
   }
 
-  Widget _buildAdditionalItem(
-      String name, int counter, VoidCallback onRemove, VoidCallback onAdd) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(name),
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: onRemove,
-            ),
-            Text('$counter'),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: onAdd,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: categoriaProduto.entries.map((entry) {
-          final categoryName = entry.key;
-          final categoryProducts = entry.value;
+    return FutureBuilder<void>(
+      future: _fetchProdutosFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Erro ao carregar produtos'));
+        } else {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: categoriaProduto.entries.map((entry) {
+                final categoryName = entry.key;
+                final categoryProducts = entry.value;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título da categoria
-              Text(
-                categoryName,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 130, 30, 60),
-                ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                height: 3,
-                color: Color.fromARGB(255, 130, 30, 60),
-                margin: EdgeInsets.only(left: 4, bottom: 10),
-              ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: categoryProducts.map<Widget>((product) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      categoryName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 130, 30, 60),
+                      ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Image.network(
-                              product['image'] ?? '',
-                              height: 120,
-                            ),
-                          ),
-                          Text(
-                            product['title'] ?? 'Nome não disponível',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 130, 30, 60),
-                            ),
-                          ),
-                          Text(
-                            _truncateText(
-                              product['description'] ??
-                                  'Descrição não disponível',
-                              30,
-                            ),
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                formatarPreco(double.tryParse(
-                                        product['preco'] ?? '0.00') ??
-                                    0.00),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 130, 30, 60),
-                                ),
-                              ),
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 130, 30, 60),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.shopping_bag,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                  onPressed: () => openDialog(context, product),
-                                  padding: EdgeInsets.zero,
-                                  constraints: BoxConstraints(),
-                                ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      height: 3,
+                      color: Color.fromARGB(255, 130, 30, 60),
+                      margin: EdgeInsets.only(left: 4, bottom: 10),
+                    ),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: categoryProducts.map<Widget>((product) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Image.network(
+                                    product['image'] ?? '',
+                                    height: 120,
+                                  ),
+                                ),
+                                Text(
+                                  product['title'] ?? 'Nome não disponível',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 130, 30, 60),
+                                  ),
+                                ),
+                                Text(
+                                  _truncateText(
+                                    product['description'] ?? 'Descrição não disponível',
+                                    30,
+                                  ),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      formatarPreco(double.tryParse(product['preco'] ?? '0.00') ?? 0.00),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 130, 30, 60),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Color.fromARGB(255, 130, 30, 60),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.shopping_bag,
+                                          color: Colors.white,
+                                          size: 18,
+                                        ),
+                                        onPressed: () => openDialog(context, product),
+                                        padding: EdgeInsets.zero,
+                                        constraints: BoxConstraints(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 20),
-            ],
+                    SizedBox(height: 20),
+                  ],
+                );
+              }).toList(),
+            ),
           );
-        }).toList(),
-      ),
+        }
+      },
     );
   }
 }
