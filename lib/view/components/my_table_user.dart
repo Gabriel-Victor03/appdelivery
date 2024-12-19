@@ -174,6 +174,8 @@ class _MyTableUserState extends State<MyTableUser> {
                                                     context: context,
                                                     builder: (builder) =>
                                                         MyEdituser(
+                                                            id: user["Objectid"]
+                                                                .toString(),
                                                             nome:
                                                                 user['username']
                                                                     .toString(),
@@ -204,7 +206,7 @@ class _MyTableUserState extends State<MyTableUser> {
                                                             nome:
                                                                 user['username']
                                                                     .toString(),
-                                                            id: user['ObjectId']
+                                                            id: user['Objectid']
                                                                 .toString()));
                                               },
                                               child: Icon(

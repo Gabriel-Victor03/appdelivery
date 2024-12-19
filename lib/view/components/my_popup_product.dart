@@ -152,8 +152,7 @@ class _MyPopupProductState extends State<MyPopupProduct> {
                             ),
                           ),
                           onPressed: () {
-                            store.removerCategoria(
-                                store.objectId, store.categoriaNome);
+                            store.removerCategoria(store.objectId);
                             //store.getCategoria(); // Chama a função para remover a categoria
                             Navigator.of(context).pop(); // Fecha o diálogo
 

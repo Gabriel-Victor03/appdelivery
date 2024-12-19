@@ -64,7 +64,7 @@ class CategoryController extends ChangeNotifier {
     }
   }
 
-  removerCategoria(String objectId, String categoriaNome) async {
+  removerCategoria(String objectId) async {
     final categoria = ParseObject('Categoria')..objectId = objectId;
 
     // Remove a categoria
