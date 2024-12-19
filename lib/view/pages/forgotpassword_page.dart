@@ -10,40 +10,50 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController emailController = TextEditingController();
 
-  void _showAlert(String message, {bool redirectToLogin = false}) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Atenção'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              if (redirectToLogin) {
-                // Redireciona para a página de login
-                Navigator.pushReplacementNamed(context, '/login');
-              }
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _handleSend() {
+  void _validateAndSendEmail() {
     final email = emailController.text.trim();
 
     if (email.isEmpty) {
-      _showAlert('Por favor, preencha o campo de e-mail.');
-    } else {
-      _showAlert(
-        'As informações de recuperação foram enviadas para o seu e-mail.',
-        redirectToLogin: true,
-      );
-      emailController.clear(); // Limpa o campo de e-mail após enviar
+      _showAlert('Erro', 'Por favor, preencha o campo de e-mail.');
+      return;
     }
+
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(email)) {
+      _showAlert('Erro', 'Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    _showAlert(
+      'Sucesso',
+      'As informações de recuperação foram enviadas para o seu e-mail.',
+      onOk: () {
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  void _showAlert(String title, String message, {VoidCallback? onOk}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                if (onOk != null) {
+                  onOk();
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -51,14 +61,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 130, 30, 60),
-        iconTheme: const IconThemeData(
-          color: Colors.white, // Define a cor do ícone como branco
-        ),
         title: const Text(
           'Recuperar Senha',
           style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Center(
         child: Padding(
@@ -79,17 +87,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.min, // Ajusta o tamanho do container
                 children: [
                   Container(
                     alignment: Alignment.topLeft,
                     child: const Text(
                       'Digite seu e-mail para recuperar sua senha:',
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -103,9 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       fillColor: Colors.white,
                       labelText: 'E-mail',
                       labelStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                          fontSize: 14, fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.grey),
@@ -125,7 +127,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
-                      onPressed: _handleSend,
+                      onPressed: _validateAndSendEmail,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 130, 30, 60),
                         padding: const EdgeInsets.symmetric(
@@ -136,10 +138,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                       child: const Text(
                         'Enviar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ),
