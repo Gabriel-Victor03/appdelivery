@@ -22,12 +22,14 @@ class _CartPageState extends State<CartPage> {
     loadSacola();
   }
   Future<void> loadSacola() async {
-  final prefs = await SharedPreferences.getInstance();
-  await sacolaController.loadSacolaId();
-  await sacolaController.fetchProdutosNaSacola();
-  setState(() {
-    products = sacolaController.products;
-  });
+    final prefs = await SharedPreferences.getInstance();
+    await sacolaController.loadSacolaId();
+    await sacolaController.fetchProdutosNaSacola();
+    
+    if (!mounted) return; // Verifica se o widget ainda está montado
+    setState(() {
+      products = sacolaController.products;
+    });
 }
 
   String? deliveryType = 'entrega';

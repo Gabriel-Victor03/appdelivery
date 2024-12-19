@@ -40,7 +40,7 @@ class SacolaController with ChangeNotifier {
     }
   }
 
-Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) async {
+  Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) async {
   try {
     if (produtoId.isEmpty) {
       print("Erro: produtoId não pode ser vazio.");
@@ -55,8 +55,7 @@ Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) a
     // Consulta para verificar se o produto já existe na sacola
     final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
       ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId)
-      ..whereEqualTo('produto_produto', ParseObject('Produto')..objectId = produtoId)
-      ..includeObject(['produto_produto', 'produto_sacola']); // Inclui o produto e a sacola na consulta
+      ..whereEqualTo('produto_produto', ParseObject('Produto')..objectId = produtoId);
 
     final responseProdutoSacola = await queryProdutoSacola.query();
 
@@ -65,7 +64,7 @@ Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) a
       final produtoSacola = responseProdutoSacola.results!.first as ParseObject;
       produtoSacola
         ..set('quantidade', produtoSacola.get<int>('quantidade')! + quantidade)
-        ..set('total', produtoSacola.get<double>('total')! + total);
+        ..set('total', (produtoSacola.get<num>('total')! + total).toDouble());
 
       await produtoSacola.save();
     } else {
@@ -98,89 +97,86 @@ Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) a
   }
 }
 
-Future<void> fetchProdutosNaSacola() async {
-  try {
-    if (sacolaAtualId == null) {
-      print("Erro: Nenhuma sacola está ativa.");
-      return;
-    }
 
-    print("Buscando produtos na sacola com ID: $sacolaAtualId");
-
-    _products.clear(); // Limpa a lista antes de adicionar novos produtos
-
-    final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
-      ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId);
-
-    final responseProdutoSacola = await queryProdutoSacola.query();
-
-    if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
-      print("Produtos encontrados na sacola:");
-      for (var item in responseProdutoSacola.results!) {
-        final produtoSacola = item as ParseObject;
-        final quantidade = produtoSacola.get<int>('quantidade');
-        final total = produtoSacola.get<double>('total');
-
-        // Fetch dos objetos relacionados (produtos)
-        final produtoRelation = produtoSacola.getRelation('produto_produto');
-        final queryProduto = produtoRelation.getQuery();
-        final produtoRelacionadoResponse = await queryProduto.query();
-
-        if (produtoRelacionadoResponse.success && produtoRelacionadoResponse.results != null) {
-          for (var produtoItem in produtoRelacionadoResponse.results!) {
-            final produto = produtoItem as ParseObject;
-            final nomeProduto = produto.get<String>('nome');
-            final preco = produto.get<double>('preco');
-            final descricao = produto.get<String>('descricao');
-
-            // Adiciona o produto à lista de produtos, sem a imagem
-            _products.add({
-              'id': produto.objectId,
-              'name': nomeProduto,
-              'price': preco,
-              'description': descricao,
-              'quantity': quantidade,
-              'total': total,
-            });
-
-            print("Produto: $nomeProduto, Preço: $preco, Descrição: $descricao, Quantidade: $quantidade, Total: $total");
-          }
-        } else {
-          print("Erro ao buscar o produto relacionado: ${produtoRelacionadoResponse.error?.message}");
-        }
+  Future<void> fetchProdutosNaSacola() async {
+    try {
+      if (sacolaAtualId == null) {
+        print("Erro: Nenhuma sacola está ativa.");
+        return;
       }
-      notifyListeners(); // Notifica a UI sobre a atualização dos produtos
-    } else {
-      print("Erro ao buscar produtos na sacola: ${responseProdutoSacola.error?.message ?? 'Successful request, but no results found'}");
+
+      print("Buscando produtos na sacola com ID: $sacolaAtualId");
+
+      _products.clear(); // Limpa a lista antes de adicionar novos produtos
+
+      final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
+        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId);
+
+      final responseProdutoSacola = await queryProdutoSacola.query();
+
+      if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
+        print("Produtos encontrados na sacola:");
+        for (var item in responseProdutoSacola.results!) {
+          final produtoSacola = item as ParseObject;
+          final quantidade = produtoSacola.get<int>('quantidade');
+          final total = produtoSacola.get<num>('total')?.toDouble() ?? 0.0;
+
+          // Fetch dos objetos relacionados (produtos)
+          final produtoRelation = produtoSacola.getRelation('produto_produto');
+          final queryProduto = produtoRelation.getQuery();
+          final produtoRelacionadoResponse = await queryProduto.query();
+
+          if (produtoRelacionadoResponse.success && produtoRelacionadoResponse.results != null) {
+            for (var produtoItem in produtoRelacionadoResponse.results!) {
+              final produto = produtoItem as ParseObject;
+              final nomeProduto = produto.get<String>('nome');
+              final preco = produto.get<num>('preco')?.toDouble() ?? 0.0;
+              final descricao = produto.get<String>('descricao');
+
+              // Adiciona o produto à lista de produtos, sem a imagem
+              _products.add({
+                'id': produto.objectId,
+                'name': nomeProduto,
+                'price': preco,
+                'description': descricao,
+                'quantity': quantidade,
+                'total': total,
+              });
+
+              print("Produto: $nomeProduto, Preço: $preco, Descrição: $descricao, Quantidade: $quantidade, Total: $total");
+            }
+          } else {
+            print("Erro ao buscar o produto relacionado: ${produtoRelacionadoResponse.error?.message}");
+          }
+        }
+        notifyListeners(); // Notifica a UI sobre a atualização dos produtos
+      } else {
+        print("Erro ao buscar produtos na sacola: ${responseProdutoSacola.error?.message ?? 'Successful request, but no results found'}");
+      }
+    } catch (e) {
+      print("Erro ao buscar produtos na sacola: $e");
     }
-  } catch (e) {
-    print("Erro ao buscar produtos na sacola: $e");
   }
-}
-
-
 
   Future<void> finalizarCompra() async {
-  try {
-    if (sacolaAtualId == null) {
-      print("Erro: Nenhuma sacola está ativa para finalizar.");
-      return;
+    try {
+      if (sacolaAtualId == null) {
+        print("Erro: Nenhuma sacola está ativa para finalizar.");
+        return;
+      }
+
+      // Aqui você pode adicionar lógica para processar o pagamento ou finalizar a compra
+
+      // Limpar a sacola atual
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('sacolaAtualId');
+      sacolaAtualId = null;
+      _products.clear();
+      notifyListeners();
+
+      print("Compra finalizada e sacola limpa.");
+    } catch (e) {
+      print("Erro ao finalizar compra: $e");
     }
-
-    // Aqui você pode adicionar lógica para processar o pagamento ou finalizar a compra
-
-    // Limpar a sacola atual
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('sacolaAtualId');
-    sacolaAtualId = null;
-    _products.clear();
-    notifyListeners();
-
-    print("Compra finalizada e sacola limpa.");
-  } catch (e) {
-    print("Erro ao finalizar compra: $e");
   }
-}
-
-
 }
