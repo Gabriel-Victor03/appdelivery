@@ -563,6 +563,8 @@ class _CartPageState extends State<CartPage> {
                 deliveryType: deliveryType!,
                 paymentMethod: paymentMethod!,
                 total: total,
+                products: products.map((product) => product['name'] as String).toList(),
+                sacolaController: sacolaController,
               ),
             ],
           ),

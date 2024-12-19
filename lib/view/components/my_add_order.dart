@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:appdelivery/view/controllers/sacola_controller.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class AddOrderButton extends StatefulWidget {
   final TextEditingController nameController;
@@ -6,6 +8,8 @@ class AddOrderButton extends StatefulWidget {
   final String deliveryType;
   final String paymentMethod;
   final double total;
+  final List<String> products;
+  final SacolaController sacolaController;
 
   const AddOrderButton({
     Key? key,
@@ -14,6 +18,8 @@ class AddOrderButton extends StatefulWidget {
     required this.deliveryType,
     required this.paymentMethod,
     required this.total,
+    required this.products,
+    required this.sacolaController,
   }) : super(key: key);
 
   @override
@@ -22,6 +28,11 @@ class AddOrderButton extends StatefulWidget {
 
 class _AddOrderButtonState extends State<AddOrderButton> {
   bool _isProcessing = false;
+
+  final Map<String, String> deliveryTypeIds = {
+    'Retirada no balcão': '11dSCRWhfh', // Substitua por objectId real
+    'Delivery': 'xGkqFvXENJ', // Substitua por objectId real
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -36,26 +47,41 @@ class _AddOrderButtonState extends State<AddOrderButton> {
                     _isProcessing = true;
                   });
 
-                  // Simulate a network call or processing
-                  await Future.delayed(Duration(seconds: 2));
+                  final deliveryTypeId = deliveryTypeIds[widget.deliveryType];
 
-                  final customerInfo = {
-                    'name': widget.nameController.text,
-                    'phone': widget.phoneController.text,
-                    'deliveryType': widget.deliveryType,
-                    'paymentMethod': widget.paymentMethod,
-                    'total': widget.total,
-                  };
+                  if (deliveryTypeId == null) {
+                    print("Erro: Tipo de entrega inválido.");
+                    setState(() {
+                      _isProcessing = false;
+                    });
+                    return;
+                  }
 
-                  // Handle the customerInfo here
-                  print(customerInfo);
+                  // Criar um novo objeto de pedido
+                  final pedido = ParseObject('Pedido')
+                  ..set('nome', widget.nameController.text)
+                  ..set('telefone', widget.phoneController.text)
+                  ..set('status', true)
+                  ..set('data', DateTime.now())
+                  ..set('hora', DateTime.now().toIso8601String())
+                  ..set('observacao', '')
+                  ..addRelation('tipo_entrega_pedido', [ParseObject('Tipo_Entrega')..objectId = deliveryTypeId])
+                  ..addRelation('sacola_pedido', [ParseObject('Sacola')..objectId = widget.sacolaController.sacolaAtualId])
+                  ..set('preco_total', widget.total);
+
+
+                  final response = await pedido.save();
+
+                  if (response.success) {
+                    print("Pedido salvo com sucesso!");
+                    await widget.sacolaController.finalizarCompra();
+                  } else {
+                    print("Erro ao salvar pedido: ${response.error?.message}");
+                  }
 
                   setState(() {
                     _isProcessing = false;
                   });
-
-                  // Optionally, navigate or show a confirmation message
-                  // Navigator.pop(context);
                 },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 53, 155, 56),
