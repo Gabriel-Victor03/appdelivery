@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_add_order.dart';
 import 'package:appdelivery/view/components/my_popup_informaddress.dart';
 import 'package:appdelivery/view/controllers/order_controller.dart';
 import 'package:appdelivery/view/controllers/sacola_controller.dart';
@@ -556,35 +557,12 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
 
-              Center(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Lógica para finalizar a compra
-                    final customerInfo = {
-                      'name': nameController.text,
-                      'phone': phoneController.text,
-                      'deliveryType': deliveryType,
-                      'paymentMethod': paymentMethod,
-                      'total': total,
-                    };
-                  },
-                  icon: Icon(Icons.check, color: Colors.white),
-                  label: Text(
-                    'Finalizar Compra',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 53, 155, 56),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
+                AddOrderButton(
+                nameController: nameController,
+                phoneController: phoneController,
+                deliveryType: deliveryType!,
+                paymentMethod: paymentMethod!,
+                total: total,
               ),
             ],
           ),
