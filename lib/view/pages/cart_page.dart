@@ -1,4 +1,5 @@
 import 'package:appdelivery/view/components/my_popup_informaddress.dart';
+import 'package:appdelivery/view/controllers/order_controller.dart';
 import 'package:appdelivery/view/controllers/sacola_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,35 +14,43 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   List<Map<String, dynamic>> products = [];
-
   final sacolaController = SacolaController();
+  final orderController = OrderController();
 
   @override
   void initState() {
     super.initState();
     loadSacola();
   }
+
   Future<void> loadSacola() async {
     final prefs = await SharedPreferences.getInstance();
     await sacolaController.loadSacolaId();
     await sacolaController.fetchProdutosNaSacola();
-    
+
     if (!mounted) return; // Verifica se o widget ainda está montado
     setState(() {
       products = sacolaController.products;
     });
-}
+  }
 
-  String? deliveryType = 'entrega';
+  String? deliveryType = 'Retirada no balcão';
   String? paymentMethod = 'cartao';
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+
+  // Define the delivery fee
+  final double deliveryFee = 5.0;
 
   @override
   Widget build(BuildContext context) {
     double total = products.fold(
         0, (sum, item) => sum + (item['price'] * item['quantity']));
+
+    // Add delivery fee to total if delivery is selected
+    if (deliveryType == 'Delivery') {
+      total += deliveryFee;
+    }
 
     // Formata o total e outros valores para o padrão brasileiro
     final formatter = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
@@ -494,7 +503,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                         Spacer(),
                         Text(
-                          formatter.format(total),
+                          formatter.format(total - (deliveryType == 'Delivery' ? deliveryFee : 0)),
                           style: const TextStyle(
                               fontSize: 19,
                               fontWeight: FontWeight.bold,
@@ -503,25 +512,26 @@ class _CartPageState extends State<CartPage> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Text(
-                          'Frete:',
-                          style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Arial'),
-                        ),
-                        Spacer(),
-                        Text(
-                          formatter.format(5.0), // Valor de exemplo do frete
-                          style: const TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Arial'),
-                        ),
-                      ],
-                    ),
+                    if (deliveryType == 'Delivery') // Conditionally show delivery fee
+                      Row(
+                        children: [
+                          const Text(
+                            'Frete:',
+                            style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Arial'),
+                          ),
+                          Spacer(),
+                          Text(
+                            formatter.format(deliveryFee),
+                            style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Arial'),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -537,7 +547,7 @@ class _CartPageState extends State<CartPage> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    'Total: ${formatter.format(total + 5.0)}',
+                    'Total: ${formatter.format(total)}',
                     style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
