@@ -40,6 +40,10 @@ class _CartPageState extends State<CartPage> {
   void _onOrderCompleted() {
     setState(() {
       products.clear();
+      nameController.clear(); // Limpa o campo de nome
+      phoneController.clear(); // Limpa o campo de telefone
+      deliveryType = 'Retirada no balcão'; // Redefine o tipo de entrega
+      paymentMethod = 'cartao'; // Redefine o método de pagamento
     });
   }
 
