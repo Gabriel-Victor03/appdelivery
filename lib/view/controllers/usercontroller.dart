@@ -3,10 +3,10 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class Usercontroller extends ChangeNotifier {
   List<ParseObject> tasks = [];
-
+  String check = '';
   Future<List<Map<String, String>>> getUser() async {
     final QueryBuilder<ParseObject> query =
-        QueryBuilder<ParseObject>(ParseObject('_User'));
+        QueryBuilder<ParseObject>(ParseObject('Usuario'));
 
     var response = await query.query();
 
@@ -34,10 +34,10 @@ class Usercontroller extends ChangeNotifier {
 
   inserirUser(String nome, String senha, String email) async {
     try {
-      final produto = ParseObject('_User')
+      final produto = ParseObject('Usuario')
         ..set('username', nome)
         ..set('email', email)
-        ..set('password', senha);
+        ..set('senha', senha);
 
       // Usando a relação para adicionar a categoria
 
@@ -53,15 +53,34 @@ class Usercontroller extends ChangeNotifier {
   }
 
   updateTodo(String id, String nome, String email) async {
-    var usr = ParseObject('_User')
+    var usr = ParseObject('Usuario')
       ..objectId = id
       ..set('username', nome)
       ..set('email', email);
     await usr.save();
   }
 
-  deleteTodo(String id) async {
-    var todo = ParseObject('_User')..objectId = id;
-    await todo.delete();
+  Future<bool> deleteTodo(String id) async {
+    try {
+      print(
+          'Tentando deletar o usuário com ID: $id'); // Verifica se o ID está correto
+
+      final todo = ParseObject('Usuario')..objectId = id;
+      final response = await todo.delete();
+
+      print(
+          'Resposta de exclusão: ${response.success}'); // Verifica o sucesso da operação
+
+      if (response.success) {
+        return true; // Deletado com sucesso
+      } else {
+        print(
+            'Falha na exclusão: ${response.error}'); // Imprime qualquer erro se a operação falhar
+        return false; // Falha na exclusão
+      }
+    } catch (e) {
+      print('Erro ao deletar usuário: $e');
+      return false; // Erro inesperado
+    }
   }
 }
