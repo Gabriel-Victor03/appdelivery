@@ -88,22 +88,23 @@ class SacolaController {
   }
 
   Future<void> fetchProdutosNaSacola() async {
-    try {
-      if (sacolaAtualId == null) {
-        print("Erro: Nenhuma sacola está ativa.");
-        return;
-      }
+  try {
+    if (sacolaAtualId == null) {
+      print("Erro: Nenhuma sacola está ativa.");
+      return;
+    }
 
-      print("Buscando produtos na sacola com ID: $sacolaAtualId");
+    print("Buscando produtos na sacola com ID: $sacolaAtualId");
 
-      _products.clear();
+    _products.clear();
 
-      final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
-        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId);
+    final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
+      ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId);
 
-      final responseProdutoSacola = await queryProdutoSacola.query();
+    final responseProdutoSacola = await queryProdutoSacola.query();
 
-      if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
+    if (responseProdutoSacola.success) {
+      if (responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
         print("Produtos encontrados na sacola:");
         for (var item in responseProdutoSacola.results!) {
           final produtoSacola = item as ParseObject;
@@ -137,12 +138,16 @@ class SacolaController {
           }
         }
       } else {
-        print("Erro ao buscar produtos na sacola: ${responseProdutoSacola.error?.message ?? 'Successful request, but no results found'}");
+        print("Nenhum produto encontrado na sacola.");
       }
-    } catch (e) {
-      print("Erro ao buscar produtos na sacola: $e");
+    } else {
+      print("Erro ao buscar produtos na sacola: ${responseProdutoSacola.error?.message}");
     }
+  } catch (e) {
+    print("Erro ao buscar produtos na sacola: $e");
   }
+}
+
 
   Future<void> removerDaSacola(String produtoId) async {
     try {
