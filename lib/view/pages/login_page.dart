@@ -50,9 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      spreadRadius: 4,
-                      offset: const Offset(1.0, 1.0))
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                    offset: Offset(2.0, 4.0),
+                  ),
                 ],
               ),
               child: Padding(
@@ -63,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                       'LOGIN',
                       style: TextStyle(
                         fontFamily: 'Arial',
-                        color: Color.fromARGB(198, 29, 28, 28),
+                        color: Color.fromARGB(197, 0, 0, 0),
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
@@ -72,8 +74,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(
                         width: dividerWidth,
                         child: const Divider(
-                          color: Colors.grey,
-                          thickness: 1.5,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          thickness: 1.0,
                         ),
                       ),
                     ),
@@ -84,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Usuário',
                         style: TextStyle(
                           fontFamily: 'Arial',
-                          color: Color.fromARGB(198, 29, 28, 28),
+                          color: Color.fromARGB(197, 0, 0, 0),
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
                         ),
@@ -125,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Senha',
                         style: TextStyle(
                           fontFamily: 'Arial',
-                          color: Color.fromARGB(198, 29, 28, 28),
+                          color: Color.fromARGB(197, 0, 0, 0),
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
                         ),
@@ -269,32 +271,37 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false; // Variável para controlar o estado de carregamento
 
   void doUserLogin() async {
-    setState(() {
-      isLoading = true; // Começa o carregamento
-    });
-
     final username = controllerUsername.text.trim();
     final password = controllerPassword.text.trim();
 
-    final user = ParseUser(username, password, null);
-
-    var response = await user.login();
+    if (username.isEmpty || password.isEmpty) {
+      showError('Por favor, preencha todos os campos.');
+      return;
+    }
 
     setState(() {
-      isLoading = false; // Para o carregamento
+      isLoading = true;
     });
 
-    if (response.success) {
-      // Redirecionar para o painel ADM
-      Navigator.pushReplacementNamed(context, '/painel_adm');
-    } else {
-      // Exibir mensagem de erro usando SnackBar
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(response.error?.message ?? 'Erro desconhecido'),
-          duration: Duration(seconds: 3),
-        ),
-      );
+    try {
+      final user = ParseUser(username, password, null);
+      var response = await user.login();
+
+      if (response.success) {
+        Navigator.pushReplacementNamed(context, '/painel_adm');
+      } else {
+        String errorMessage = response.error?.message ?? 'Erro desconhecido';
+        if (response.error?.code == 101) {
+          errorMessage = 'Usuário ou senha inválidos.';
+        }
+        showError(errorMessage);
+      }
+    } catch (e) {
+      showError('Erro ao tentar fazer login. Tente novamente.');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 }
