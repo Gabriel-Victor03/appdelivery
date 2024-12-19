@@ -144,6 +144,37 @@ class SacolaController {
     }
   }
 
+  Future<void> removerDaSacola(String produtoId) async {
+    try {
+      if (sacolaAtualId == null) {
+        print("Erro: Nenhuma sacola está ativa.");
+        return;
+      }
+
+      final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
+        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId)
+        ..whereEqualTo('produto_produto', ParseObject('Produto')..objectId = produtoId);
+
+      final responseProdutoSacola = await queryProdutoSacola.query();
+
+      if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
+        final produtoSacola = responseProdutoSacola.results!.first as ParseObject;
+        final deleteResponse = await produtoSacola.delete();
+
+        if (deleteResponse.success) {
+          print("Produto removido com sucesso da sacola.");
+          await fetchProdutosNaSacola(); // Atualiza a lista de produtos
+        } else {
+          print("Erro ao remover produto: ${deleteResponse.error?.message}");
+        }
+      } else {
+        print("Produto não encontrado na sacola.");
+      }
+    } catch (e) {
+      print("Erro ao remover produto da sacola: $e");
+    }
+  }
+
   Future<void> finalizarCompra() async {
     try {
       if (sacolaAtualId == null) {

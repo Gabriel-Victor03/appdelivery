@@ -27,24 +27,37 @@ class _CartPageState extends State<CartPage> {
   }
 
   Future<void> loadSacola() async {
-    final prefs = await SharedPreferences.getInstance();
-    await sacolaController.loadSacolaId();
-    await sacolaController.fetchProdutosNaSacola();
-
-    if (!mounted) return;
-    setState(() {
-      products = sacolaController.products;
-    });
+  await sacolaController.loadSacolaId();
+  if (sacolaController.sacolaAtualId == null) {
+    // Cria uma nova sacola se não houver uma ativa
+    await sacolaController.createSacola(subtotal: 0.0);
   }
+  await sacolaController.fetchProdutosNaSacola();
+
+  if (!mounted) return;
+  setState(() {
+    products = sacolaController.products;
+  });
+}
+
 
   void _onOrderCompleted() {
     setState(() {
       products.clear();
-      nameController.clear(); // Limpa o campo de nome
-      phoneController.clear(); // Limpa o campo de telefone
-      deliveryType = 'Retirada no balcão'; // Redefine o tipo de entrega
-      paymentMethod = 'cartao'; // Redefine o método de pagamento
+      nameController.clear();
+      phoneController.clear();
+      deliveryType = 'Retirada no balcão';
+      paymentMethod = 'cartao';
     });
+
+    // Exibe um SnackBar com a mensagem de sucesso
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Pedido adicionado com sucesso!'),
+        backgroundColor: const Color.fromARGB(255, 243, 210, 23),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   String? deliveryType = 'Retirada no balcão';
@@ -95,6 +108,7 @@ class _CartPageState extends State<CartPage> {
                   final product = products[index];
                   final productTotal =
                       formatter.format(product['price'] * product['quantity']);
+                  final produtoId = product['id'];
                   return Column(
                     children: [
                       ListTile(
@@ -149,8 +163,20 @@ class _CartPageState extends State<CartPage> {
                                 child: IconButton(
                                   icon: Icon(Icons.delete),
                                   color: Colors.black,
-                                  onPressed: () {
-                                    // Lógica para remover o item do carrinho
+                                  onPressed: () async {
+                                    await sacolaController.removerDaSacola(produtoId);
+                                    setState(() {
+                                      products = sacolaController.products;
+                                    });
+
+                                    // Exibe um SnackBar com a mensagem de sucesso
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Produto removido com sucesso!'),
+                                        backgroundColor: const Color.fromARGB(255, 187, 217, 36),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
                                   },
                                 ),
                               ),
