@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SacolaController with ChangeNotifier {
+class SacolaController {
   String? sacolaAtualId;
   List<Map<String, dynamic>> _products = [];
   List<Map<String, dynamic>> get products => _products;
@@ -12,14 +12,12 @@ class SacolaController with ChangeNotifier {
     await prefs.setString('sacolaAtualId', id);
     sacolaAtualId = id;
     print("Sacola salva com ID: $id");
-    notifyListeners(); // Notifica a UI que o ID da sacola mudou
   }
 
   Future<void> loadSacolaId() async {
     final prefs = await SharedPreferences.getInstance();
     sacolaAtualId = prefs.getString('sacolaAtualId');
     print("Sacola carregada com ID: $sacolaAtualId");
-    notifyListeners(); // Atualiza a UI se necessário
   }
 
   Future<void> createSacola({required double subtotal}) async {
@@ -41,62 +39,53 @@ class SacolaController with ChangeNotifier {
   }
 
   Future<void> adicionarNaSacola(String produtoId, int quantidade, double total) async {
-  try {
-    if (produtoId.isEmpty) {
-      print("Erro: produtoId não pode ser vazio.");
-      return;
-    }
-
-    // Criar uma sacola apenas se não existir
-    if (sacolaAtualId == null) {
-      await createSacola(subtotal: total);
-    }
-
-    // Consulta para verificar se o produto já existe na sacola
-    final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
-      ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId)
-      ..whereEqualTo('produto_produto', ParseObject('Produto')..objectId = produtoId);
-
-    final responseProdutoSacola = await queryProdutoSacola.query();
-
-    if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
-      // Produto já está na sacola, atualizar quantidade e total
-      final produtoSacola = responseProdutoSacola.results!.first as ParseObject;
-      produtoSacola
-        ..set('quantidade', produtoSacola.get<int>('quantidade')! + quantidade)
-        ..set('total', (produtoSacola.get<num>('total')! + total).toDouble());
-
-      await produtoSacola.save();
-    } else {
-      // Produto não está na sacola, criar novo
-      final produtoSacola = ParseObject('Produto_Sacola')
-        ..set('quantidade', quantidade)
-        ..set('total', total);
-
-      // Usando addRelation para associar o Produto à Produto_Sacola
-      produtoSacola.addRelation('produto_produto', [ParseObject('Produto')..objectId = produtoId]);
-
-      // Usando addRelation para associar a Sacola à Produto_Sacola
-      produtoSacola.addRelation('produto_sacola', [ParseObject('Sacola')..objectId = sacolaAtualId]);
-
-      final responseRelation = await produtoSacola.save();
-
-      if (responseRelation.success) {
-        print("Produto relacionado com sucesso à sacola.");
-      } else {
-        print("Erro ao relacionar produto: ${responseRelation.error?.message}");
+    try {
+      if (produtoId.isEmpty) {
+        print("Erro: produtoId não pode ser vazio.");
+        return;
       }
+
+      if (sacolaAtualId == null) {
+        await createSacola(subtotal: total);
+      }
+
+      final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
+        ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId)
+        ..whereEqualTo('produto_produto', ParseObject('Produto')..objectId = produtoId);
+
+      final responseProdutoSacola = await queryProdutoSacola.query();
+
+      if (responseProdutoSacola.success && responseProdutoSacola.results != null && responseProdutoSacola.results!.isNotEmpty) {
+        final produtoSacola = responseProdutoSacola.results!.first as ParseObject;
+        produtoSacola
+          ..set('quantidade', produtoSacola.get<int>('quantidade')! + quantidade)
+          ..set('total', (produtoSacola.get<num>('total')! + total).toDouble());
+
+        await produtoSacola.save();
+      } else {
+        final produtoSacola = ParseObject('Produto_Sacola')
+          ..set('quantidade', quantidade)
+          ..set('total', total);
+
+        produtoSacola.addRelation('produto_produto', [ParseObject('Produto')..objectId = produtoId]);
+        produtoSacola.addRelation('produto_sacola', [ParseObject('Sacola')..objectId = sacolaAtualId]);
+
+        final responseRelation = await produtoSacola.save();
+
+        if (responseRelation.success) {
+          print("Produto relacionado com sucesso à sacola.");
+        } else {
+          print("Erro ao relacionar produto: ${responseRelation.error?.message}");
+        }
+      }
+
+      await fetchProdutosNaSacola();
+
+      print("Produto adicionado/atualizado com sucesso na sacola!");
+    } catch (e) {
+      print("Erro ao adicionar produto na sacola: $e");
     }
-
-    // Atualizar lista de produtos na UI
-    await fetchProdutosNaSacola();
-
-    print("Produto adicionado/atualizado com sucesso na sacola!");
-  } catch (e) {
-    print("Erro ao adicionar produto na sacola: $e");
   }
-}
-
 
   Future<void> fetchProdutosNaSacola() async {
     try {
@@ -107,7 +96,7 @@ class SacolaController with ChangeNotifier {
 
       print("Buscando produtos na sacola com ID: $sacolaAtualId");
 
-      _products.clear(); // Limpa a lista antes de adicionar novos produtos
+      _products.clear();
 
       final queryProdutoSacola = QueryBuilder<ParseObject>(ParseObject('Produto_Sacola'))
         ..whereEqualTo('produto_sacola', ParseObject('Sacola')..objectId = sacolaAtualId);
@@ -121,7 +110,6 @@ class SacolaController with ChangeNotifier {
           final quantidade = produtoSacola.get<int>('quantidade');
           final total = produtoSacola.get<num>('total')?.toDouble() ?? 0.0;
 
-          // Fetch dos objetos relacionados (produtos)
           final produtoRelation = produtoSacola.getRelation('produto_produto');
           final queryProduto = produtoRelation.getQuery();
           final produtoRelacionadoResponse = await queryProduto.query();
@@ -133,7 +121,6 @@ class SacolaController with ChangeNotifier {
               final preco = produto.get<num>('preco')?.toDouble() ?? 0.0;
               final descricao = produto.get<String>('descricao');
 
-              // Adiciona o produto à lista de produtos, sem a imagem
               _products.add({
                 'id': produto.objectId,
                 'name': nomeProduto,
@@ -149,7 +136,6 @@ class SacolaController with ChangeNotifier {
             print("Erro ao buscar o produto relacionado: ${produtoRelacionadoResponse.error?.message}");
           }
         }
-        notifyListeners(); // Notifica a UI sobre a atualização dos produtos
       } else {
         print("Erro ao buscar produtos na sacola: ${responseProdutoSacola.error?.message ?? 'Successful request, but no results found'}");
       }
@@ -165,14 +151,10 @@ class SacolaController with ChangeNotifier {
         return;
       }
 
-      // Aqui você pode adicionar lógica para processar o pagamento ou finalizar a compra
-
-      // Limpar a sacola atual
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('sacolaAtualId');
       sacolaAtualId = null;
       _products.clear();
-      notifyListeners();
 
       print("Compra finalizada e sacola limpa.");
     } catch (e) {

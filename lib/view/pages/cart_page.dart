@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:appdelivery/view/components/my_add_order.dart';
 import 'package:appdelivery/view/components/my_popup_informaddress.dart';
 import 'package:appdelivery/view/controllers/order_controller.dart';
 import 'package:appdelivery/view/controllers/sacola_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:appdelivery/view/components/phone_input_field.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -17,6 +18,7 @@ class _CartPageState extends State<CartPage> {
   List<Map<String, dynamic>> products = [];
   final sacolaController = SacolaController();
   final orderController = OrderController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -29,9 +31,15 @@ class _CartPageState extends State<CartPage> {
     await sacolaController.loadSacolaId();
     await sacolaController.fetchProdutosNaSacola();
 
-    if (!mounted) return; // Verifica se o widget ainda está montado
+    if (!mounted) return;
     setState(() {
       products = sacolaController.products;
+    });
+  }
+
+  void _onOrderCompleted() {
+    setState(() {
+      products.clear();
     });
   }
 
@@ -40,7 +48,6 @@ class _CartPageState extends State<CartPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  // Define the delivery fee
   final double deliveryFee = 5.0;
 
   @override
@@ -48,12 +55,10 @@ class _CartPageState extends State<CartPage> {
     double total = products.fold(
         0, (sum, item) => sum + (item['price'] * item['quantity']));
 
-    // Add delivery fee to total if delivery is selected
     if (deliveryType == 'Delivery') {
       total += deliveryFee;
     }
 
-    // Formata o total e outros valores para o padrão brasileiro
     final formatter = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
     return Scaffold(
@@ -163,8 +168,6 @@ class _CartPageState extends State<CartPage> {
                   );
                 },
               ),
-
-              // Função para calcular e exibir o subtotal da sacola
               const SizedBox(height: 28),
               Row(
                 children: [
@@ -186,84 +189,79 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.0),
-                        child: Text(
-                          'Nome',
-                          style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: 40.0,
-                          child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
-                            controller: nameController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nome e sobrenome",
-                              filled: true,
-                              fillColor: Colors.white,
-                              // contentPadding: EdgeInsets.symmetric(
-                              //     vertical: 9.0, horizontal: 10.0)
+              Form(
+                key: _formKey,
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 14.0),
+                          child: Text(
+                            'Nome',
+                            style: TextStyle(
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 18,
                             ),
-                            style: TextStyle(fontSize: 13),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 17),
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.0),
-                        child: Text(
-                          'Telefone',
-                          style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.0),
-                        child: Container(
-                          height: 40.0,
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
-                            controller: phoneController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "(xx) xxxxx-xxxx",
-                              filled: true,
-                              fillColor: Colors.white,
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: EdgeInsets.only(left: 14.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: 40.0,
+                            child: TextFormField(
+                              textAlignVertical: TextAlignVertical.center,
+                              controller: nameController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Nome e sobrenome",
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                              style: TextStyle(fontSize: 13),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Por favor, preencha este campo';
+                                }
+                                return null;
+                              },
                             ),
-                            style: TextStyle(fontSize: 13),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 17),
+                        Padding(
+                          padding: EdgeInsets.only(left: 14.0),
+                          child: Text(
+                            'Telefone',
+                            style: TextStyle(
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: EdgeInsets.only(left: 14.0),
+                          child: Container(
+                            height: 40.0,
+                            width: MediaQuery.of(context).size.width / 2,
+                            child: PhoneInputField(controller: phoneController),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-
               const SizedBox(height: 17),
-
               Row(
                 children: [
                   Expanded(
@@ -368,7 +366,7 @@ class _CartPageState extends State<CartPage> {
                                     },
                                   );
                                 }
-                              : null, // Botão desabilitado
+                              : null,
                           icon: Icon(Icons.location_on, color: Colors.black),
                           label: Text(
                             'Informar Endereço',
@@ -392,9 +390,7 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 10),
-
               Row(
                 children: [
                   Expanded(
@@ -415,7 +411,6 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
-
               Padding(
                 padding: const EdgeInsets.only(right: 30.0, left: 30, top: 9),
                 child: Row(
@@ -481,14 +476,12 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 25),
               Divider(
                 color: Colors.black,
                 indent: 10.0,
                 endIndent: 10.0,
               ),
-
               Padding(
                 padding: const EdgeInsets.only(right: 18.0, left: 18.0),
                 child: Column(
@@ -513,7 +506,7 @@ class _CartPageState extends State<CartPage> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    if (deliveryType == 'Delivery') // Conditionally show delivery fee
+                    if (deliveryType == 'Delivery')
                       Row(
                         children: [
                           const Text(
@@ -536,7 +529,6 @@ class _CartPageState extends State<CartPage> {
                   ],
                 ),
               ),
-
               Divider(
                 color: Colors.black,
                 indent: 10.0,
@@ -556,8 +548,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               ),
-
-                AddOrderButton(
+              AddOrderButton(
                 nameController: nameController,
                 phoneController: phoneController,
                 deliveryType: deliveryType!,
@@ -565,6 +556,7 @@ class _CartPageState extends State<CartPage> {
                 total: total,
                 products: products.map((product) => product['name'] as String).toList(),
                 sacolaController: sacolaController,
+                onOrderCompleted: _onOrderCompleted,
               ),
             ],
           ),

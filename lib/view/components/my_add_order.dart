@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:appdelivery/view/controllers/sacola_controller.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
+import 'package:appdelivery/view/controllers/sacola_controller.dart';
 
 class AddOrderButton extends StatefulWidget {
   final TextEditingController nameController;
@@ -10,6 +10,7 @@ class AddOrderButton extends StatefulWidget {
   final double total;
   final List<String> products;
   final SacolaController sacolaController;
+  final VoidCallback onOrderCompleted;
 
   const AddOrderButton({
     Key? key,
@@ -20,6 +21,7 @@ class AddOrderButton extends StatefulWidget {
     required this.total,
     required this.products,
     required this.sacolaController,
+    required this.onOrderCompleted,
   }) : super(key: key);
 
   @override
@@ -30,8 +32,8 @@ class _AddOrderButtonState extends State<AddOrderButton> {
   bool _isProcessing = false;
 
   final Map<String, String> deliveryTypeIds = {
-    'Retirada no balcão': '11dSCRWhfh', // Substitua por objectId real
-    'Delivery': 'xGkqFvXENJ', // Substitua por objectId real
+    'Retirada no balcão': '11dSCRWhfh',
+    'Delivery': 'xGkqFvXENJ',
   };
 
   @override
@@ -57,24 +59,23 @@ class _AddOrderButtonState extends State<AddOrderButton> {
                     return;
                   }
 
-                  // Criar um novo objeto de pedido
                   final pedido = ParseObject('Pedido')
-                  ..set('nome', widget.nameController.text)
-                  ..set('telefone', widget.phoneController.text)
-                  ..set('status', true)
-                  ..set('data', DateTime.now())
-                  ..set('hora', DateTime.now().toIso8601String())
-                  ..set('observacao', '')
-                  ..addRelation('tipo_entrega_pedido', [ParseObject('Tipo_Entrega')..objectId = deliveryTypeId])
-                  ..addRelation('sacola_pedido', [ParseObject('Sacola')..objectId = widget.sacolaController.sacolaAtualId])
-                  ..set('preco_total', widget.total);
-
+                    ..set('nome', widget.nameController.text)
+                    ..set('telefone', widget.phoneController.text)
+                    ..set('status', true)
+                    ..set('data', DateTime.now())
+                    ..set('hora', DateTime.now().toIso8601String())
+                    ..set('observacao', '')
+                    ..addRelation('tipo_entrega_pedido', [ParseObject('Tipo_Entrega')..objectId = deliveryTypeId])
+                    ..addRelation('sacola_pedido', [ParseObject('Sacola')..objectId = widget.sacolaController.sacolaAtualId])
+                    ..set('preco_total', widget.total);
 
                   final response = await pedido.save();
 
                   if (response.success) {
                     print("Pedido salvo com sucesso!");
                     await widget.sacolaController.finalizarCompra();
+                    widget.onOrderCompleted();
                   } else {
                     print("Erro ao salvar pedido: ${response.error?.message}");
                   }
