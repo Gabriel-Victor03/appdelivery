@@ -1,3 +1,4 @@
+import 'package:appdelivery/view/components/my_table_user.dart';
 import 'package:appdelivery/view/controllers/usercontroller.dart';
 import 'package:flutter/material.dart';
 
@@ -124,10 +125,8 @@ class _MyDeleteuserState extends State<MyDeleteuser> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12))),
                           onPressed: () {
+                            Navigator.of(context).pop();
                             Usercontroller().deleteTodo(widget.id.toString());
-                            setState(() {
-                              check = "usuario deletado com sucesso";
-                            });
                           },
                           child: Center(
                             child: Text(

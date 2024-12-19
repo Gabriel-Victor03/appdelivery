@@ -60,27 +60,11 @@ class Usercontroller extends ChangeNotifier {
     await usr.save();
   }
 
-  Future<bool> deleteTodo(String id) async {
-    try {
-      print(
-          'Tentando deletar o usuário com ID: $id'); // Verifica se o ID está correto
+  deleteTodo(String id) {
+    print(
+        'Tentando deletar o usuário com ID: $id'); // Verifica se o ID está correto
 
-      final todo = ParseObject('Usuario')..objectId = id;
-      final response = await todo.delete();
-
-      print(
-          'Resposta de exclusão: ${response.success}'); // Verifica o sucesso da operação
-
-      if (response.success) {
-        return true; // Deletado com sucesso
-      } else {
-        print(
-            'Falha na exclusão: ${response.error}'); // Imprime qualquer erro se a operação falhar
-        return false; // Falha na exclusão
-      }
-    } catch (e) {
-      print('Erro ao deletar usuário: $e');
-      return false; // Erro inesperado
-    }
+    final todo = ParseObject('Usuario')..objectId = id;
+    todo.delete();
   }
 }
